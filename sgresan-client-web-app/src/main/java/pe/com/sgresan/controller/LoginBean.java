@@ -108,7 +108,7 @@ public class LoginBean {
 	 * Returns attribute sesionI
 	 * @return sesionI <code>boolean</code>
 	 */
-	public boolean isSesionI() {
+	public boolean isSesion() {
 		return sesionI;
 	}
 
@@ -116,7 +116,7 @@ public class LoginBean {
 	 * Sets attribute sesionI
 	 * @param sesionI <code>boolean</code>
 	 */
-	public void setSesionI(boolean sesionI) {
+	public void setSesion(boolean sesionI) {
 		this.sesionI = sesionI;
 	}
 
