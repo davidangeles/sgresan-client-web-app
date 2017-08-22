@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/08/2017 12:19:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TProducto" table="t_producto" catalog="sgresan" optimistic-lock="version">
+        <id name="idProducto" type="java.lang.Integer">
+            <column name="idProducto" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="TCategoria" class="model.TCategoria" fetch="select">
+            <column name="idCategoria" />
+        </many-to-one>
+        <property name="nombreProducto" type="string">
+            <column name="nombreProducto" length="50" />
+        </property>
+        <property name="precioUnitario" type="java.lang.Double">
+            <column name="precioUnitario" precision="22" scale="0" />
+        </property>
+        <property name="stock" type="java.lang.Integer">
+            <column name="Stock" />
+        </property>
+        <property name="imagen" type="text">
+            <column name="imagen" />
+        </property>
+    </class>
+</hibernate-mapping>

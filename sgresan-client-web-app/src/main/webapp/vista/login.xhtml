@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="${request.contextPath}/resources/css/estiloDisponibilidad.css" rel="stylesheet" type="text/css" />
+        <link href="${request.contextPath}/resources/css/estilos.css" rel="stylesheet" type="text/css" />
+        <title>Sistema Web de ReservaS</title>
+    </h:head>
+
+    <h:body>
+
+         <div id="Body">
+        <div class='cFL cPosRel' id="Top">
+                <ui:include src="/vista/header_login.xhtml"  />
+                <ui:insert name="top">
+                    <img alt='' src="../resources/img/top.png" />
+                </ui:insert>
+        </div>
+
+        <div class='cFL cPosRel' id="Left">
+            
+                        <ui:insert name="left">Left</ui:insert>
+        </div>
+
+        <div class='cFL cPosRel' id="Content">
+             <ui:include src="/vista/menu.xhtml"  />
+                        <ui:insert name="content"></ui:insert>
+
+        </div>
+
+        <div class='cFL cPosRel' id="Footer">
+            <ui:insert name="bottom"></ui:insert>
+        </div>
+    </div>
+
+    </h:body>
+
+</html>

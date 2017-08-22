@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.sgresan.mapper.UsuarioDao">
+
+	<resultMap type="pe.com.sgresan.model.Usuario" id="UsuarioMap">
+		<id column="idUsuario" property="idUsuario" />
+		<result column="nombreUsuario" property="nombreUsuario" />
+		<result column="estado" property="estado" />
+		<result column="tipoUsuario" property="tipoUsuario" />
+	</resultMap>
+
+	<select id="buscarUsuario" parameterType="UsuarioAlias" resultMap="UsuarioMap">
+		SELECT * FROM T_USUARIO
+		<where>
+			nombreUsuario=#{nombreUsuario} 
+			and contrasena = #{contrasena}
+		</where>
+	</select>
+
+</mapper>

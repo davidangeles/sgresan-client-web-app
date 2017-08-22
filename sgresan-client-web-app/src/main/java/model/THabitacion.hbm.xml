@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.THabitacion" table="t_habitacion" catalog="sgresan">
+        <id name="idHabitacion" type="string">
+            <column name="idHabitacion" length="25" />
+            <generator class="assigned"></generator>
+        </id>
+        <many-to-one name="THotel" class="model.THotel" fetch="select">
+            <column name="T_Hotel_ruc" not-null="true" />
+        </many-to-one>
+        <many-to-one name="TTipohabitacion" class="model.TTipohabitacion" fetch="select">
+            <column name="idT_TipoHabitacion" not-null="true" />
+        </many-to-one>
+        <property name="nroHabitacion" type="string">
+            <column name="nroHabitacion" length="45" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="45" not-null="true" />
+        </property>
+        <property name="precio" type="double">
+            <column name="precio" precision="22" scale="0" not-null="true" />
+        </property>
+        <set name="TReservadetalles" table="t_reservadetalle" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="T_Habitacion_idHabitacion" length="25" not-null="true" />
+            </key>
+            <one-to-many class="model.TReservadetalle" />
+        </set>
+        <set name="THabitaciondetalles" table="t_habitaciondetalle" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idHabitacion" length="25" not-null="true" />
+            </key>
+            <one-to-many class="model.THabitaciondetalle" />
+        </set>
+    </class>
+</hibernate-mapping>

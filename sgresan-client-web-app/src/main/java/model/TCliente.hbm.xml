@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TCliente" table="t_cliente" catalog="sgresan">
+        <id name="idCliente" type="string">
+            <column name="idCliente" length="25" />
+            <generator class="assigned"></generator>
+        </id>
+        <many-to-one name="TPersona" class="model.TPersona" fetch="select">
+            <column name="T_Persona_idPersona" length="25" not-null="true" />
+        </many-to-one>
+        <property name="tipoCliente" type="string">
+            <column name="tipoCliente" length="45" />
+        </property>
+        <property name="ruc" type="java.lang.Integer">
+            <column name="ruc" />
+        </property>
+        <property name="razonSocial" type="string">
+            <column name="razonSocial" length="45" />
+        </property>
+        <property name="representanteLegal" type="string">
+            <column name="RepresentanteLegal" length="45" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="Descripcion" length="45" />
+        </property>
+        <set name="TReservas" table="t_reserva" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="T_Cliente_idCliente" length="25" not-null="true" />
+            </key>
+            <one-to-many class="model.TReserva" />
+        </set>
+    </class>
+</hibernate-mapping>

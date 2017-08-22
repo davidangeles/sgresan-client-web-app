@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TReserva" table="t_reserva" catalog="sgresan" lazy="false">
+        <id name="idReserva" type="string">
+            <column name="idReserva" length="25" />
+            <generator class="assigned"></generator>
+        </id>
+        <many-to-one name="TCliente" class="model.TCliente" fetch="select">
+            <column name="T_Cliente_idCliente" length="25" not-null="true" />
+        </many-to-one>
+        <property name="estado" type="string">
+            <column name="estado" length="25" not-null="true" />
+        </property>
+        <property name="fechaRegistro" type="timestamp">
+            <column name="fechaRegistro" length="19" />
+        </property>
+        <property name="fechaEntrada" type="timestamp">
+            <column name="fechaEntrada" length="19" />
+        </property>
+        <property name="fechaSalida" type="timestamp">
+            <column name="fechaSalida" length="19" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="200" not-null="true" />
+        </property>
+        <property name="modalidadPago" type="string">
+            <column name="modalidadPago" length="25" />
+        </property>
+        <property name="voucher" type="binary">
+            <column name="voucher" />
+        </property>
+        <property name="subtotal" type="java.lang.Double">
+            <column name="subtotal" precision="22" scale="0" />
+        </property>
+        <property name="igv" type="java.lang.Double">
+            <column name="IGV" precision="22" scale="0" />
+        </property>
+        <property name="precio" type="java.lang.Double">
+            <column name="precio" precision="22" scale="0" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario" length="45" />
+        </property>
+        <property name="cantN" type="int">
+            <column name="cantN"   />
+        </property>
+        <property name="cantA" type="int">
+            <column name="cantA"   />
+        </property>
+        <property name="cantTotal" type="int">
+            <column name="cantTotal"   />
+        </property>
+        <set name="TReservadetalles" table="t_reservadetalle" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="T_Reserva_idReserva" length="25" not-null="true" />
+            </key>
+            <one-to-many class="model.TReservadetalle" />
+        </set>
+    </class>
+</hibernate-mapping>

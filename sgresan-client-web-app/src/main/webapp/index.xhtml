@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./vista/Plantilla_main.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="titulo">
+        Inicio - La Querencia Hermanos SAC
+    </ui:define>
+
+    <ui:define name="left">
+        <!-- box begin -->
+        <div class="box maxheight">
+            <div class="inner">
+                <h3>Reservación:</h3>
+                <form action="#" id="reservation-form">
+                    <fieldset>
+                        <div class="field">
+                            <label>Check In:</label>
+                            <select class="select1">
+                                <option>30</option>
+                            </select>
+                            <select class="select2">
+                                <option>April 2018</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Check Out:</label>
+                            <select class="select1">
+                                <option>01</option>
+                            </select>
+                            <select class="select2">
+                                <option>May 2018</option>
+                            </select>
+                        </div>
+                        <div class="field"> Personas: &nbsp;
+                            <input type="text" value="1"/>
+                            Cuartos:&nbsp;
+                            <input type="text" value="1"/>
+                        </div>
+                        <div class="button"><span><span><a href="#">Ver Disponibilidad</a></span></span></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <!-- box end -->
+        <p:panelGrid   columns="2" style="margin-right:  auto" id="detailsBookingInner" >
+            <h:outputText value="Fecha de Entrada" />
+            <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" > 
+            </p:calendar>
+            <h:outputText value="Fecha de Salida" />
+            <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
+            <h:outputText value="Personas" />
+            <p:spinner   min="1" max="30" />
+            <h:outputText value="Cuartos" />
+            <p:spinner   min="1" max="20" />
+        </p:panelGrid>
+
+    </ui:define>
+
+    <ui:define name="top">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <div id="content">
+            <div class="content">
+                <div class="indent">
+                    <h2>La Querencia Hermanos les da la bienvenida!</h2>
+                    <img class="img-indent png" alt="" />
+                    <p class="alt-top">
+Venga solo o traiga a su familia con usted, quédese aquí por una noche o por semanas, estancia aquí durante un viaje de negocios o en algún tipo de conferencia - de cualquier manera nuestro hotel es la mejor variante posible.</p>
+                    No dude en ponerse en contacto con nosotros en cualquier momento en caso de que tenga alguna pregunta o preocupación.
+                    <div class="clear"></div>
+                    <div class="line-hor"></div>
+                    <div class="wrapper line-ver">
+                        <div class="col-1">
+                            <h3>Servicios Ofrecidos</h3>
+                            <ul>
+                                <li>Piscina con Tobogán</li>
+                                <li>Campo de Fulbito</li>
+                                <li>Servicio de Restaurante</li>
+                                <li>Wifi</li>
+                                <li>Cochera Privada</li>
+                            </ul>
+                            <div class="button"><span><span><a href="#">Ver todos los servicios!</a></span></span></div>
+                        </div>
+                        <div class="col-2">
+                            <h3>Locación</h3>
+                            <p>Estamos ubicados en el KM 97.5 Panamericana Sur. Lote 5 Playa Cayma Asia</p>
+                            <dl class="contacts-list">
+                                <dt>Números fijos : </dt>
+                                <dd>(01) 530-7299</dd>
+                                <dd>(01) 530-2458</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </ui:define>
+    <ui:define name="bottom">
+    </ui:define>
+    
+    
+</ui:composition>

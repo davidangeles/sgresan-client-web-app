@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <div id="header">
+            <div >
+                <h:form id="formulario"   >
+                    <div >
+                        <table>
+                            <tr>
+                                <td><img src="images/bannerLaQuerenciaBlanco.png" /></td>
+                                <td>
+                                    <h:panelGrid columns="2" class="formLogin">
+                                        <h:outputText id="usuario" value="Usuario : " rendered="#{loginBean.sesion}" />
+                                        <h:inputText value="#{loginBean.usuario.nombreUsuario}" style="width: 100%;" rendered="#{loginBean.sesion}"  />
+                                        <h:outputText value="Contraseña: " rendered="#{loginBean.sesion}" />
+                                        <h:inputSecret value="#{loginBean.usuario.contrasena}" style="width: 100%;" rendered="#{loginBean.sesion}" /><br />
+                                        <h:commandButton value="Entrar" action="#{loginBean.logueo()}" style="width: 100%;" rendered="#{loginBean.sesion}"  />
+                                        <div style="text-align: right;">
+                                            <h:outputText id="ds" value="USUARIO : #{loginBean.usuario.nombreUsuario}" rendered="#{loginBean.sesion eq false}" /><br />
+                                            <p:commandLink id="cerrar" action="#{loginBean.logoud()}" 
+                                                           update=":formulario:ds,:formulario:usuario" title="Cerrar Sesión" rendered="#{loginBean.sesion eq false}"
+                                                           oncomplete="handleLoginRequest(xhr, status, args)" >
+                                                <h:outputText value="Cerrar Sesión" />
+                                            </p:commandLink>
+                                        </div>
+                                    </h:panelGrid>
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <p:imageSwitch effect="fade" id="fadeEffect">
+                            <ui:repeat value="#{imagesView.images}" var="image" id="fadeEffectImages">
+                                <p:graphicImage url="images/banner/#{image}" id="image" class="banner1" />
+                            </ui:repeat>
+                        </p:imageSwitch>
+                            <!-- <h:commandButton value="Registrate Aqui!!!" rendered="#{loginBean.sesion}" action="RegistroCliente.xhtml" />
+                        --> 
+                    </div>
+                </h:form>
+            </div>
+            <div >
+                <!-- header-box begin -->
+                <ui:include src="/vista/menu.xhtml" />
+                <!-- header-box end -->
+            </div>
+        </div>  
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
+
+                } else {
+                    jQuery('#loginLink').fadeOut();
+                    window.location = "/sgresan/index.xhtml";
+                }
+            }
+        </script>
+    </ui:composition>
+
+</html>

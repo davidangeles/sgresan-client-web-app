@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.THabitaciondetalle" table="t_habitaciondetalle" catalog="sgresan">
+        <id name="idTHabitacionDetalle" type="string">
+            <column name="idT_HabitacionDetalle" length="25" />
+            <generator class="assigned"></generator>
+        </id>
+        <many-to-one name="THabitacion" class="model.THabitacion" fetch="select">
+            <column name="idHabitacion" length="25" not-null="true" />
+        </many-to-one>
+        <property name="nroHab" type="string">
+            <column name="nro_hab" length="45" />
+        </property>
+        <property name="tipoCama" type="string">
+            <column name="tipoCama" length="45" />
+        </property>
+        <property name="nroSillas" type="java.lang.Integer">
+            <column name="nroSillas" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./vista/Plantilla_1.xhtml">
+
+            <ui:define name="titulo">
+                Registro de Clientes
+            </ui:define>
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="left">
+                left
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formPersona" >
+                    <h:outputText value="ADMINISTRAR - CLIENTES" style="font-weight:bold;font-size:20px;color:#654B24" />
+                    <div style="padding-bottom: 10px;">                            
+                        <p:commandButton value="Nuevo" icon="ui-icon-document" update=":carDlg"  oncomplete="PF('infoDialog').show();">
+                        </p:commandButton>
+                    </div>                       
+
+                    <!--                TABLA PERSONA                   -->
+                    <p:dataTable id="dataTable" var="persona" value="#{personaBean.listaclientes}"
+                                 paginator="true" rows="15"  
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15" style="font-weight:bold">                    
+                        <f:facet name="header">  
+                            Lista Personas
+                        </f:facet>  
+
+                        <p:column>  
+                            <f:facet name="header">  
+                                <h:outputText value="Ver Info." />  
+                            </f:facet> 
+
+                            <p:commandButton icon="ui-icon-pencil"  action="#{personaBean.irActualizar(persona.TPersona.idPersona)}" 
+                                             oncomplete="PF('verPersonaDialog').show();" update=":formPersonaVer:pgPersonaVer" />
+
+
+                        </p:column>
+
+                        <p:column  headerText="Cliente" >  
+
+                            <h:outputText value="#{persona.idCliente}" />  
+                        </p:column>                          
+
+                        <p:column  headerText="Cliente" >  
+
+                            <h:outputText value="#{persona.TPersona.idPersona}" />  
+                        </p:column>    
+                        <p:column  headerText="Cliente" >  
+
+                            <h:outputText value="#{persona.TPersona.nombres}" />  
+                        </p:column>
+
+
+                        <p:column headerText="Editar">
+                            <f:facet name="header">
+                                <h:outputText value="Editar"></h:outputText>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-pencil"  action="#{personaBean.irActualizar(persona.TPersona.idPersona)}" 
+                                             oncomplete="PF('editarPersonaDialog').show();" update=":formPersonaEditar:dlgPersonaditar" />
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+                <!--                FIN TABLA PERSONA                   -->
+
+                <!-- CORREGIR <p:dialog header="Información del Persona" widgetVar="infoDialog" resizable="false" id="carDlg"  
+                          showEffect="fade" hideEffect="explode" modal="true" appendToBody="true">  -->
+
+
+                <p:separator/>
+
+                <p:dialog header="Información del Persona" widgetVar="infoDialog" resizable="false" id="carDlg"  
+                          showEffect="fade" hideEffect="explode" modal="true" > 
+                    <h:form>
+                        <p:messages globalOnly="true" autoUpdate="true" showDetail="true" />
+                        <h:outputText value="Usuario :" />  
+                        <p:inputText value="#{personaBean.usuario.nombreUsuario}" style="font-weight:bold"/> 
+                        <h:outputText value=" Contraseña :" />  
+                        <p:inputText value="#{personaBean.usuario.contrasena}" style="font-weight:bold"/> 
+                        <h:panelGrid id="display2" columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <h:outputText value="Nombre(s) :" />  
+                            <p:inputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>  
+                            <h:outputText value="Apellido Paterno :" />  
+                            <p:inputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/> 
+                            <h:outputText value="Apellido Materno :" />  
+                            <p:inputText value="#{personaBean.persona.apellidoM}" style="font-weight:bold"/>  
+                            <h:outputText value="DNI :" />  
+                            <p:inputText value="#{personaBean.persona.dni}" style="font-weight:bold" maxlength="8" />  
+                            <h:outputText value="Dirección :" />  
+                            <p:inputText value="#{personaBean.persona.direccion}" style="font-weight:bold"/>  
+                            <h:outputText value="Teléfono :" />  
+                            <p:inputMask value="#{personaBean.persona.telefono}" style="font-weight:bold" mask ="(999) 999-9999"/>  
+                            <h:outputText value="Celular :" />  
+                            <p:inputText value="#{personaBean.persona.celular}" style="font-weight:bold"/> 
+                            <h:outputText value="Correo :" />  
+                            <p:inputText value="#{personaBean.persona.email}" style="font-weight:bold"/> 
+                            <h:outputText value="Departamento :" /> 
+                            <p:selectOneMenu  value="#{personaBean.persona.TUbigeo.idTUbigeo}" >  
+                                <f:selectItems value="#{ubigeoBean.listarUbigeo}" var="lista" 
+                                               itemLabel="#{lista.nombre}" itemValue="#{lista.idTUbigeo}"/> 
+                            </p:selectOneMenu>
+
+                            <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form"   actionListener="#{personaBean.irAgregar()}"  oncomplete="handleAceptarRequest(xhr, status, args)" >
+                            </p:commandButton>
+
+                        </h:panelGrid>  
+                    </h:form>
+                </p:dialog>
+
+                <h:form id="formPersonaEditar">
+                    <p:dialog id="dlgPersonaditar" header="Editar Persona" widgetVar="editarPersonaDialog" resizable="false" modal="false">
+                        <h:panelGrid id="pgPersonaEditar" columns="2" cellpadding="4" style="margin:0 auto;"  >
+                            <h:outputText value="CdCliente" />
+                            <p:outputLabel value="#{personaBean.persona.idPersona}" style="font-weight:bold"/>
+
+                            <h:outputText value="Nombres :" />                                
+                            <p:inputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>
+
+                            <h:outputText value="Apellido Paterno :" />
+                            <p:inputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/>
+
+                            <h:outputText value="Apellido Materno :" />
+                            <p:inputText value="#{personaBean.persona.apellidoM}" style="font-weight:bold"/>
+
+                            <h:outputText value="DNI :" />
+                            <p:inputText value="#{personaBean.persona.dni}" style="font-weight:bold"/>
+
+                            <h:outputText value="Dirección :" />
+                            <p:inputText value="#{personaBean.persona.direccion}" style="font-weight:bold"/>
+
+                            <h:outputText value="Teléfono :" />
+                            <p:inputText value="#{personaBean.persona.telefono}" style="font-weight:bold"/>
+
+                            <h:outputText value="Celular :" />
+                            <p:inputText value="#{personaBean.persona.celular}" style="font-weight:bold"/>
+
+                            <h:outputText value="Email :" />
+                            <p:inputText value="#{personaBean.persona.email}" style="font-weight:bold"/>
+                        </h:panelGrid>
+
+                        <p:separator/>
+
+                        <p:commandButton value="Guardar" oncomplete="PF('editarPersonaDialog').hide();" update=":formPersona:dataTable" actionListener="#{personaBean.ACTUALIZAR()}"/>
+                        <p:commandButton value="Cancelar" oncomplete="PF('editarPersonaDialog').hide();"/>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formPersonaVer">
+                    <p:dialog id="dlgPersonaVer" header="Información de la Persona" widgetVar="verPersonaDialog" resizable="false" modal="true" showEffect="fade" hideEffect="explode" >
+                        <h:panelGrid id="pgPersonaVer" columns="2" cellpadding="4" style="margin:0 auto;">
+                            <h:outputText value="CdCliente" />
+                            <p:outputLabel value="#{personaBean.persona.idPersona}" style="font-weight:bold"/>
+
+                            <h:outputText value="Nombres :" />
+                            <h:outputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>
+
+                            <h:outputText value="Apellido Paterno :" />
+                            <h:outputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/>
+
+                            <h:outputText value="Apellido Materno :" />
+                            <h:outputText value="#{personaBean.persona.apellidoM}" style="font-weight:bold"/>
+
+                            <h:outputText value="DNI :" />
+                            <h:outputText value="#{personaBean.persona.dni}" style="font-weight:bold"/>
+
+                            <h:outputText value="Dirección :" />
+                            <h:outputText value="#{personaBean.persona.direccion}" style="font-weight:bold"/>
+
+                            <h:outputText value="Teléfono :" />
+                            <h:outputText value="#{personaBean.persona.telefono}" style="font-weight:bold"/>
+
+                            <h:outputText value="Celular :" />
+                            <h:outputText value="#{personaBean.persona.celular}" style="font-weight:bold"/>
+
+                            <h:outputText value="Email :" />
+                            <h:outputText value="#{personaBean.persona.email}" style="font-weight:bold"/>
+                        </h:panelGrid>
+
+                        <p:separator/>
+
+                        <p:commandButton value="OK" oncomplete="PF('verPersonaDialog').hide();" actionListener="#{personaBean.LIMPIAR()}"  />
+                    </p:dialog>
+                </h:form>
+           
+<script type="text/javascript">  
+    function handleAceptarRequest(xhr, status, args) {  
+        if(args.validationFailed || !args.loggedP) {  
+           
+        } else {  
+            PF('infoDialog').hide();  
+        }  
+    }  
+ 
+</script>
+            
+            </ui:define>
+
+            <ui:define name="bottom">
+            </ui:define>
+
+            
+          
+        </ui:composition>
+
+    </body>
+</html>

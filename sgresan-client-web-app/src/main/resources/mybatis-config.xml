@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="pe.com.sgresan.model.Usuario" alias="UsuarioAlias" />
+	</typeAliases>
+
+	<mappers>		
+		<mapper resource="mapper/UsuarioDao.xml" />
+		<mapper resource="mapper/PersonaDao.xml" />
+		
+		<mapper resource="mapper/ParametrodetalleDao.xml" />
+	</mappers>
+</configuration>

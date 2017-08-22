@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.THotel" table="t_hotel" catalog="sgresan">
+        <id name="ruc" type="int">
+            <column name="ruc" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="razonSocial" type="string">
+            <column name="razonSocial" length="45" not-null="true" />
+        </property>
+        <property name="fechaInicio" type="string">
+            <column name="fechaInicio" length="45" not-null="true" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="45" not-null="true" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="45" not-null="true" />
+        </property>
+        <property name="logo" type="binary">
+            <column name="logo" />
+        </property>
+        <set name="THabitacions" table="t_habitacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="T_Hotel_ruc" not-null="true" />
+            </key>
+            <one-to-many class="model.THabitacion" />
+        </set>
+    </class>
+</hibernate-mapping>

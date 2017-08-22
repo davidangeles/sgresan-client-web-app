@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TUbigeo" table="t_ubigeo" catalog="sgresan">
+        <id name="idTUbigeo" type="int">
+            <column name="idT_Ubigeo" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <set name="TPersonas" table="t_persona" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="T_Ubigeo_idT_Ubigeo" not-null="true" />
+            </key>
+            <one-to-many class="model.TPersona" />
+        </set>
+    </class>
+</hibernate-mapping>

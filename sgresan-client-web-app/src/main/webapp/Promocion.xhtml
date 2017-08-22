@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./vista/Plantilla_main_1.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="titulo">
+        Promociones 
+    </ui:define>
+
+    <ui:define name="top">
+  
+    </ui:define>
+
+    <ui:define name="content">
+        
+
+
+            <p:growl id="msgs" showDetail="true"/>
+
+            <h:form>
+
+                <p:commandButton id="btnPromocion" icon="icon-new" update=":FormCreaste" oncomplete="PF('CreasteDialog').show()" title="Creaste"  value="Nuevo"/>
+
+
+            </h:form>
+
+            <h:form id="formDataTable">
+
+
+                <div id="top" class="ui-growl ui-widget" >   
+                </div> 
+
+
+
+
+
+
+
+
+
+                <p:dataTable id="reserva" var="a" value="#{promocionBean.lista}" widgetVar="tablaInformes" 
+                             tableStyle="center" style = "width:auto"
+
+
+
+                             paginator="true" rows="5" paginatorPosition="bottom"
+
+                             paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                             {CurrentPageReport} {NextPageLink} {LastPageLink} "
+
+
+                             rowsPerPageTemplate="5,10,20,30,40" 
+                             emptyMessage="No hay ninguna Promocion Disponible">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <p:column filterBy="#{a.idPromociones}" filterMatchMode="contains">
+                        <f:facet name="header">  
+                            <h:outputText value="Codigo" />  
+                        </f:facet>
+                        <h:outputText value="#{a.idPromociones}" style=" text-align: center"/>
+                    </p:column>
+
+                    <p:column filterBy="#{a.descuento}" filterMatchMode="contains">
+                        <f:facet name="header">  
+                            <h:outputText value="Descuento" />  
+                        </f:facet> 
+
+                        <h:outputText value="#{a.descuento}"/>
+                    </p:column>
+
+
+
+                    <p:column filterBy="#{a.descripcion}" filterMatchMode="contains">
+                        <f:facet name="header">  
+                            <h:outputText value="Descripcion" />  
+                        </f:facet> 
+                        <h:outputText value="#{a.descripcion}" />
+                    </p:column> 
+
+
+                    <p:column style="width:100px">
+                        <p:commandButton id="btnUpdate" update=":FormUpdate" oncomplete="PF('PromDialog').show()" icon="icon-update" title="Actualizar">
+                            <f:setPropertyActionListener value="#{a}" target="#{promocionBean.selectedProm}" />
+                        </p:commandButton>
+
+                        <p:commandButton id="btnDelete" update=":FormDelete" oncomplete="PF('DeleteDialog').show()" icon="icon-Eliminar" title="Eliminar">
+                            <f:setPropertyActionListener value="#{a}" target="#{promocionBean.selectedProm}" />
+                        </p:commandButton>
+                        
+                                                                
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="icon-update"  />  
+                    </p:column>
+
+
+
+
+                </p:dataTable>
+
+            </h:form>
+
+
+
+
+
+
+            <h:form id="FormCreaste">
+                <p:dialog header="Nueva Promocion" widgetVar="CreasteDialog" modal="true" 
+                          showEffect="fade" hideEffect="fade" resizable="false" id="dlgPromCreaste">
+
+                    <h:panelGrid id="Update"  columns="2" cellpadding="3"  style="margin:0 auto;">
+
+                        <h:outputText value="descuento" />
+                        <p:inputText value="#{promocionBean.selectedProm.descuento}"  />
+
+                        <h:outputText value="Descripcion:" />
+                        <p:inputText value="#{promocionBean.selectedProm.descripcion}"  size="60"/>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="btnCreateAceptar" update=":formDataTable, :msgs" oncomplete="PF('CreasteDialog').hide()" actionListener="#{promocionBean.btnCreate(actionEvent)}" icon="icon-guardar" title="Guardar"  value="Guardar"/>
+                            <p:commandButton id="btnCreateCancelar"   oncomplete= "PF('CreasteDialog').hide()" icon="icon-cancelar" title="Cancelar"  value="Cancelar"/>
+
+                        </f:facet>
+
+                    </h:panelGrid>
+
+
+
+                </p:dialog>
+            </h:form> 
+
+
+
+
+            <h:form id="FormUpdate">
+                <p:dialog header="Modificar Promocion" widgetVar="PromDialog" modal="true" 
+                          showEffect="fade" hideEffect="explode" resizable="false" id="dlgProm">
+
+                    <h:panelGrid id="Update"  columns="2" cellpadding="3"  style="margin: 0 auto">
+
+                        <h:outputText value="Id:" />
+                        <p:inputText value="#{promocionBean.selectedProm.idPromociones}" />
+
+                        <h:outputText value="descuento" />
+                        <p:inputText value="#{promocionBean.selectedProm.descuento}"  />
+
+                        <h:outputText value="Descripcion:" />
+                        <p:inputText value="#{promocionBean.selectedProm.descripcion}" size="60"/>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="btnUpdateAceptar" update=":formDataTable, :msgs" oncomplete="PF('PromDialog').hide()"  actionListener="#{promocionBean.btnUpdate(actionEvent)}" icon="icon-guardar" title="Guardar"  value="Guardar"/>
+                            <p:commandButton id="btnUpdateCancelar"   oncomplete= "PF('PromDialog').hide()" image="icon-cancelar" title="Cancelar"  value="Cancelar"/>
+
+                        </f:facet>
+                    </h:panelGrid>
+
+
+
+                </p:dialog>
+            </h:form> 
+
+
+            <h:form id="FormDelete">
+
+
+                <p:confirmDialog id="confirmaDialog"   message="¿Desea Eliminar Promocion?" showEffect="fade" hideEffect="explode"
+                                 header="Eliminar Promocion" severity="alert"  widgetVar="DeleteDialog" >
+                    <p:commandButton id="confirm" value="Aceptar" update=":msgs" oncomplete="PF('DeleteDialog').hide()" 
+                                     actionListener="#{consulta_ReservaBean.btnDelete}"/>
+                    <p:commandButton id="decline"  value="Cancelar" update=":msgs" type="botom" oncomplete="PF('DeleteDialog').hide()"   />
+
+
+                </p:confirmDialog>
+
+            </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TReservadetallelog" table="t_reservadetallelog" catalog="sgresan">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity"></generator>
+        </id>
+        <property name="idTReservaDetalle" type="int">
+            <column name="idT_ReservaDetalle" not-null="true" />
+        </property>
+        <property name="costo" type="java.lang.Double">
+            <column name="costo" precision="22" scale="0" />
+        </property>
+        <property name="idReserva" type="string">
+            <column name="idReserva" length="45" />
+        </property>
+        <property name="idHabitacion" type="string">
+            <column name="idHabitacion" length="45" />
+        </property>
+        <property name="accion" type="string">
+            <column name="accion" length="45" />
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" />
+        </property>
+        <property name="pc" type="string">
+            <column name="pc" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

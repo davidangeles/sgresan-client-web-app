@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TPersona" table="t_persona" catalog="sgresan">
+        <id name="idPersona" type="string">
+            <column name="idPersona" length="25" />
+            <generator class="foreign">
+                <param name="property">TUsuario</param>
+            </generator>
+        </id>
+        <many-to-one name="TUbigeo" class="model.TUbigeo" fetch="select">
+            <column name="T_Ubigeo_idT_Ubigeo" not-null="true" />
+        </many-to-one>
+        <one-to-one name="TUsuario" class="model.TUsuario" constrained="true"></one-to-one>
+        <property name="nombres" type="string">
+            <column name="nombres" length="45" />
+        </property>
+        <property name="apellidoP" type="string">
+            <column name="apellidoP" length="45" />
+        </property>
+        <property name="apellidoM" type="string">
+            <column name="apellidoM" length="45" />
+        </property>
+        <property name="dni" type="string">
+            <column name="DNI" length="45" />
+        </property>
+        <property name="fechaNacimiento" type="timestamp">
+            <column name="fechaNacimiento" length="19" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="45" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="45" />
+        </property>
+        <property name="celular" type="string">
+            <column name="celular" length="45" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="45" />
+        </property>
+        <property name="imagen" type="binary">
+            <column name="imagen" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="observacion" />
+        </property>
+        <set name="TClientes" table="t_cliente" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="T_Persona_idPersona" length="25" not-null="true" />
+            </key>
+            <one-to-many class="model.TCliente" />
+        </set>
+        <set name="TTrabajadors" table="t_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="T_Persona_idPersona" length="25" not-null="true" />
+            </key>
+            <one-to-many class="model.TTrabajador" />
+        </set>
+    </class>
+</hibernate-mapping>

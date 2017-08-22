@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" id="pnl_RP" >
+        <p:outputLabel for="console" value="Buscar por : " />
+        <p:selectOneRadio id="console" value="#{productoReservaBean.accion}" >
+            <f:selectItem itemLabel="Código Reserva" itemValue="3" />
+            <f:selectItem itemLabel="DNI" itemValue="1" />
+            <f:selectItem itemLabel="Nombres y Apellidos" itemValue="2" />
+            <p:ajax update="pnl_RP" event="valueChange" listener="#{productoReservaBean.LIMPIAR_RB()}"  />
+        </p:selectOneRadio>
+        <p:outputLabel value="Cód. Reserva : " rendered="#{productoReservaBean.accion eq 3}" />
+        <p:inputText value="#{productoReservaBean.campo1}"  rendered="#{productoReservaBean.accion eq 3}" />
+        <p:outputLabel value="DNI : " rendered="#{productoReservaBean.accion eq 1}" />
+        <p:inputText value="#{productoReservaBean.campo1}" rendered="#{productoReservaBean.accion eq 1}" />
+        <p:outputLabel value="Nombres : " rendered="#{productoReservaBean.accion eq 2}" />
+        <p:inputText value="#{productoReservaBean.campo1}" rendered="#{productoReservaBean.accion eq 2}" />
+        <p:outputLabel value="Ap. Paterno : " rendered="#{productoReservaBean.accion eq 2}" />
+        <p:inputText value="#{productoReservaBean.campo2}" rendered="#{productoReservaBean.accion eq 2}" />
+        <p:outputLabel value="Ap. Materno : " rendered="#{productoReservaBean.accion eq 2}" />
+        <p:inputText value="#{productoReservaBean.campo3}" rendered="#{productoReservaBean.accion eq 2}" />
+    </h:panelGrid>
+            <p:commandButton value="Buscar" actionListener="#{productoReservaBean.BUSCAR()}" update="pnl_Datos" />
+            
+            <p:panelGrid columns="2" id="pnl_Datos" >
+                <p:outputLabel value="Cód. Reserva" />
+                <p:outputLabel value="#{productoReservaBean.reserva.idReserva}" />
+                <p:outputLabel value="Huésped" />
+                <p:outputLabel value="#{productoReservaBean.reserva.descripcion}" />
+                <p:outputLabel value="Fecha de Entrada" />
+                <p:outputLabel value="#{productoReservaBean.reserva.fechaEntrada}" >
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </p:outputLabel>
+            </p:panelGrid>
+        </h:form>
+        
+        <h:form id="form_Prod_Res" >
+            <p:panelGrid columns="4" >
+                <p:outputLabel value="Categoría :" />
+                <p:selectOneMenu  value="#{productoReservaBean.idCategoria}" >  
+                    <f:selectItem  itemLabel="Seleccione" itemValue=""/> 
+                    <f:selectItems value="#{productoBean.listaCategorias}" var="tx"
+                                   itemValue="#{tx.idCategoria}"
+                                   itemLabel="#{tx.nombreCategoria}" />
+                    <p:ajax listener="#{productoReservaBean.BUSCAR_PRODUCTO()}" update="tab_productosR" />         
+                </p:selectOneMenu>
+            </p:panelGrid>
+            
+            <p:dataTable var="inte" value="#{productoReservaBean.listaproductos}" rowIndexVar="valor" id="tab_productosR"
+                         emptyMessage="No hay productos registrados." >
+                <f:facet name="header">
+                    RESERVAS
+                </f:facet>
+                <p:column headerText="#">
+                    <h:outputText value="#{valor+1}" />
+                </p:column>
+                <p:column headerText="Nombre  Producto">
+                    <h:outputText value="#{inte.nombreProducto}" />
+                </p:column>
+                <p:column headerText="Precio Unitario">
+                    <h:outputText value="#{inte.precioUnitario}" >
+                        <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Cantidad" >
+                    <p:spinner value="#{productoReservaBean.cantidad}"  min="0" size="2"  >
+                          <p:ajax   process="@this" />
+                    </p:spinner>
+                </p:column>
+                <p:column>
+                    <p:commandButton id="imageBtn"  value="Basic"  update="img_producto_caja"
+                                     actionListener="#{productoReservaBean.DEVOLVER_IMAGEN(inte)}" />
+                    <p:overlayPanel id="imagePanel" for="imageBtn"  
+                                    showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mousedown"
+                    dismissable="false" showCloseIcon="true" >
+                    <p:graphicImage id="img_producto_caja" value="#{productoReservaBean.imagen}" cache="false" width="450" height="250" />  
+                      </p:overlayPanel>
+    
+                </p:column>
+                <p:column >
+                    <p:commandButton value="Agregar" update=":form_Prod_Res:tab_productosR_S" actionListener="#{productoReservaBean.AGREGAR_PRODUCTO_RESERVA(inte)}" />
+                </p:column>
+            </p:dataTable>
+            
+            <p:dataTable var="val" value="#{productoReservaBean.listaresxprod}" rowIndexVar="valor" id="tab_productosR_S"
+                         emptyMessage="No hay productos registrados." >
+                <f:facet name="header">
+                    Productos Seleccionados para su Reserva
+                </f:facet>
+                <p:column headerText="#">
+                    <h:outputText value="#{valor+1}" />
+                </p:column>
+                <p:column headerText="Nombre  Producto">
+                    <h:outputText value="#{val.TProducto.nombreProducto}" />
+                </p:column>
+                <p:column headerText="Precio Unitario">
+                    <h:outputText value="#{val.TProducto.precioUnitario}" >
+                        <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Cantidad" >
+                    <p:outputLabel value="#{val.cantidad}"   />
+                </p:column>
+                
+                <p:column headerText="Total">
+                    <h:outputText value="#{val.total}" >
+                        <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                    </h:outputText>
+                </p:column>
+ 
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

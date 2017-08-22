@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TCajalog" table="t_cajalog" catalog="sgresan">
+        <id name="idCaja" type="java.lang.Integer">
+            <column name="idCaja" />
+            <generator class="identity"></generator>
+        </id>
+        <property name="fecha" type="date">
+            <column name="fecha" length="10" />
+        </property>
+        <property name="hora" type="timestamp">
+            <column name="hora" length="19" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="45" />
+        </property>
+        <property name="entrada" type="java.lang.Double">
+            <column name="entrada" precision="22" scale="0" />
+        </property>
+        <property name="salida" type="java.lang.Double">
+            <column name="salida" precision="22" scale="0" />
+        </property>
+        <property name="saldo" type="java.lang.Double">
+            <column name="saldo" precision="22" scale="0" />
+        </property>
+        <property name="arqueo" type="java.lang.Double">
+            <column name="arqueo" precision="22" scale="0" />
+        </property>
+        <property name="moneda" type="string">
+            <column name="moneda" length="45" />
+        </property>
+        <property name="accion" type="string">
+            <column name="accion" length="45" />
+        </property>
+        <property name="fechalog" type="string">
+            <column name="fechalog" length="45" />
+        </property>
+        <property name="pc" type="string">
+            <column name="pc" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

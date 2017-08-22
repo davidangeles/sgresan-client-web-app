@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./vista/Plantilla_main.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="titulo">
+        Administracion de Productos
+    </ui:define>
+
+    <ui:define name="top">
+         
+    </ui:define>
+
+ <ui:define name="left">
+         <h:form  enctype="multipart/form-data" id="frm_Producto" >
+            <p:growl id="msg_P" showDetail="true"   life="2000" /> 
+            <p:panelGrid  styleClass="ui-noborder" id="Producto_caja"  >
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="2">Datos de Producto</p:column>
+                    </p:row>
+                </f:facet>
+
+                <p:row>
+                    <p:column style="font-weight: bold;">
+                        <p:outputLabel value="Categoría : " />
+                    </p:column>
+                    <p:column style="font-weight: bold;">
+                        <p:selectOneMenu  value="#{productoBean.producto.TCategoria.idCategoria}" >  
+                            <f:selectItem  itemLabel="Seleccione" itemValue=""/> 
+                            <f:selectItems value="#{productoBean.listaCategorias}" var="tx"
+                                           itemValue="#{tx.idCategoria}"
+                                           itemLabel="#{tx.nombreCategoria}" />
+
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Nombre : " />
+                    </p:column>
+                    <p:column >
+                        <p:inputText value="#{productoBean.producto.nombreProducto}" />
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Precio : " />
+                    </p:column>
+                    <p:column >
+                        <p:spinner value="#{productoBean.producto.precioUnitario}" stepFactor="0.10" prefix="S/." min="0"  style="font-weight:bold"/>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column >
+                        <p:outputLabel value="Stock : " />
+                    </p:column>
+                    <p:column >
+                        <p:spinner value="#{productoBean.producto.stock}"   min="0" style="font-weight:bold"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                     <p:column colspan="2" >
+                        <p:fileUpload value="#{productoBean.file}"  mode="simple" style="color: black;"   /> 
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column >
+                        <p:commandButton value="Guardar" update="Producto_caja,msg_P,:tabla_Productos:tab_productos" actionListener="#{productoBean.AGREGARPRODUCTO()}" ajax="false" />
+                    </p:column>
+                    
+                    <p:column >
+                        <p:commandButton value="Cancelar" />
+                    </p:column>
+                </p:row>
+                
+                
+
+                
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="content"  >
+       
+        <h:form id="tabla_Productos">
+         
+            <div align="right">
+            <p:dataTable var="inte" value="#{productoBean.listaProductos}" rowIndexVar="valor" id="tab_productos"
+                         emptyMessage="No hay productos registrados." style="width: 90%" >
+                <f:facet name="header">
+                    Productos
+                </f:facet>
+                <p:column headerText="#" width="5%" >
+                    <h:outputText value="#{valor+1}" />
+                </p:column>
+                <p:column headerText="Nombre  Producto" width="20%"   >
+                    <h:outputText value="#{inte.nombreProducto}" />
+                </p:column>
+
+                <p:column headerText="Precio" width="15%" >
+                    <h:outputText value="#{inte.precioUnitario}" >
+                        <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Stock" width="8%" >
+                    <h:outputText value="#{inte.stock}" />
+                </p:column>
+
+                <p:column width="8%" >
+                    <p:commandButton value="ACT" actionListener="#{productoBean.BUSCARPRODUCTO(inte.idProducto)}"
+                                     oncomplete="PF('dlgActProducto').show();" update=":tabla_Productos:act_producto" />
+                </p:column>
+                
+                <p:column width="8%" >
+                    <p:commandButton value="ELI" actionListener="#{productoBean.ELIMINARPRODUCTO(inte.idProducto)}" update=":frm_Producto:msg_P,:tabla_Productos:tab_productos">
+                        <p:confirm header="Confirmation" message="¿Desea eliminar el producto seleccionado?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+           </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+            
+            
+            <p:dialog header="Actualizar Producto" widgetVar="dlgActProducto"
+                      resizable="false" id="dlgAct"  modal="true" style="width: 500px;height: 300px" >
+                <p:panelGrid columns="2" id="act_producto" >
+                <p:outputLabel value="Categoría : " />
+                <p:selectOneMenu  value="#{productoBean.producto.TCategoria.idCategoria}" >  
+                    <f:selectItem  itemLabel="Seleccione" itemValue=""/> 
+                    <f:selectItems value="#{productoBean.listaCategorias}" var="tx"
+                                   itemValue="#{tx.idCategoria}"
+                                   itemLabel="#{tx.nombreCategoria}" />
+                                   
+                </p:selectOneMenu>
+                <p:outputLabel value="Nombre : " />
+                <p:inputText value="#{productoBean.producto.nombreProducto}" />
+                <p:outputLabel value="Precio : " />
+                <p:spinner value="#{productoBean.producto.precioUnitario}" stepFactor="0.10" prefix="S/." min="0"  style="font-weight:bold"/>
+                <p:outputLabel value="Stock : " />
+                <p:spinner value="#{productoBean.producto.stock}"   min="0" style="font-weight:bold"/>
+                <p:outputLabel value="Seleccionar Imagen : "/>
+                <p:fileUpload fileUploadListener="#{productoBean.handleFileUpload}" mode="advanced" uploadLabel="Seleccionar Imagen" label="Seleccionar Imagen"
+                     update=":frm_Producto:msg_P,:tabla_Productos:img_producto" auto="true" sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+ 
+                <p:outputLabel value="Imagen : " />
+                 
+                <p:graphicImage id="img_producto" value="#{productoBean.imagen}" cache="false" width="450" height="250" />  
+                  
+                <p:commandButton value="Guardar" actionListener="#{productoBean.ACTUALIZARPRODUCTO()}" 
+                                 update=":frm_Producto:msg_P,:tabla_Productos:tab_productos"
+                                 oncomplete="PF('dlgActProducto').hide();" />
+                <p:commandButton value="Cancelar" oncomplete="PF('dlgActProducto').hide();" />
+            </p:panelGrid>
+            </p:dialog>
+        </h:form>
+         
+    </ui:define>
+ 
+    <ui:define name="bottom">
+         
+    </ui:define>
+
+</ui:composition>

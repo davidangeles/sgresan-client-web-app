@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TTrabajador" table="t_trabajador" catalog="sgresan">
+        <id name="idRecepcionista" type="string">
+            <column name="idRecepcionista" length="25" />
+            <generator class="assigned"></generator>
+        </id>
+        <many-to-one name="TPersona" class="model.TPersona" fetch="select">
+            <column name="T_Persona_idPersona" length="25" not-null="true" />
+        </many-to-one>
+        <property name="sueldo" type="java.lang.Double">
+            <column name="sueldo" precision="22" scale="0" />
+        </property>
+        <set name="TCajas" table="t_caja" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usuario" length="25" />
+            </key>
+            <one-to-many class="model.TCaja" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TUsuario" table="t_usuario" catalog="sgresan">
+        <id name="idUsuario" type="string">
+            <column name="idUsuario" length="25" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="nombreUsuario" type="string">
+            <column name="nombreUsuario" length="45" />
+        </property>
+        <property name="contrasena" type="string">
+            <column name="contrasena" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="45" not-null="true" />
+        </property>
+        <property name="tipoUsuario" type="string">
+            <column name="tipoUsuario" length="45" not-null="true" />
+        </property>
+        <one-to-one name="TPersona" class="model.TPersona"></one-to-one>
+    </class>
+</hibernate-mapping>

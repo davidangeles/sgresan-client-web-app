@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./vista/Plantilla_1.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="top">
+        top
+    </ui:define>
+
+    <ui:define name="left">
+        left
+    </ui:define>
+
+    <ui:define name="content">
+         <h:form id="a">
+            <p:panelGrid columns="2" style="margin-left: auto"  >
+            <h:outputText value="Tipo de Cuarto" />
+            <p:selectOneMenu id="console">
+                <f:selectItem itemLabel="Select One" itemValue="" />
+                <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+            </p:selectOneMenu>
+            <h:outputText value="Fecha Entrada" />
+            <p:calendar />
+            <h:outputText value="Fecha Salida" />
+            <p:calendar />
+        </p:panelGrid>
+        
+            <p:commandButton value="Reservar" action="#{pue.navega()}" />
+            
+        </h:form>
+        
+    </ui:define>
+
+    <ui:define name="bottom">
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="700" pageHeight="595" orientation="Landscape" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dee5c550-2a7e-40bf-82c1-7468994a1787">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="202"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     t_reserva.`idReserva` AS t_reserva_idReserva,
+     t_reserva.`descripcion` AS t_reserva_descripcion,
+     t_reserva.`subtotal` AS t_reserva_subtotal,
+     t_reserva.`IGV` AS t_reserva_IGV,
+     t_reserva.`precio` AS t_reserva_precio,
+     t_cliente.`idCliente` AS t_cliente_idCliente,
+     t_cliente.`tipoCliente` AS t_cliente_tipoCliente,
+     t_cliente.`ruc` AS t_cliente_ruc,
+     t_cliente.`razonSocial` AS t_cliente_razonSocial,
+     t_cliente.`RepresentanteLegal` AS t_cliente_RepresentanteLegal,
+     t_cliente.`Descripcion` AS t_cliente_Descripcion,
+     t_persona.`direccion` AS t_persona_direccion
+FROM
+     `t_cliente` t_cliente INNER JOIN `t_reserva` t_reserva ON t_cliente.`idCliente` = t_reserva.`T_Cliente_idCliente`
+     INNER JOIN `t_persona` t_persona ON t_cliente.`T_Persona_idPersona` = t_persona.`idPersona`
+WHERE
+     t_reserva.`idReserva` = $P{id}]]>
+	</queryString>
+	<field name="t_reserva_idReserva" class="java.lang.String"/>
+	<field name="t_reserva_descripcion" class="java.lang.String"/>
+	<field name="t_reserva_subtotal" class="java.lang.Double"/>
+	<field name="t_reserva_IGV" class="java.lang.Double"/>
+	<field name="t_reserva_precio" class="java.lang.Double"/>
+	<field name="t_cliente_idCliente" class="java.lang.String"/>
+	<field name="t_cliente_tipoCliente" class="java.lang.String"/>
+	<field name="t_cliente_ruc" class="java.lang.Integer"/>
+	<field name="t_cliente_razonSocial" class="java.lang.String"/>
+	<field name="t_cliente_RepresentanteLegal" class="java.lang.String"/>
+	<field name="t_cliente_Descripcion" class="java.lang.String"/>
+	<field name="t_persona_direccion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="469" splitType="Stretch">
+			<rectangle>
+				<reportElement x="459" y="10" width="204" height="74" uuid="0d9f0d9b-3ec5-4c56-9bd9-87c711767531"/>
+			</rectangle>
+			<image>
+				<reportElement x="0" y="0" width="164" height="126" uuid="75071963-1114-48e0-88d1-382629b0879a"/>
+				<imageExpression><![CDATA["vista/QUERENCIA.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="492" y="22" width="130" height="62" uuid="90721d0e-15f7-4979-b82c-7933e8122627"/>
+				<textElement verticalAlignment="Middle">
+					<font size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[FACTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="37" width="187" height="74" uuid="82ddf65d-dcad-4c94-958f-57b00940dc42"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Panamericana Sur Km. 97.5, Lt 5-A, Entrada Cayma
+Urb. La Querencia - Asia, Cañete
+Telfs. : 530-2458
+Cel. :999709757 / 999659085
+Nextek: 02*0157 / 423*1403
+www.laquerenciahermanos.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="22" width="169" height="15" uuid="45de223a-52a3-40b3-8abf-8bb59cfe7ac7"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[LA QUERENCIA HERMANOS S.A.C
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title" x="492" y="0" width="130" height="48" uuid="f539d63d-ee46-4f93-a064-9131c04c12a9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[R.U.C. 20516648253]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="81" y="140" width="198" height="15" uuid="c9636194-1f2c-45af-a3e6-d6d695bc3296"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_RepresentanteLegal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="1" y="140" width="80" height="15" forecolor="#736343" uuid="1617a1ce-dd79-4fae-9d26-6246858d8d60"/>
+				<text><![CDATA[Señor(es):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1" y="155" width="80" height="15" forecolor="#736343" uuid="b1d83977-e4ff-4d44-8628-b239c74258e8"/>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="81" y="155" width="198" height="15" uuid="3a7848f4-f456-449b-9910-451f3fce919d"/>
+				<textFieldExpression><![CDATA[$F{t_persona_direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="1" y="170" width="80" height="15" forecolor="#736343" uuid="2e9e4a79-8771-4ae3-9592-7035216ff246"/>
+				<text><![CDATA[R.U.C. :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="80" y="170" width="198" height="15" uuid="a4c5319d-1cae-4491-aa5c-93858f549e93"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_ruc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="401" y="155" width="197" height="20" forecolor="#736343" uuid="9b1d64cb-f899-49ab-b67e-7bafb124ce96"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="372" y="160" width="28" height="15" uuid="de8ae6fe-e233-4cec-86ea-ac442c842689"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Lima,]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="13" y="206" width="100" height="20" uuid="dcb6a060-adce-4a1c-baa6-3e5a7083fbc7"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="13" y="226" width="100" height="20" uuid="11a1cd68-c164-4b18-b49a-001f47ad9ec5"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="13" y="246" width="100" height="20" uuid="4d50ff82-5651-4b6b-8ab1-c59fab353b0c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="13" y="266" width="100" height="20" uuid="4cdfaffb-fe91-40cb-b897-468293ee8f08"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="13" y="286" width="100" height="20" uuid="c226d255-c231-432a-967c-25c4c040486c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="113" y="206" width="407" height="20" uuid="1b1a2f15-8413-4305-9a70-d5461e48a627"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="113" y="226" width="407" height="20" uuid="8b7719f4-679c-46bc-be05-dea62787a000"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="113" y="246" width="407" height="20" uuid="b504a685-8db2-4f3b-92d6-ff5525fbe0d9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="113" y="266" width="407" height="20" uuid="1ce6e722-88d8-4f05-a8a4-4b7c8f1029b9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="520" y="206" width="53" height="20" uuid="c65e658e-d3ff-47c5-b27a-38f48ef0a1f0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="520" y="226" width="53" height="20" uuid="bbbb5d02-bb11-4b16-93fb-71feb28ea8d4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="520" y="246" width="53" height="20" uuid="44c9e464-0b90-4d24-b2c1-ac1c0471b6f0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="520" y="266" width="53" height="20" uuid="c8eabb6b-5eb6-4e9e-84da-091d62b2d2d5"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="573" y="206" width="69" height="20" uuid="a3b0e853-4cb3-4f9d-b142-fc51d928df5d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="573" y="226" width="69" height="20" uuid="4d73ea50-e1ee-42d8-88ed-bb2bb99b691a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="573" y="246" width="69" height="20" uuid="4d62a608-b709-4235-9914-9eee5c01440e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="573" y="266" width="69" height="20" uuid="8b911d89-f5ad-45d0-ac0f-2f0e4aa43ed8"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="580" y="231" width="80" height="15" uuid="edcbc0b4-de9b-4fe8-b52b-63ce39764427"/>
+				<textFieldExpression><![CDATA[$F{t_reserva_precio}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="573" y="386" width="69" height="20" uuid="f90b3160-4c76-4e6f-a9e9-67530bd81cc0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="573" y="366" width="69" height="20" uuid="e3fb30ae-3ea8-4b50-bde1-e24cdc1141b0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="574" y="405" width="68" height="20" uuid="07441b45-0b5a-40e2-8cdd-3f5ea22eee3f"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Column header" x="493" y="371" width="80" height="15" forecolor="#736343" uuid="9e84ad7e-c93e-416b-8cb9-eb96ab44b130"/>
+				<text><![CDATA[SUB-TOTAL :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="494" y="390" width="80" height="15" forecolor="#736343" uuid="60444551-52e4-4f27-96eb-acd3894ab439"/>
+				<text><![CDATA[I.G.V. (18%) :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="493" y="410" width="80" height="15" forecolor="#736343" uuid="b9670cfd-a72f-4cc8-b1fc-5cda51a0aa69"/>
+				<text><![CDATA[TOTAL :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="580" y="371" width="80" height="15" uuid="403fa56d-2139-4f5e-8d81-8b4a243d5222"/>
+				<textFieldExpression><![CDATA[$F{t_reserva_subtotal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="580" y="391" width="80" height="15" uuid="680e8474-3413-4a79-82ed-e507b69d83b0"/>
+				<textFieldExpression><![CDATA[$F{t_reserva_IGV}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="580" y="410" width="80" height="15" uuid="78efb2eb-069b-48ff-8d94-ac77cbc5b7f9"/>
+				<textFieldExpression><![CDATA[$F{t_reserva_precio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="211" width="89" height="15" uuid="24c42dce-d6ba-4216-aa51-dbc272cd69ad"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="203" y="211" width="169" height="15" uuid="122dfc65-4d95-41dd-9ec8-750b179765f2"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="520" y="211" width="50" height="15" uuid="cd15e6ef-3f52-4e03-83a7-8f7019e62b66"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[P. UNIT.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="580" y="211" width="50" height="15" uuid="bf8d0114-b424-4db7-bfb1-27ac0cd3e2fc"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[IMPORTE]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="123" y="231" width="181" height="15" uuid="45578adb-ff5a-4392-9e4a-dc1ed034edef"/>
+				<textFieldExpression><![CDATA[$F{t_reserva_descripcion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="186" y="415" width="28" height="20" uuid="321315aa-caf5-41a8-beec-8872e263c808"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Lima,]]></text>
+			</staticText>
+			<line>
+				<reportElement x="140" y="434" width="352" height="1" uuid="7619d60b-a923-4655-92bb-6de193bca3a6"/>
+			</line>
+			<staticText>
+				<reportElement x="214" y="440" width="169" height="15" uuid="d9b774c8-e181-4c39-bbe5-e38f3f88ec04"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[p. La Querencia Hermanos S.A.C]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="215" y="410" width="197" height="20" forecolor="#000000" uuid="8dae2ea8-0349-4392-a15d-b2207980741c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="13" y="306" width="100" height="20" uuid="e9a10f0d-d724-43ce-b01a-a88192c0cac2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="13" y="326" width="100" height="20" uuid="82136076-50d1-41ef-92c2-fe20d4cf568d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="13" y="346" width="100" height="20" uuid="add7703b-b15c-4bd2-a48c-acff4147e912"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="113" y="306" width="407" height="20" uuid="966f8229-e36a-4111-8cd3-e41569ca3631"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="573" y="286" width="69" height="20" uuid="a95c766d-5820-4896-87de-33b7c288f9e2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="520" y="286" width="53" height="20" uuid="451335f6-cdea-4b1f-97be-5e6bc76a08a5"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="573" y="306" width="69" height="20" uuid="9ca4b38d-3abc-4adb-a27f-6df1c7538ea6"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="520" y="306" width="53" height="20" uuid="c5142847-225c-4255-9c01-c396f762bf24"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="113" y="346" width="407" height="20" uuid="93baa899-8671-4a02-99a3-638fe18e4e41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="573" y="326" width="69" height="20" uuid="098d3658-27bf-4360-9c28-7071cc7e6c6d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="520" y="346" width="53" height="20" uuid="1a906f01-e96e-4796-bfdb-905856e837b7"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="520" y="326" width="53" height="20" uuid="118cedea-9c94-44cc-9362-25efe0696531"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="574" y="346" width="68" height="20" uuid="3fd024de-b370-472b-806d-0feacc3ecce0"/>
+			</rectangle>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TPromocion" table="t_promocion" catalog="sgresan">
+        <id name="idPromociones" type="java.lang.Integer">
+            <column name="idPromociones" />
+            <generator class="identity"></generator>
+        </id>
+        <property name="codPromocion" type="string">
+            <column name="codPromocion" length="45" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="45" />
+        </property>
+        <property name="descuento" type="java.lang.Double">
+            <column name="descuento" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

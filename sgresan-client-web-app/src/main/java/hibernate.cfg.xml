@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/sgresan</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password"></property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <mapping resource="model/THabitaciondetalle.hbm.xml"/>
+    <mapping resource="model/TPedidodetalle.hbm.xml"/>
+    <mapping resource="model/TUsuario.hbm.xml"/>
+    <mapping resource="model/TCliente.hbm.xml"/>
+    <mapping resource="model/TTrabajador.hbm.xml"/>
+    <mapping resource="model/TReservadetalle.hbm.xml"/>
+    <mapping resource="model/TTipohabitacion.hbm.xml"/>
+    <mapping resource="model/TReserva.hbm.xml"/>
+    <mapping resource="model/TPersona.hbm.xml"/>
+    <mapping resource="model/TPedido.hbm.xml"/>
+    <mapping resource="model/TCajalog.hbm.xml"/>
+    <mapping resource="model/THotel.hbm.xml"/>
+    <mapping resource="model/TPromocion.hbm.xml"/>
+    <mapping resource="model/TReservalog.hbm.xml"/>
+    <mapping resource="model/TReservadetallelog.hbm.xml"/>
+    <mapping resource="model/THabitacion.hbm.xml"/>
+    <mapping resource="model/TUbigeo.hbm.xml"/>
+    <mapping resource="model/TCaja.hbm.xml"/>
+    <mapping resource="model/TCategoria.hbm.xml"/>
+    <mapping resource="model/TProducto.hbm.xml"/>
+    <mapping resource="model/TResxprod.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.sgresan.mapper.PersonaDao">
+
+	<resultMap type="pe.com.sgresan.model.Persona" id="PersonaMap">
+		<id column="idPersona" property="idPersona" />
+		<result column="nombres" property="nombres" />
+		<result column="apellidoP" property="apellidoP" />
+		<result column="dni" property="dni" />
+		<result column="fechaNacimiento" property="fechaNacimiento" />
+		<result column="direccion" property="direccion" />
+		<result column="telefono" property="telefono" />
+		<result column="celular" property="celular" />
+		<result column="email" property="email" />
+		<result column="estado" property="estado" />
+		<result column="imagen" property="imagen" />
+		<result column="observacion" property="observacion" />		
+	</resultMap>
+
+	<select id="buscaporId" parameterType="map" resultMap="PersonaMap">
+		SELECT * FROM T_PERSONA 
+		<where>
+			idPersona = #{P_ID}
+		</where>
+	</select>
+
+</mapper>

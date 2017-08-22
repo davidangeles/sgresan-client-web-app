@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TPedido" table="t_pedido" catalog="sgresan">
+        <id name="idtPedido" type="string">
+            <column name="idt_pedido" length="45" />
+            <generator class="assigned"></generator>
+        </id>
+        <many-to-one name="TReserva" class="model.TReserva" fetch="select">
+            <column name="t_reserva_idReserva" length="25" not-null="true" />
+        </many-to-one>
+        <set name="TPedidodetalles" table="t_pedidodetalle" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idt_pedido" length="45" not-null="true" />
+            </key>
+            <one-to-many class="model.TPedidodetalle" />
+        </set>
+    </class>
+</hibernate-mapping>

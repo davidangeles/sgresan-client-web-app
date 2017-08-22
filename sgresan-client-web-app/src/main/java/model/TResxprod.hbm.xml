@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14/08/2017 12:04:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TResxprod" table="t_resxprod" catalog="sgresan" optimistic-lock="version">
+        <id name="idResxProd" type="java.lang.Integer">
+            <column name="idResxProd" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="TProducto" class="model.TProducto" fetch="select">
+            <column name="idProducto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="TReserva" class="model.TReserva" fetch="select">
+            <column name="idReserva" length="25" not-null="true" />
+        </many-to-one>
+        <property name="cantidad" type="java.lang.Integer">
+            <column name="cantidad" />
+        </property>
+        <property name="total" type="java.lang.Double">
+            <column name="total" precision="22" scale="0" />
+        </property>
+        <property name="montoCancelado" type="java.lang.Double">
+            <column name="montoCancelado" precision="22" scale="0" />
+        </property>
+        <property name="montoRestante" type="java.lang.Double">
+            <column name="montoRestante" precision="22" scale="0" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="25" />
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>
