@@ -56,14 +56,7 @@ public class ReservaBean {
        
        reserva = new TReserva();
     }
-
-    public void InsertarReserva()
-    {
-        ReservaDao dao = new ReservaDao();
-        dao.InsetartReserva(reserva);
-         
-    }
-    
+   
     
     public void createLista(int n)
     {

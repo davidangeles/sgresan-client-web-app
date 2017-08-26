@@ -8,8 +8,8 @@
 	<name>sgresan-client-web-app Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<repositories>
 		<repository>
 			<id>prime-repo</id>
@@ -172,6 +172,12 @@
 			<groupId>com.paypal.sdk</groupId>
 			<artifactId>merchantsdk</artifactId>
 			<version>2.6.109</version>
+		</dependency>
+		<!-- OmniFaces -->
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>1.14</version>
 		</dependency>
 	</dependencies>
 	<build>

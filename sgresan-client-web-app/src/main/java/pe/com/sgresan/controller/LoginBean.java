@@ -18,15 +18,12 @@ import org.primefaces.context.RequestContext;
 import pe.com.sgresan.common.UsuarioTipo;
 import pe.com.sgresan.model.Persona;
 import pe.com.sgresan.model.Usuario;
-import pe.com.sgresan.service.ParametroService;
+import pe.com.sgresan.service.UtilitarioService;
 import pe.com.sgresan.service.UsuarioService;
 
 @ManagedBean
 @SessionScoped
 public class LoginBean {
-
-	@ManagedProperty(value = ParametroService.EL_NAME)
-	private ParametroService parametroService;
 	
 	@ManagedProperty(value = UsuarioService.EL_NAME)
 	private UsuarioService usuarioService;
@@ -82,7 +79,7 @@ public class LoginBean {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		HttpSession sesion = (HttpSession) fc.getExternalContext().getSession(false);
 		sesion.invalidate();
-		usuario = new Usuario();
+		//usuario = new Usuario();
 		this.sesionI = true;
 		System.out.println(usuario.getNombreUsuario().length());
 		context.addCallbackParam("loggedIn", true);
@@ -150,22 +147,6 @@ public class LoginBean {
 	 */
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	/**
-	 * Returns attribute parametroService
-	 * @return parametroService <code>ParametroService</code>
-	 */
-	public ParametroService getParametroService() {
-		return parametroService;
-	}
-
-	/**
-	 * Sets attribute parametroService
-	 * @param parametroService <code>ParametroService</code>
-	 */
-	public void setParametroService(ParametroService parametroService) {
-		this.parametroService = parametroService;
 	}
 
 	/**

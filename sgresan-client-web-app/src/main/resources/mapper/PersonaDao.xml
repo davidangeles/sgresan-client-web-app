@@ -17,10 +17,10 @@
 		<result column="observacion" property="observacion" />		
 	</resultMap>
 
-	<select id="buscaporId" parameterType="map" resultMap="PersonaMap">
+	<select id="buscaporId" parameterType="String" resultMap="PersonaMap">
 		SELECT * FROM T_PERSONA 
 		<where>
-			idPersona = #{P_ID}
+			IDPERSONA = #{VALUE}
 		</where>
 	</select>
 

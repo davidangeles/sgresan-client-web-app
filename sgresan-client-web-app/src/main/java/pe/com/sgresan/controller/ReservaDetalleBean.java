@@ -3,42 +3,52 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bean;
+package pe.com.sgresan.controller;
 
-import Entidad.TimelineDetalleReserva;
-import Entidad.TimelineReserva;
-import dao.ClienteDao;
-import dao.HabitacionDao;
-import dao.ReservaDao;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import model.TCliente;
-import model.THabitacion;
-import model.THotel;
-import model.TPersona;
-import model.TReserva;
-import model.TReservadetalle;
-import model.TUsuario;
+
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.event.timeline.TimelineAddEvent;
 import org.primefaces.event.timeline.TimelineDragDropEvent;
 import org.primefaces.event.timeline.TimelineModificationEvent;
 import org.primefaces.event.timeline.TimelineSelectEvent;
-
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.timeline.TimelineEvent;
 import org.primefaces.model.timeline.TimelineModel;
 
-import util.email;
+import dao.ClienteDao;
+import dao.HabitacionDao;
+import dao.ReservaDao;
+import model.TCliente;
+import model.THabitacion;
+import model.THotel;
+import model.TPersona;
+import model.TReserva;
+import model.TReservadetalle;
+import pe.com.sgresan.model.Reserva;
+import pe.com.sgresan.service.ReservaService;
+import pe.com.sgresan.service.UsuarioService;
+import pe.com.sgresan.common.EstadoReservaTipo;
+import pe.com.sgresan.common.Utils;
+import pe.com.sgresan.entidad.TimelineDetalleReserva;
+import pe.com.sgresan.entidad.TimelineReserva;
+import pe.com.sgresan.model.Cliente;
+import pe.com.sgresan.model.Habitacion;
+import pe.com.sgresan.model.Persona;
+import pe.com.sgresan.model.Usuario;
 
 /**
  *
@@ -47,6 +57,14 @@ import util.email;
 @ManagedBean
 @SessionScoped
 public class ReservaDetalleBean {
+	
+	@ManagedProperty(value = ReservaService.EL_NAME)
+	private ReservaService reservaService;
+	
+	@ManagedProperty(value = UsuarioService.EL_NAME)
+	private UsuarioService usuarioService;
+	
+	private Reserva reserv;
 
     /**
      * *** ACTUALIZACION ****
@@ -59,10 +77,9 @@ public class ReservaDetalleBean {
      * ********************************************
      */
     private String rutaImagen;
-    private TReserva reserv;
     private THabitacion hab;
     private List<TReservadetalle> list;
-    private TCliente cli;
+    private Cliente cli;
     private String motivo;
     public int nrohabitacion;
     private double igv;
@@ -79,10 +96,10 @@ public class ReservaDetalleBean {
 
     ReservaDao dao = new ReservaDao();
 
-    private DualListModel<THabitacion> cities;
+    private DualListModel<Habitacion> cities;
     private String fecIn;
     private String fecSal;
-    private List<THabitacion> habitacionesdisponibles;
+    private List<Habitacion> habitacionesdisponibles;
 
     private double costo;
     private boolean editable;
@@ -110,31 +127,30 @@ public class ReservaDetalleBean {
         reserva.setTHabitacion(new THabitacion());
         reserva.setTReserva(new TReserva());
 
-        reserv = new TReserva();
-        reserv.setTCliente(new TCliente());
+        reserv = new Reserva();
+        reserv.setObjCliente(new Cliente());
         hab = new THabitacion();
         hab.setTHotel(new THotel());
         rutaImagen="/images/bed/blanco.png";
-        
-        llenar();
-        System.out.println("Prueba");
-        List<THabitacion> citiesSource = new ArrayList<THabitacion>();
-        List<THabitacion> citiesTarget = new ArrayList<THabitacion>();
+    }
+    
+    @PostConstruct
+    public void init() {
+    	try {
+    		llenar();       
 
-        fecIn = "2016-01-01";
-        fecSal = "2017-01-01";
-        HabitacionDao daop = new HabitacionDao();
-        habitacionesdisponibles = daop.listarhabitaciones(fecIn, fecSal);
-        for (int i = 0; i < habitacionesdisponibles.size(); i++) {
-            citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getIdHabitacion(),
-                    habitacionesdisponibles.get(i).getTHotel(),
-                    habitacionesdisponibles.get(i).getTTipohabitacion(),
-                    /* habitacionesdisponibles.get(i).getNroHabitacion(),*/
-                    habitacionesdisponibles.get(i).getDescripcion(),
-                    habitacionesdisponibles.get(i).getPrecio()));
-
-        }
-        cities = new DualListModel<THabitacion>(citiesSource, citiesTarget);
+            fecIn = "2016-01-01";
+            fecSal = "2017-01-01";
+            
+            habitacionesdisponibles = reservaService.obtenerHabitacionesDisponibles(fecIn, fecSal);
+            
+            List<Habitacion> citiesSource = new ArrayList<>(habitacionesdisponibles);
+            List<Habitacion> citiesTarget = new ArrayList<>();
+            
+            cities = new DualListModel<Habitacion>(citiesSource, citiesTarget);   
+		} catch (Exception e) {
+			e.getMessage();
+		}    	     
     }
 
     public void INICIALIZACION() {
@@ -146,14 +162,14 @@ public class ReservaDetalleBean {
         reserva.setTHabitacion(new THabitacion());
         reserva.setTReserva(new TReserva());
 
-        reserv = new TReserva();
-        reserv.setTCliente(new TCliente());
-        cli = new TCliente();
-        cli.setTPersona(new TPersona());
+        reserv = new Reserva();
+        reserv.setObjCliente(new Cliente());
+        cli = new Cliente();
+        cli.setObjPersona(new Persona());
         rutaImagen="/images/bed/blanco.png";
     }
 
-    public void CAMBIO() {
+    public void CAMBIO() throws Exception {
         max = reserv.getFechaEntrada();
         Calendar cal = new GregorianCalendar();
         cal.setTime(max);
@@ -168,17 +184,8 @@ public class ReservaDetalleBean {
         model = new TimelineModel();
     }
 
-    public void HOSPEDAR() {
-
-        /* ArchivoDao ar = new ArchivoDao();
-        reserv = reserva.getTReserva();
-        reserv.setEstado("hospedado");
-        ar.ModificarReserva(reserv);
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Successful",  "Se hospedo ") );
-        llenar();INICIALIZACION();
-         */
-        reserva1.setEstado("hospedado");
+    public void HOSPEDAR() throws Exception {
+        reserva1.setEstado(EstadoReservaTipo.HOSPEDADO.getNombre());
         if (dao.SP_MoficiarReserva(1, reserva1)) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Proceso Exitoso", "Se hospedo "));
@@ -254,15 +261,7 @@ public class ReservaDetalleBean {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void REPROGRAMAR() {
-        /* System.out.println("Se reprogramo :D");
-         reserv.setDescripcion(motivo);
-         reserv.setFechaEntrada(start);
-         reserv.setFechaSalida(end);
-         dao.MoficiarReserva(reserv);
-         model = new TimelineModel(); 
-         llenar();INICIALIZACION();*/
-
+    public void REPROGRAMAR() throws Exception {
         reserva1.setDescripcion(motivo);
         reserva1.setFecha_entrada(start);
         reserva1.setFecha_salida(end);
@@ -279,15 +278,7 @@ public class ReservaDetalleBean {
 
     }
 
-    public void CANCEL() {
-
-        /* reserv.setDescripcion(motivo);
-         reserv.setEstado("cancelado");
-         System.out.println(reserv.getIdReserva());
-         dao.MoficiarReserva(reserv);
-         model = new TimelineModel(); 
-       llenar();
-       INICIALIZACION();*/
+    public void CANCEL() throws Exception {
         reserva1.setDescripcion(motivo);
         reserva1.setEstado("cancelado");
         if (dao.SP_MoficiarReserva(3, reserva1)) {
@@ -303,82 +294,50 @@ public class ReservaDetalleBean {
         }
     }
 
-    public void registrarprereserva() {
-        ClienteDao clidao = new ClienteDao();
-        String valor = clidao.buscarCliente(((TPersona) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("persona")).getIdPersona()).getIdCliente();
-        email e = new email();
-
-        cli = clidao.buscarCliente(valor);
-
-        reserv.setIdReserva(dao.PK());
+    public void registrarprereserva() throws Exception {
+		Persona objPersona = ((Persona) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get("persona"));    	
+    	Cliente objCliente = usuarioService.buscarClienteIdPersona(objPersona.getIdPersona());
+    	objCliente.setObjPersona(objPersona);
+    	        
         reserv.setEstado("pre-reserva");
         reserv.setFechaRegistro(new Date());
         reserv.setModalidadPago("Deposito");
-        reserv.setUsuario(((TUsuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
-        reserv.setTCliente(cli);
+        reserv.setUsuario(((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
+        reserv.setIdCliente(objCliente.getIdCliente());
         reserv.setPrecio(costoTotal);
-        e.send(cli.getTPersona().getEmail(),"Reserva LQR","Estimado(a) \n Su reserva fue registrado exitosamente\nAtte. La Querencia Hermanos");
-        dao.InsetartReserva(reserv);
-
-        reserva.setTReserva(reserv);
-
-        for (int i = 0; i < cities.getTarget().size(); i++) {
-            //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
-            reserva.setTHabitacion(cities.getTarget().get(i));
-            reserva.setCosto(cities.getTarget().get(i).getPrecio() * dia);
-            dao.InsetartReservaDetalle(reserva);
-        }
-        //INICIALIZACION();
+        reserv.setLstHabitacion(cities.getTarget());
+        reserv.setObjCliente(objCliente);
+        reservaService.registrarReserva(reserv);
+        INICIALIZACION();
     }
 
-    public void registrarreserva() {
-        ClienteDao clidao = new ClienteDao();
-        String valor = clidao.buscarCliente(((TPersona) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("persona")).getIdPersona()).getIdCliente();
-
-        TCliente clie = new TCliente();
-        clie.setIdCliente(valor);
-        reserv.setIdReserva(dao.PK());
-        reserv.setEstado("reservado");
-        reserv.setFechaRegistro(new Date());
-        reserv.setModalidadPago("Deposito");
-        reserv.setUsuario(((TUsuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
-        reserv.setTCliente(clie);
-        reserv.setPrecio(costoTotal);
-        dao.InsetartReserva(reserv);
-
-        reserva.setTReserva(reserv);
-
-        for (int i = 0; i < cities.getTarget().size(); i++) {
-            //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
-            reserva.setTHabitacion(cities.getTarget().get(i));
-            reserva.setCosto(cities.getTarget().get(i).getPrecio() * dia);
-            dao.InsetartReservaDetalle(reserva);
-        }
+    public void registrarreserva() throws Exception {
+//        ClienteDao clidao = new ClienteDao();
+//        String valor = clidao.buscarCliente(((Persona) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("persona")).getIdPersona()).getIdCliente();
+//
+//        reserv.setEstado("reservado");
+//        reserv.setFechaRegistro(new Date());
+//        reserv.setModalidadPago("Deposito");
+//        reserv.setUsuario(((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
+//        reserv.setIdCliente(valor);
+//        reserv.setPrecio(costoTotal);
+//        
+//        reservaService.registrarReserva(reserv);
     }
 
-    public void Actualizar() {
-        List<THabitacion> citiesSource = new ArrayList<THabitacion>();
-        List<THabitacion> citiesTarget = new ArrayList<THabitacion>();
-
-        HabitacionDao dao = new HabitacionDao();
-        habitacionesdisponibles = dao.listarhabitaciones(fecIn, fecSal);
-        for (int i = 0; i < habitacionesdisponibles.size(); i++) {
-            citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getIdHabitacion(),
-                    habitacionesdisponibles.get(i).getTHotel(),
-                    habitacionesdisponibles.get(i).getTTipohabitacion(),
-                    /*habitacionesdisponibles.get(i).getNroHabitacion(),*/
-                    habitacionesdisponibles.get(i).getDescripcion(),
-                    habitacionesdisponibles.get(i).getPrecio()));
-        }
-        cities = new DualListModel<THabitacion>(citiesSource, citiesTarget);
-
+    public void Actualizar() throws Exception {
+        habitacionesdisponibles = reservaService.obtenerHabitacionesDisponibles(fecIn, fecSal);
+        
+        List<Habitacion> citiesSource = new ArrayList<>(habitacionesdisponibles);
+        List<Habitacion> citiesTarget = new ArrayList<>();
+        
+        cities = new DualListModel<Habitacion>(citiesSource, citiesTarget);
     }
 
-    public void BUSQUEDA2(Date fecE, Date fecS) {
-        HabitacionDao daop = new HabitacionDao();
+    public void BUSQUEDA2(Date fecE, Date fecS) throws Exception {
         fecIn = (fecE.getYear() + 1900) + "/" + (fecE.getMonth() + 1) + "/" + fecE.getDate();
         fecSal = (fecS.getYear() + 1900) + "/" + (fecS.getMonth() + 1) + "/" + fecS.getDate();
-        habitacionesdisponibles = daop.listarhabitaciones(fecIn, fecSal);
         Actualizar();
         System.out.println("Fecha Entrada : " + fecE.getDate() + "/" + (fecE.getMonth() + 1) + "/" + (fecE.getYear() + 1900));
         System.out.println("Fecha Salida : " + fecS.getDate() + "/" + (fecS.getMonth() + 1) + "/" + (fecS.getYear() + 1900));
@@ -389,8 +348,7 @@ public class ReservaDetalleBean {
     public void onTransfer(TransferEvent event) {
         StringBuilder builder = new StringBuilder();
         for (Object item : event.getItems()) {
-            builder.append(((THabitacion) item).getNroHabitacion()).append("<br />");
-
+            builder.append(((Habitacion) item).getNroHabitacion()).append("<br />");
         }
         costo = 0.0;
         reserv.setSubtotal(costo);
@@ -407,29 +365,17 @@ public class ReservaDetalleBean {
         reserv.setSubtotal(costo);
         reserv.setIgv(igv);
         reserv.setPrecio(costoTotal);
-        System.out.println(costo);
-        System.out.println("Dias : " + (reserv.getFechaSalida().getTime() - reserv.getFechaEntrada().getTime()) / MILLSECS_PER_DAY);
-//        FacesMessage msg = new FacesMessage();
-//        msg.setSeverity(FacesMessage.SEVERITY_INFO);
-//        msg.setSummary("Items Transferred");
-//        msg.setDetail(builder.toString());
-//         
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
     public void onSelect(SelectEvent event) {
-        THabitacion t = (THabitacion) event.getObject();
-        //FacesContext context = FacesContext.getCurrentInstance();
-        //context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", event.getObject().toString()));
-        if(t.getTTipohabitacion().getNombre().equals("simple")){
+        Habitacion t = (Habitacion) event.getObject();
+        if("simple".equals(t.getTipoHabNombre())){
             rutaImagen="/images/bed/cama_simple.jpg";
-        } else if (t.getTTipohabitacion().getNombre().equals("doble")){
+        } else if ("doble".equals(t.getTipoHabNombre())){
             rutaImagen="/images/bed/cama_doble.jpg";
         }else{
             rutaImagen="/images/bed/cama_triple.jpg";
         }
-                
-         
     }
     
     public void cambioImg(){
@@ -438,50 +384,37 @@ public class ReservaDetalleBean {
     }
 
     public void nombre() {
-        ClienteDao dao = new ClienteDao();
-        cli = dao.buscarCliente(reserv.getTCliente().getIdCliente());
+    	if(Utils.isNotNull(reserv.getIdCliente())){
+    		cli = usuarioService.buscarClienteId(reserv.getIdCliente());
+    	}
     }
 
-    public void GUARDARDETALLES() {
-//          System.out.println(cities.getTarget().get(0));
-//          System.out.println(cities.getSource().get(0));
-
-        //cli.setIdCliente(reserv.getTCliente().getIdCliente());
-        reserv.setIdReserva(dao.PK());
-        reserv.setUsuario(((TUsuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
+    public void GUARDARDETALLES() throws Exception {
+        reserv.setUsuario(((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
+        reserv.setIdCliente(cli.getIdCliente());
+        reserv.setObjCliente(cli);
         reserv.setFechaRegistro(new Date());
         
         String fec_reg = (reserv.getFechaRegistro().getYear() + 1900) + "/" + (reserv.getFechaRegistro().getMonth() + 1) + "/" + reserv.getFechaRegistro().getDate();
         String fec_ent = (reserv.getFechaEntrada().getYear() + 1900) + "/" + (reserv.getFechaEntrada().getMonth() + 1) + "/" + reserv.getFechaEntrada().getDate();
         if (fec_reg.equals(fec_ent)) {
-            reserv.setEstado("hospedado");
+            reserv.setEstado(EstadoReservaTipo.HOSPEDADO.getNombre());
         } else if (reserv.getModalidadPago().equals("Efectivo")) {
-            reserv.setEstado("reservado");
+            reserv.setEstado(EstadoReservaTipo.RESERVADO.getNombre());
         } else {
-            reserv.setEstado("pre-reserva");
+            reserv.setEstado(EstadoReservaTipo.PRE_RESERVA.getNombre());
         }
-      
         
-        //reserv.setPrecio(costoTotal);
-        reserv.setTCliente(cli);
-        dao.InsetartReserva(reserv);
-
-        reserva.setTReserva(reserv);
-
-        for (int i = 0; i < cities.getTarget().size(); i++) {
-            //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
-            reserva.setTHabitacion(cities.getTarget().get(i));
-            reserva.setCosto(cities.getTarget().get(i).getPrecio() * dia);
-            dao.InsetartReservaDetalle(reserva);
-        }
+        reserv.setLstHabitacion(cities.getTarget());
+        reservaService.registrarReserva(reserv);
+        
         FacesContext context = FacesContext.getCurrentInstance();
-
-        context.addMessage(null, new FacesMessage("Proceso Exitoso", "Se Registro 1 reserva a nombre de  " + cli.getTPersona().getNombres()));
+        context.addMessage(null, new FacesMessage("Proceso Exitoso", "Se Registro 1 reserva a nombre de  " + cli.getObjPersona().getNombres()));
         llenar();
         INICIALIZACION();
     }
 
-    public void llenar() {// set initial start / end dates for the axis of the timeline  
+    public void llenar() throws Exception {// set initial start / end dates for the axis of the timeline  
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         Date now = new Date();
 
@@ -493,32 +426,20 @@ public class ReservaDetalleBean {
 
         cal.setTimeInMillis(now.getTime() + 8 * 60 * 60 * 40000);
         end = cal.getTime();
-        //  event = new TimelineEvent("Joel", start, end, true, "1", "available");
-
-        /* listareservas = dao.listareservafiltros(tipohab);
-        System.out.println("Lista" + listareservas.size());
-        for(int i=0;i<listareservas.size();i++)
-         {
-        if(!"cancelado".equals(listareservas.get(i).getTReserva().getEstado()))
-        {
-             model.add(new TimelineEvent(listareservas.get(i), listareservas.get(i).getTReserva().getFechaEntrada(), 
-                                                              listareservas.get(i).getTReserva().getFechaSalida(), true, 
-                                                              listareservas.get(i).getTHabitacion().getIdHabitacion() + "", 
-                                                              listareservas.get(i).getTReserva().getEstado())); // eSTADO
         
-            System.out.println("N°" + i);}
-         }  */
-        listareservas = dao.SP_listareservafiltrosF_EST(tipohab,estado);
-        for (int i = 0; i < listareservas.size(); i++) {
-            if (!"cancelado".equals(listareservas.get(i).getEstado())) {
-                model.add(new TimelineEvent(listareservas.get(i).getTimelinereserva(), listareservas.get(i).getFecha_entrada(),
-                        listareservas.get(i).getFecha_salida(), true,
-                        listareservas.get(i).getHabitacion() + "",
-                        listareservas.get(i).getEstado())); // eSTADO
-
-            }
-        }
-
+        listareservas = reservaService.SP_listareservafiltrosF_EST(tipohab,estado);
+        
+        for (TimelineDetalleReserva objTDetalleReserva : listareservas) {
+        	if(!EstadoReservaTipo.CANCELADO.getNombre().equals(objTDetalleReserva.getEstado())){
+        		model.add(new TimelineEvent(objTDetalleReserva.getTimelinereserva(), 
+        				objTDetalleReserva.getFecha_entrada(),
+        				objTDetalleReserva.getFecha_salida(), 
+        				true,
+        				objTDetalleReserva.getHabitacion(),
+        				objTDetalleReserva.getEstado()));
+        	}
+			
+		}
     }
 
     public List<TimelineDetalleReserva> getListareservas() {
@@ -529,15 +450,6 @@ public class ReservaDetalleBean {
         this.listareservas = listareservas;
     }
 
-    /*public List<TReservadetalle> getListareservas() {
-        
-        listareservas = dao.listareservafiltros(tipohab);
-        return listareservas;
-    }
-
-    public void setListareservas(List<TReservadetalle> listareservas) {
-        this.listareservas = listareservas;
-    }*/
     public TimelineModel getModel() {
         return model;
     }
@@ -602,14 +514,6 @@ public class ReservaDetalleBean {
         this.reserva = reserva;
     }
 
-    public TReserva getReserv() {
-        return reserv;
-    }
-
-    public void setReserv(TReserva reserv) {
-        this.reserv = reserv;
-    }
-
     public THabitacion getHab() {
         return hab;
     }
@@ -624,14 +528,6 @@ public class ReservaDetalleBean {
 
     public void setNrohabitacion(int nrohabitacion) {
         this.nrohabitacion = nrohabitacion;
-    }
-
-    public DualListModel<THabitacion> getCities() {
-        return cities;
-    }
-
-    public void setCities(DualListModel<THabitacion> cities) {
-        this.cities = cities;
     }
 
     public String getFecIn() {
@@ -649,13 +545,6 @@ public class ReservaDetalleBean {
     public void setFecSal(String fecSal) {
         this.fecSal = fecSal;
     }
-
-    public List<THabitacion> getHabitacionesdisponibles() {
-        HabitacionDao dao = new HabitacionDao();
-        habitacionesdisponibles = dao.listarhabitaciones(fecIn, fecSal);
-        return habitacionesdisponibles;
-    }
-
     public double getCosto() {
         return costo;
     }
@@ -686,14 +575,6 @@ public class ReservaDetalleBean {
 
     public void setTipohab(String tipohab) {
         this.tipohab = tipohab;
-    }
-
-    public TCliente getCli() {
-        return cli;
-    }
-
-    public void setCli(TCliente cli) {
-        this.cli = cli;
     }
 
     public String getNombreC() {
@@ -777,5 +658,92 @@ public class ReservaDetalleBean {
         this.estado = estado;
     }
 
-    
+	/**
+	 * Returns attribute reservaService
+	 * @return reservaService <code>ReservaService</code>
+	 */
+	public ReservaService getReservaService() {
+		return reservaService;
+	}
+
+	/**
+	 * Sets attribute reservaService
+	 * @param reservaService <code>ReservaService</code>
+	 */
+	public void setReservaService(ReservaService reservaService) {
+		this.reservaService = reservaService;
+	}
+
+	/**
+	 * Returns attribute reserv
+	 * @return reserv <code>Reserva</code>
+	 */
+	public Reserva getReserv() {
+		return reserv;
+	}
+
+	/**
+	 * Sets attribute reserv
+	 * @param reserv <code>Reserva</code>
+	 */
+	public void setReserv(Reserva reserv) {
+		this.reserv = reserv;
+	}
+
+	/**
+	 * Returns attribute usuarioService
+	 * @return usuarioService <code>UsuarioService</code>
+	 */
+	public UsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	/**
+	 * Sets attribute usuarioService
+	 * @param usuarioService <code>UsuarioService</code>
+	 */
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	/**
+	 * Returns attribute habitacionesdisponibles
+	 * @return habitacionesdisponibles <code>List<Habitacion></code>
+	 */
+	public List<Habitacion> getHabitacionesdisponibles() {
+		return habitacionesdisponibles;
+	}
+
+	/**
+	 * Returns attribute cli
+	 * @return cli <code>Cliente</code>
+	 */
+	public Cliente getCli() {
+		return cli;
+	}
+
+	/**
+	 * Sets attribute cli
+	 * @param cli <code>Cliente</code>
+	 */
+	public void setCli(Cliente cli) {
+		this.cli = cli;
+	}
+
+	/**
+	 * Returns attribute cities
+	 * @return cities <code>DualListModel<Habitacion></code>
+	 */
+	public DualListModel<Habitacion> getCities() {
+		return cities;
+	}
+
+	/**
+	 * Sets attribute cities
+	 * @param cities <code>DualListModel<Habitacion></code>
+	 */
+	public void setCities(DualListModel<Habitacion> cities) {
+		this.cities = cities;
+	}
+	
 }

@@ -49,15 +49,15 @@
                 <p:outputLabel value="#{reservaDetalleBean.reserva1.descripcion}" style="color: black;" />
                 <p:outputLabel value="Subtotal :" style="color: black;"/>
                 <p:outputLabel value="#{reservaDetalleBean.reserva1.subtotal}" style="color: black;">
-                    <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                    <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                 </p:outputLabel>
                 <p:outputLabel value="IGV (18%) :" style="color: black;"  />
                 <p:outputLabel value="#{reservaDetalleBean.reserva1.igv}" style="color: black;" >
-                    <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                    <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                 </p:outputLabel>
                 <p:outputLabel value="TOTAL :" style="color: black;"  />
                 <p:outputLabel value="#{reservaDetalleBean.reserva1.total}" style="color: black;" >
-                    <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                    <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                 </p:outputLabel>
                 <p:outputLabel value="ESTADO :" style="color: black;"  />
                 <p:outputLabel value="#{reservaDetalleBean.reserva1.estado}" style="color: black;"  />
@@ -184,15 +184,15 @@
                         <p:panel header="Datos del Cliente" style="width: 500px;height: 300px"  id="panelC" >
                              <h:panelGrid   columns="2" style="margin-right:  auto"   >
                            <p:outputLabel value="Cliente : " style="color: black" />
-                                <p:selectOneMenu  value="#{reservaDetalleBean.reserv.TCliente.idCliente}" >  
+                                <p:selectOneMenu  value="#{reservaDetalleBean.reserv.idCliente}" >  
                                     <f:selectItems value="#{clienteBean.clientes}" var="lista" 
-                                                   itemLabel="#{lista.TPersona.nombres} #{lista.TPersona.apellidoP} #{lista.TPersona.apellidoM}" itemValue="#{lista.idCliente}"/> 
+                                                   itemLabel="#{lista.objPersona.nombres} #{lista.objPersona.apellidoP} #{lista.objPersona.apellidoM}" itemValue="#{lista.idCliente}"/> 
                                     <p:ajax listener="#{reservaDetalleBean.nombre()}" update="panelC" />
                                 </p:selectOneMenu>
                              <p:outputLabel value="DNI : " style="color: black" />
-                             <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.TPersona.dni}"   />
+                             <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.objPersona.dni}"   />
                              <p:outputLabel value="Correo :" style="color: black" />
-                             <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.TPersona.email}"   />
+                             <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.objPersona.email}"   />
                             </h:panelGrid>
                             
                         </p:panel>
@@ -229,7 +229,7 @@
                         <p:growl id="msg" showDetail="true" escape="false"  />
                         <p:panel header="Datos del Dormitorio" style="width: 500px;height: 400px" >
                            <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
-                                       itemLabel="#{cities.TTipohabitacion.nombre}" itemValue="#{cities}" converter="entityConverter" style="width: 300px;" 
+                                       itemLabel="#{cities.tipoHabNombre}" itemValue="#{cities}" converter="entityConverter" style="width: 300px;" 
                                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
                             <f:facet name="sourceCaption">Disponibles</f:facet>
                             <f:facet name="targetCaption">Seleccionados</f:facet>
@@ -240,7 +240,7 @@
                                 <h:outputText value="#{cities.idHabitacion}" style="color: black;" />
                             </p:column>
                             <p:column style="width:65%;">
-                                <h:outputText value="#{cities.TTipohabitacion.nombre}" style="color: black;" />
+                                <h:outputText value="#{cities.tipoHabNombre}" style="color: black;" />
                             </p:column>
                         </p:pickList>
                         <h:panelGrid   columns="2" style="margin-right:  auto;background: none;" cellpadding="4"  >
@@ -251,7 +251,7 @@
                                 </p:selectOneMenu>
                             <h:outputText value="Precio : " style="background: none;font-family: cursive;color: black; " />
                             <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" id="costo" style="background: none;font-family: cursive;color : black;"  >
-                            <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                            <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                             </p:outputLabel> 
                           
                         </h:panelGrid>
@@ -263,7 +263,7 @@
                          <p:panel header="Información de Reserva" style="width: 500px;height: 300px" >
                              <h:panelGrid   columns="2" style="margin-right:  auto"   >
                             <p:outputLabel value="Cliente" style="color: black" />
-                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.TPersona.nombres} #{reservaDetalleBean.cli.TPersona.apellidoP} #{reservaDetalleBean.cli.TPersona.apellidoM}"  />
+                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.objPersona.nombres} #{reservaDetalleBean.cli.objPersona.apellidoP} #{reservaDetalleBean.cli.objPersona.apellidoM}"  />
                             <p:outputLabel value="Fecha Entrada" style="color: black" />
                             <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaEntrada.date}/#{reservaDetalleBean.reserv.fechaEntrada.month}/#{reservaDetalleBean.reserv.fechaEntrada.year+1900}"  />
                             <p:outputLabel value="Fecha Salida" style="color: black" />
@@ -272,7 +272,7 @@
                              <c:forEach items="#{reservaDetalleBean.cities.target}" var="item" >
                                  <div>
                                      <p:outputLabel />
-                                     <p:outputLabel value="${item.idHabitacion} ${item.TTipohabitacion.nombre}" style="color: black" />
+                                     <p:outputLabel value="${item.idHabitacion} ${item.tipoHabNombre}" style="color: black" />
                                  </div>
                              </c:forEach>
                              <p:outputLabel/>
@@ -280,15 +280,15 @@
                              <p:inputTextarea value="#{reservaDetalleBean.reserv.descripcion}" />
                              <p:outputLabel value="Subtotal :" style="color: black" />
                              <p:outputLabel value="#{reservaDetalleBean.reserv.subtotal}" style="color: black" >
-                                 <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                                 <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                              </p:outputLabel>
                              <p:outputLabel value="IGV (18%) :" style="color: black" />
                              <p:outputLabel value="#{reservaDetalleBean.reserv.igv}" style="color: black" >
-                                 <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                                 <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                              </p:outputLabel>
                              <p:outputLabel value="TOTAL :" style="color: black" />
                              <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" style="color: black" >
-                                 <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                                 <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                              </p:outputLabel>
                              </h:panelGrid>
                              

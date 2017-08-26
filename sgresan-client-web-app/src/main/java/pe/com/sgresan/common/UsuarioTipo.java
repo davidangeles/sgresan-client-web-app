@@ -19,15 +19,7 @@ public enum UsuarioTipo {
 	public String getNombre() {
 		return nombre;
 	}
-	
-	/**
-	 * Sets attribute nombre
-	 * @param nombre <code>String</code>
-	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
+		
 	/**
 	 * Returns attribute nemonico
 	 * @return nemonico <code>String</code>
@@ -36,11 +28,4 @@ public enum UsuarioTipo {
 		return nemonico;
 	}
 	
-	/**
-	 * Sets attribute nemonico
-	 * @param nemonico <code>String</code>
-	 */
-	public void setNemonico(String nemonico) {
-		this.nemonico = nemonico;
-	}
 }

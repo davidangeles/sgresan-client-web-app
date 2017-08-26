@@ -1,81 +1,60 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./vista/Plantilla_main_1.xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+	template="./vista/Plantilla_main_1.xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">
+	<ui:define name="titulo">
         Catalogo de Habitaciones        
     </ui:define>
 
-    <ui:define name="top">
+	<ui:define name="top">
 
-    </ui:define>
+	</ui:define>
 
-    <ui:define name="left">
+	<ui:define name="left">
 
-    </ui:define>
+	</ui:define>
 
-    <ui:define name="content">        
-        <h:form> 
-            <h:head>
-                <!--<link href="${request.contextPath}/resources/lib/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet" type="text/css" />-->                
-                <link href="${request.contextPath}/resources/css/custom-style.css" rel="stylesheet" type="text/css" />
-                <!--<link href="${request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" />-->
-            </h:head>
-<!--            <div class="row">
-                <div class="col-sm-12">
-                    <h2 class="sub_title">NUESTRAS HABITACIONES</h2>
-                </div>
-                <div class="home_list">
-                    <ul>
-                        <li class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img src="images/bed/cama_simple.jpg" alt="Post"
-                                     class="img-responsive" style="height: 268.94px; width: 100%;" />
-                                <div class="home-room-details">
-                                    <h3>Habitación individual</h3>
-                                </div>
-                            </div>
-                            <p>Estas habitaciones disponen de aire acondicionado, [...]</p>
-                            <a href="#" class="btn btn-link" role="button">More</a>
-                        </li>
-                        <li class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img src="images/bed/cama_doble.jpg" alt="Post"
-                                     class="img-responsive" />
-                                <div class="home-room-details">
-                                    <h3>Habitación Doble</h3>
-                                </div>
-                            </div>
-                            <p>Estas habitaciones disponen de aire acondicionado, [...]</p>
-                            <a href="#" class="btn btn-link" role="button">More</a>
-                        </li>
-                        <li class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img src="images/bed/cama_triple.jpg" class="img-responsive"
-                                     alt="Post" />
-                                <div class="home-room-details">
-                                    <h3>Habitación Triple</h3>
-                                </div>
-                            </div>
-                            <p>Estas habitaciones disponen de aire acondicionado, [...]</p>
-                            <a href="#" class="btn btn-link" role="button">More</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>-->
-            <p:galleria value="#{habitacionBean.images}" var="image" panelWidth="650" 
-                        panelHeight="500" showCaption="true" autoPlay="true" class="habitaciones" >
-                <p:graphicImage name="/img/bed/#{image.idHabitacion}" alt="#{image.descripcion}" title="#{image.nroHabitacion}"/>
-            </p:galleria>
+	<ui:define name="content">
+		<h:form>
+			<h:head>
+				<link
+					href="${request.contextPath}/resources/lib/bootstrap-3.3.7-dist/css/bootstrap.css"
+					rel="stylesheet" type="text/css" />
+				<link href="${request.contextPath}/resources/css/custom-style.css"
+					rel="stylesheet" type="text/css" />
+				<link href="${request.contextPath}/resources/css/style.css"
+					rel="stylesheet" type="text/css" />
+			</h:head>
+			<div class="row">
+				<div class="col-sm-12">
+					<h4 class="sub_title">NUESTRAS HABITACIONES</h4>
+				</div>
+				<div class="home_list">
+					<ul>
+						<c:forEach items="#{habitacionBean.lstImagenesHabitaciones}" var="item">
+							<li class="col-md-4 col-sm-6 col-xs-12">
+								<h6 style="color: black; font-weight: 900;">${item.descripcion}</h6>
+								<div class="thumbnail">
+									<h:graphicImage id="myimageid" value="data:image/jpg;base64,#{item.imagenBase64}" style="height: 268.94px; width: 100%;"/>
+								</div> 
+								<p:button value="M&#225;s Informaci&#243;n" icon="ui-icon-star" style="width: 100px;" />
+							</li>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
 
-        </h:form>
-    </ui:define>
+		</h:form>
+	</ui:define>
 
-    <ui:define name="bottom">
+	<ui:define name="bottom">
 
-    </ui:define>
+	</ui:define>
 
 </ui:composition>

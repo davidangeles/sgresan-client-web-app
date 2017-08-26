@@ -1,21 +1,18 @@
 package prueba;
 
-import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import pe.com.sgresan.controller.LoginBean;
-import pe.com.sgresan.service.ParametroService;
+import pe.com.sgresan.service.UtilitarioService;
 
 public class PruebaConfig {	
 	
 	@SuppressWarnings("resource")
-	@Test
 	public void pruebaMapeo(){
 		try {
 			ApplicationContext cxt = new ClassPathXmlApplicationContext("spring.xml");
-			ParametroService parametroService = (ParametroService) cxt.getBean("parametroService");//cxt.getBeanDefinitionNames();
-			parametroService.example();
+			UtilitarioService parametroService = (UtilitarioService) cxt.getBean("parametroService");//cxt.getBeanDefinitionNames();
+			//parametroService.example();
 			System.out.println(parametroService);
 			
 		} catch (Exception e) {

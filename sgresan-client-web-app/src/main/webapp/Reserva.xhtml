@@ -88,7 +88,7 @@
                     
                     <p:tab id="dormitoriotab" title="3.-Dormitorios">
                        <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
-                                       itemLabel="#{cities.TTipohabitacion.nombre}" itemValue="#{cities}" converter="entityConverter" style="width: 300px;" 
+                                       itemLabel="#{cities.tipoHabNombre}" itemValue="#{cities}" converter="entityConverter" style="width: 300px;" 
                                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
                             <f:facet name="sourceCaption">Disponibles</f:facet>
                             <f:facet name="targetCaption">Seleccionados</f:facet>
@@ -100,13 +100,13 @@
                                 <p:outputLabel value="#{cities.idHabitacion}" style="font-family: cursive;color: #000000" />
                             </p:column>
                             <p:column style="width:65%;">
-                                <p:outputLabel value="#{cities.TTipohabitacion.nombre}" style="font-family: cursive;color: #000000" />
+                                <p:outputLabel value="#{cities.tipoHabNombre}" style="font-family: cursive;color: #000000" />
                             </p:column>
                             </p:pickList>
                         <h:panelGrid   columns="2" style="margin-right:  auto;background: none;" cellpadding="4"  >
                             <p:outputLabel value="Precio : " style="background: none;font-family: cursive;font-family: monospace;color: black; " />
                             <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" id="costo" style="background: none;font-family: cursive;color: black;"  >
-                            <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                            <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                             </p:outputLabel> 
                           
                         </h:panelGrid>
@@ -127,7 +127,7 @@
                              <c:forEach items="#{reservaDetalleBean.cities.target}" var="item" >
                                  <div>
                                      <p:outputLabel />
-                                     <p:outputLabel value="${item.idHabitacion} ${item.TTipohabitacion.nombre}" style="color: black" />
+                                     <p:outputLabel value="${item.idHabitacion} ${item.tipoHabNombre}" style="color: black" />
                                  </div>
                              </c:forEach>
                              <p:outputLabel/>
@@ -135,15 +135,15 @@
                              <p:inputTextarea value="#{reservaDetalleBean.reserv.descripcion}" />
                              <p:outputLabel value="Subtotal :" style="color: black" />
                              <p:outputLabel value="#{reservaDetalleBean.costo}" style="color: black" >
-                             <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                              </p:outputLabel>
                              <p:outputLabel value="IGV (18%) :" style="color: black" />
                              <p:outputLabel value="#{reservaDetalleBean.igv}" style="color: black" >
-                             <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                              </p:outputLabel>
                              <p:outputLabel value="TOTAL :" style="color: black" />
                              <p:outputLabel value="#{reservaDetalleBean.costoTotal}" style="color: black" >
-                             <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                              </p:outputLabel>
                              </h:panelGrid>
                              

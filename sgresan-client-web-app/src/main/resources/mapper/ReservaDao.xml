@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.sgresan.mapper.ReservaDao">
+
+	<resultMap type="pe.com.sgresan.model.Reserva" id="ReservaMap">
+		<id column="idReserva" property="idReserva" />
+		<result column="estado" property="estado" />
+		<result column="fechaRegistro" property="fechaRegistro" />
+		<result column="fechaEntrada" property="fechaEntrada" />
+		<result column="fechaSalida" property="fechaSalida" />
+		<result column="descripcion" property="descripcion" />
+		<result column="modalidadPago" property="modalidadPago" />
+		<result column="voucher" property="voucher" />
+		<result column="subtotal" property="subtotal" />
+		<result column="igv" property="igv" />
+		<result column="precio" property="precio" />
+		<result column="usuario" property="usuario" />
+		<result column="T_Cliente_idCliente" property="idCliente" />
+		<result column="cantN" property="cantN" />
+		<result column="cantA" property="cantA" />
+		<result column="cantTotal" property="cantTotal" />
+	</resultMap>
+
+	<insert id="registroReserva" parameterType="pe.com.sgresan.model.Reserva"
+		useGeneratedKeys="true">
+		<selectKey keyProperty="idReserva" resultType="String"
+			order="BEFORE">
+			select CAST(CONCAT('ABC',count(1) + 1) AS CHAR(50)) FROM
+			T_RESERVA
+		</selectKey>
+		INSERT INTO T_RESERVA (
+		IDRESERVA,
+		ESTADO,
+		FECHAREGISTRO,
+		FECHAENTRADA,
+		FECHASALIDA,
+		DESCRIPCION,
+		MODALIDADPAGO,
+		VOUCHER,
+		SUBTOTAL,
+		IGV,
+		PRECIO,
+		USUARIO,
+		T_CLIENTE_IDCLIENTE,
+		CANTN,
+		CANTA,
+		CANTTOTAL
+		)
+		VALUES (
+		#{idReserva, jdbcType=VARCHAR, javaType=String},
+		#{estado, jdbcType=VARCHAR, javaType=String},
+		#{fechaRegistro, jdbcType=TIMESTAMP},
+		#{fechaEntrada, jdbcType=TIMESTAMP},
+		#{fechaSalida, jdbcType=TIMESTAMP},
+		#{descripcion, jdbcType=VARCHAR, javaType=String},
+		#{modalidadPago, jdbcType=VARCHAR, javaType=String},
+		#{voucher, jdbcType=BLOB},
+		#{subtotal, javaType=Double, jdbcType=NUMERIC},
+		#{igv, javaType=Double, jdbcType=NUMERIC},
+		#{precio, javaType=Double, jdbcType=NUMERIC},
+		#{usuario, jdbcType=VARCHAR, javaType=String},
+		#{idCliente, jdbcType=VARCHAR, javaType=String},
+		#{cantN, javaType=int},
+		#{cantA, javaType=int},
+		#{cantTotal, javaType=int})
+	</insert>
+
+	<update id="actualizarReserva" parameterType="pe.com.sgresan.model.ReservaDetalle">
+		UPDATE T_RESERVA
+		<set>
+			<if test="estado != null">ESTADO = #{estado} ,</if>
+			<if test="fechaEntrada != null">FECHAENTRADA = #{fechaEntrada, jdbcType=TIMESTAMP} ,</if>
+			<if test="fechaSalida != null">FECHASALIDA = #{fechaSalida, jdbcType=TIMESTAMP} ,</if>
+			<if test="descripcion != null">DESCRIPCION = #{descripcion} ,</if>
+			<if test="modalidadPago != null">MODALIDADPAGO = #{modalidadPago} ,</if>
+			<if test="voucher != null">VOUCHER = #{voucher, jdbcType=BLOB} ,</if>
+			<if test="subtotal != null">SUBTOTAL = #{subtotal, javaType=Double, jdbcType=NUMERIC},</if>
+			<if test="igv != null">IGV = #{igv, javaType=Double, jdbcType=NUMERIC} ,</if>
+			<if test="precio != null">PRECIO = #{precio, javaType=Double, jdbcType=NUMERIC},</if>
+			<if test="cantN != null and cantN != 0">CANTN = #{cantN, javaType=int} ,</if>
+			<if test="cantA != null and cantA != 0">CANTA = #{cantA, javaType=int} ,</if>
+			<if test="cantTotal != null and cantTotal != 0">CANTTOTAL = #{cantTotal, javaType=int}</if>
+		</set>
+		<where>
+			IDRESERVA = #{idReserva}
+		</where>
+	</update>
+
+	<insert id="registroReservaDetalle" parameterType="pe.com.sgresan.model.ReservaDetalle">
+		INSERT INTO
+		T_RESERVADETALLE (
+		IDT_RESERVADETALLE,
+		COSTO,
+		T_RESERVA_IDRESERVA,
+		T_HABITACION_IDHABITACION
+		)
+		VALUES (
+		#{idTReservaDetalle, javaType=Integer, jdbcType=INTEGER},
+		#{costo, javaType=Double, jdbcType=NUMERIC},
+		#{idReserva, jdbcType=VARCHAR, javaType=String},
+		#{idHabitacion, jdbcType=VARCHAR, javaType=String})
+	</insert>
+
+
+	<select id="buscaporId" parameterType="map" resultMap="ReservaMap">
+		SELECT * FROM T_RESERVA
+		<where>
+			idReserva = #{P_ID}
+		</where>
+	</select>
+
+	<select id="filtroReservas" parameterType="map" resultMap="ReservaMap">
+		SELECT RES.* FROM T_RESERVA RES
+		INNER JOIN T_CLIENTE CLI ON
+		(RES.T_CLIENTE_IDCLIENTE = CLI.IDCLIENTE)
+		<where>
+			<if test="P_CLIENTE != null">
+				T_CLIENTE_IDCLIENTE = #{P_CLIENTE}
+			</if>
+			<if test="P_PERSONA != null">
+				CLI.T_PERSONA_IDPERSONA = #{P_PERSONA}
+			</if>
+		</where>
+	</select>
+	
+	<resultMap type="pe.com.sgresan.entidad.TimelineReserva" id="TReservaMap">
+    	<result column="reserva" property="idReserva" />
+    	<result column="nombre" property="cliente" />
+    	<result column="fechaEntrada" property="fecha_entrada" />
+		<result column="fechaSalida" property="fecha_salida" />
+		<result column="descripcion" property="descripcion" />
+		<result column="subtotal" property="subtotal" />
+		<result column="IGV" property="igv" />
+		<result column="total" property="total" />
+    	<result column="estado" property="estado" />
+	</resultMap>
+	
+	<resultMap type="pe.com.sgresan.entidad.TimelineDetalleReserva" id="TDetalleReservaMap">
+		<result column="fechaEntrada" property="fecha_entrada" />
+		<result column="fechaSalida" property="fecha_salida" />
+		<result column="booleano" property="booleano" />
+		<result column="habitacion" property="habitacion" />	
+		<result column="estado" property="estado" />
+		<association property="timelinereserva" resultMap="TReservaMap"/>
+	</resultMap>
+
+	<select id="SP_listareservafiltrosF_EST" statementType="CALLABLE" parameterType="map" resultMap="TDetalleReservaMap">
+		{CALL SP_TimelineFiltro_Estado(
+			#{P_HABITACION, mode=IN, jdbcType=VARCHAR},
+			#{P_ESTADO, mode=IN, jdbcType=VARCHAR})}
+	</select>
+
+</mapper>

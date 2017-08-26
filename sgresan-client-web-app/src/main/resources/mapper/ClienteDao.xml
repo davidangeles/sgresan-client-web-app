@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.sgresan.mapper.ClienteDao">
+
+	<resultMap type="pe.com.sgresan.model.Cliente" id="ClienteMap">
+		<id column="idCliente" property="idCliente" />
+		<result column="tipoCliente" property="tipoCliente" />
+		<result column="ruc" property="ruc" />
+		<result column="razonSocial" property="razonSocial" />
+		<result column="representanteLegal" property="representanteLegal" />
+		<result column="descripcion" property="descripcion" />
+		<result column="T_Persona_idPersona" property="idPersona" />
+	</resultMap>
+
+	<select id="buscaporId" parameterType="String" resultMap="ClienteMap">
+		SELECT * FROM T_CLIENTE
+		<where>
+			IDCLIENTE = #{VALUE}
+		</where>
+	</select>
+
+	<select id="buscaporIdPersona" parameterType="String" resultMap="ClienteMap">
+		SELECT * FROM T_CLIENTE
+		<where>
+			T_PERSONA_IDPERSONA = #{VALUE}
+		</where>
+	</select>
+
+	<select id="buscarTodos" parameterType="map" resultMap="ClienteMap">
+		SELECT * FROM T_CLIENTE
+	</select>
+
+</mapper>

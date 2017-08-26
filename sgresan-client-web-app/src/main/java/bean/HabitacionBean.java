@@ -5,15 +5,22 @@
  */
 package bean;
 
-import dao.HabitacionDao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import model.THabitacion;
+
+import org.apache.commons.codec.binary.Base64;
 import org.primefaces.model.DualListModel;
 
+import dao.HabitacionDao;
+import model.THabitacion;
+import pe.com.sgresan.model.Habitacion;
+import pe.com.sgresan.service.ReservaService;
 /**
  *
  * @author Joel
@@ -33,6 +40,12 @@ public class HabitacionBean {
 
     private DualListModel<THabitacion> cities;
     private Date max;
+    
+    /*** Depurar ***/
+    @ManagedProperty(value = ReservaService.EL_NAME)
+    private ReservaService reservaService;
+    
+    private List<Habitacion> lstImagenesHabitaciones;
 
     /**
      * Creates a new instance of HabitacionBean
@@ -101,6 +114,18 @@ public class HabitacionBean {
         habitacion10.setDescripcion("Piscina al aire libre.\nDisponible de Martes a Domingo");
         images.add(habitacion10);
     }
+    
+	@PostConstruct
+    public void init() {
+    	try {
+    		lstImagenesHabitaciones = reservaService.mostrarImagenesHabitaciones();
+    		for (Habitacion objHabitacion : lstImagenesHabitaciones) {
+    			objHabitacion.setImagenBase64(Base64.encodeBase64String(objHabitacion.getImagen()));    			
+			}
+		} catch (Exception e) {
+			e.getMessage();
+		}    	     
+    }
 
     public void Actualizar() {
         List<THabitacion> citiesSource = new ArrayList<THabitacion>();
@@ -139,17 +164,6 @@ public class HabitacionBean {
         Actualizar();
         System.out.println("Fecha Entrada : " + fecInicio.getDate() + "/" + (fecInicio.getMonth() + 1) + "/" + (fecInicio.getYear() + 1900));
         System.out.println("Fecha Salida : " + fecSalida.getDate() + "/" + (fecSalida.getMonth() + 1) + "/" + (fecSalida.getYear() + 1900));
-        System.out.println(habitacionesdisponibles.size());
-    }
-
-    public void BUSQUEDA2(Date fecE, Date fecS) {
-        HabitacionDao dao = new HabitacionDao();
-        fecIn = (fecE.getYear() + 1900) + "/" + (fecE.getMonth() + 1) + "/" + fecE.getDate();
-        fecSal = (fecS.getYear() + 1900) + "/" + (fecS.getMonth() + 1) + "/" + fecS.getDate();
-        habitacionesdisponibles = dao.listarhabitaciones(fecIn, fecSal);
-        Actualizar();
-        System.out.println("Fecha Entrada : " + fecE.getDate() + "/" + (fecE.getMonth() + 1) + "/" + (fecE.getYear() + 1900));
-        System.out.println("Fecha Salida : " + fecS.getDate() + "/" + (fecS.getMonth() + 1) + "/" + (fecS.getYear() + 1900));
         System.out.println(habitacionesdisponibles.size());
     }
 
@@ -200,5 +214,37 @@ public class HabitacionBean {
     public void setMax(Date max) {
         this.max = max;
     }
+
+	/**
+	 * Returns attribute reservaService
+	 * @return reservaService <code>ReservaService</code>
+	 */
+	public ReservaService getReservaService() {
+		return reservaService;
+	}
+
+	/**
+	 * Sets attribute reservaService
+	 * @param reservaService <code>ReservaService</code>
+	 */
+	public void setReservaService(ReservaService reservaService) {
+		this.reservaService = reservaService;
+	}
+
+	/**
+	 * Returns attribute lstImagenesHabitaciones
+	 * @return lstImagenesHabitaciones <code>List<Habitacion></code>
+	 */
+	public List<Habitacion> getLstImagenesHabitaciones() {
+		return lstImagenesHabitaciones;
+	}
+
+	/**
+	 * Sets attribute lstImagenesHabitaciones
+	 * @param lstImagenesHabitaciones <code>List<Habitacion></code>
+	 */
+	public void setLstImagenesHabitaciones(List<Habitacion> lstImagenesHabitaciones) {
+		this.lstImagenesHabitaciones = lstImagenesHabitaciones;
+	}
 
 }
