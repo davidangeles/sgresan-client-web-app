@@ -174,6 +174,17 @@ public class ReservaService {
 		}
 		return objHabitaciones;
 	}
+	
+	public List<Habitacion> mostrarImagenesHabitacionDetalle(String idHabitacion) throws Exception{
+		List<Habitacion> objHabitaciones = null;
+		try {
+			objHabitaciones = habitacionDao.habitacionDetalleImagen(idHabitacion);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return objHabitaciones;
+	}
 
 }
 

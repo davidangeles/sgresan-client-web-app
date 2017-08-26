@@ -46,6 +46,9 @@ public class HabitacionBean {
     private ReservaService reservaService;
     
     private List<Habitacion> lstImagenesHabitaciones;
+    private List<Habitacion> lstImagenesDetalleHabitaciones;
+    private Habitacion objHabitacion;
+    private String divMostrar;
 
     /**
      * Creates a new instance of HabitacionBean
@@ -117,6 +120,8 @@ public class HabitacionBean {
     
 	@PostConstruct
     public void init() {
+		divMostrar = "habitaciones";  
+		
     	try {
     		lstImagenesHabitaciones = reservaService.mostrarImagenesHabitaciones();
     		for (Habitacion objHabitacion : lstImagenesHabitaciones) {
@@ -126,6 +131,23 @@ public class HabitacionBean {
 			e.getMessage();
 		}    	     
     }
+	
+	public void mostrarDetalle(String idHabitacion) throws Exception{
+		divMostrar = "detalle"; 
+		for (Habitacion habitacion : lstImagenesHabitaciones) {
+			if(habitacion.getIdHabitacion().equals(idHabitacion)){
+				objHabitacion =  habitacion;
+			}
+		}//objHabitacion.setDescripcion("<ul><li style='text-align: left;'>Tiene Televisi&oacute;n.</li></ul>");
+		lstImagenesDetalleHabitaciones = reservaService.mostrarImagenesHabitacionDetalle(objHabitacion.getIdHabitacion());
+		for (Habitacion objHabitacion : lstImagenesDetalleHabitaciones) {
+			objHabitacion.setImagenBase64(Base64.encodeBase64String(objHabitacion.getImagen()));    			
+		}
+	}
+	
+	public void atras() {
+		divMostrar = "habitaciones";
+	}
 
     public void Actualizar() {
         List<THabitacion> citiesSource = new ArrayList<THabitacion>();
@@ -246,5 +268,29 @@ public class HabitacionBean {
 	public void setLstImagenesHabitaciones(List<Habitacion> lstImagenesHabitaciones) {
 		this.lstImagenesHabitaciones = lstImagenesHabitaciones;
 	}
+
+	public List<Habitacion> getLstImagenesDetalleHabitaciones() {
+		return lstImagenesDetalleHabitaciones;
+	}
+
+	public void setLstImagenesDetalleHabitaciones(List<Habitacion> lstImagenesDetalleHabitaciones) {
+		this.lstImagenesDetalleHabitaciones = lstImagenesDetalleHabitaciones;
+	}
+
+	public String getDivMostrar() {
+		return divMostrar;
+	}
+
+	public void setDivMostrar(String divMostrar) {
+		this.divMostrar = divMostrar;
+	}
+
+	public Habitacion getObjHabitacion() {
+		return objHabitacion;
+	}
+
+	public void setObjHabitacion(Habitacion objHabitacion) {
+		this.objHabitacion = objHabitacion;
+	}	
 
 }

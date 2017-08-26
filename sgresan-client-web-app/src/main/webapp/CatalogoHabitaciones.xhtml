@@ -6,7 +6,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:o="http://omnifaces.org/ui">
+	xmlns:o="http://omnifaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 	<ui:define name="titulo">
         Catalogo de Habitaciones        
@@ -31,23 +31,48 @@
 				<link href="${request.contextPath}/resources/css/style.css"
 					rel="stylesheet" type="text/css" />
 			</h:head>
-			<div class="row">
-				<div class="col-sm-12">
-					<h4 class="sub_title">NUESTRAS HABITACIONES</h4>
-				</div>
-				<div class="home_list">
-					<ul>
-						<c:forEach items="#{habitacionBean.lstImagenesHabitaciones}" var="item">
-							<li class="col-md-4 col-sm-6 col-xs-12">
-								<h6 style="color: black; font-weight: 900;">${item.descripcion}</h6>
-								<div class="thumbnail">
-									<h:graphicImage id="myimageid" value="data:image/jpg;base64,#{item.imagenBase64}" style="height: 268.94px; width: 100%;"/>
-								</div> 
-								<p:button value="M&#225;s Informaci&#243;n" icon="ui-icon-star" style="width: 100px;" />
-							</li>
-						</c:forEach>
-					</ul>
-				</div>
+			<div class="row" jsf:id="imagenes">
+				<c:if test="#{habitacionBean.divMostrar == 'habitaciones'}">
+					<div class="col-sm-12">
+						<h4 class="sub_title">NUESTRAS HABITACIONES</h4>
+					</div>
+					<div class="home_list">
+						<ul>
+							<c:forEach items="#{habitacionBean.lstImagenesHabitaciones}"
+								var="item">
+								<li class="col-md-4 col-sm-6 col-xs-12">
+									<h6 style="color: black; font-weight: 900;">${item.descripcion}</h6>
+									<div class="thumbnail">
+										<h:graphicImage value="data:image/jpg;base64,#{item.imagenBase64}"
+											style="height: 268.94px; width: 100%;" />
+									</div> <p:commandButton value="M&#225;s Informaci&#243;n"
+										icon="ui-icon-star" style="width: 100px;"
+										action="#{habitacionBean.mostrarDetalle(item.idHabitacion)}"
+										update="imagenes" />
+								</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</c:if>
+				<c:if test="#{habitacionBean.divMostrar == 'detalle'}">
+					<div class="col-sm-12">
+						<h3 class="sub_title">#{habitacionBean.objHabitacion.descripcion}</h3><br/>
+					</div>
+					<div>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<h:outputText escape="true" value="#{habitacionBean.objHabitacion.descripcion}"/>	
+							<h:outputText id="warningDose" escape="false" styleClass="redText" value="#{habitacionBean.objHabitacion.descripcion}"></h:outputText>					
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<p:galleria value="#{habitacionBean.lstImagenesDetalleHabitaciones}" var="item" showCaption="true" style="max-width: 100%; max-height: 100%; width:auto; height:auto; text-align: left;">
+								<h:graphicImage value="data:image/jpg;base64,#{item.imagenBase64}" alt="Image Description for " title="Algo" style="max-width: 100%; max-height: 100%; width:auto; height:auto;"/>
+							</p:galleria>
+						</div>
+					</div> 
+				</c:if>
+				<div/>
+				<p:commandButton value="Atras" icon="ui-icon-star"
+					style="width: 100px;" action="#{habitacionBean.atras}" update="imagenes"/>
 			</div>
 
 		</h:form>

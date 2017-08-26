@@ -38,5 +38,12 @@
 			visible = 1
 		</where>
 	</select>
+	
+	<select id="habitacionDetalleImagen" parameterType="String" resultMap="HabitacionImagenMap">
+		SELECT idHabitacion, imagen FROM T_HABITACIONDETALLE
+		<where>
+			idHabitacion = #{VALUE}
+		</where>
+	</select>
 
 </mapper>
