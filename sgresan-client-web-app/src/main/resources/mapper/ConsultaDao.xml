@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.sgresan.mapper.ConsultaDao">
+
+	<resultMap type="pe.com.sgresan.entidad.Estadistica" id="EstadisticaMap">
+		<result column="CANTIDAD" property="cantidad" />
+		<result column="FECHA" property="fecha" />
+		<result column="DES" property="texto" />
+	</resultMap>
+
+	<select id="obtenerDataMesActual" statementType="CALLABLE"
+		parameterType="map" resultMap="EstadisticaMap">
+		{CALL SP_EstadisticaMesActual(
+			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
+	</select>
+	
+	<select id="obtenerDataMesesNuevo" statementType="CALLABLE"
+		parameterType="map" resultMap="EstadisticaMap">
+		{CALL SP_EstadisticaMesesNuevo(
+			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
+	</select>
+	
+	<select id="obtenerDataAnual" statementType="CALLABLE"
+		parameterType="map" resultMap="EstadisticaMap">
+		{CALL SP_EstadisticaAnual(
+			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
+	</select>
+
+</mapper>

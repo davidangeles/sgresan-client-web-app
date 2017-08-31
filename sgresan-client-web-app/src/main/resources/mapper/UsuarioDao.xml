@@ -9,7 +9,7 @@
 		<result column="tipoUsuario" property="tipoUsuario" />
 	</resultMap>
 
-	<select id="buscarUsuario" parameterType="UsuarioAlias" resultMap="UsuarioMap">
+	<select id="buscarUsuario" parameterType="pe.com.sgresan.model.Usuario" resultMap="UsuarioMap">
 		SELECT * FROM T_USUARIO
 		<where>
 			nombreUsuario=#{nombreUsuario} 

@@ -1,31 +1,25 @@
 package pe.com.sgresan.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import pe.com.sgresan.common.CommonConstants;
 import pe.com.sgresan.common.EstadoReservaTipo;
 import pe.com.sgresan.common.Utils;
 import pe.com.sgresan.entidad.TimelineDetalleReserva;
-import pe.com.sgresan.entidad.TimelineReserva;
-import pe.com.sgresan.mapper.HabitacionDao;
 import pe.com.sgresan.mapper.ReservaDao;
 import pe.com.sgresan.model.Habitacion;
 import pe.com.sgresan.model.Persona;
 import pe.com.sgresan.model.Reserva;
 import pe.com.sgresan.model.ReservaDetalle;
-import util.HibernateUtil;
 
 @Service(ReservaService.BEAN_NAME)
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -40,10 +34,7 @@ public class ReservaService {
 	
 	@Autowired
 	private ReservaDao reservaDao;	
-	
-	@Autowired
-	private HabitacionDao habitacionDao; 
-	
+		
 	private final Logger logger = Logger.getLogger(this.getClass());
 	
 	public Reserva buscarReservaId(String id) throws Exception{
@@ -57,22 +48,7 @@ public class ReservaService {
 			throw new Exception();
 		}
 		return objReserva;
-	}
-	
-	public List<Habitacion> obtenerHabitacionesDisponibles(String fechaInicio, String fechaFin) throws Exception {
-		List<Habitacion> lstHabitacion = new ArrayList<>();
-		try {
-			Map<String, Object> objParams = new HashMap<String, Object>();
-			objParams.put(CommonConstants.STR_KEY_MAP_FECHAINICIO, fechaInicio);
-			objParams.put(CommonConstants.STR_KEY_MAP_FECHAFIN, fechaFin);
-			lstHabitacion = habitacionDao.habitacionDisponible(objParams);
-		} catch (Exception e) {
-			logger.error(e);
-			throw new Exception();
-		}
-		return lstHabitacion;
-	}
-	
+	}	
 	
 	public void registrarReserva(Reserva objReserva) throws Exception {
 		try {
@@ -161,29 +137,6 @@ public class ReservaService {
 			throw new Exception();
 		}
 		return listTDetalleReserva;
-	}
-	
-	// PASAR AL SERVICIO DE HABITACIONES
-	public List<Habitacion> mostrarImagenesHabitaciones() throws Exception{
-		List<Habitacion> objHabitaciones = null;
-		try {
-			objHabitaciones = habitacionDao.habitacionImagen();
-		} catch (Exception e) {
-			logger.error(e);
-			throw new Exception();
-		}
-		return objHabitaciones;
-	}
-	
-	public List<Habitacion> mostrarImagenesHabitacionDetalle(String idHabitacion) throws Exception{
-		List<Habitacion> objHabitaciones = null;
-		try {
-			objHabitaciones = habitacionDao.habitacionDetalleImagen(idHabitacion);
-		} catch (Exception e) {
-			logger.error(e);
-			throw new Exception();
-		}
-		return objHabitaciones;
 	}
 
 }

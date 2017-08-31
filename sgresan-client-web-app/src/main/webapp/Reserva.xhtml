@@ -42,7 +42,7 @@
           <p:wizard widgetVar="wiz"   
                     flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente"  >
                     <p:tab id="clientetab" title="1.-Cliente" >
-                        <p:panel header="Datos del Cliente" style="width: 500px" >
+                        <p:panel header="Datos del Cliente"  >
                               <h:panelGrid   columns="2"   id="panel2" >
                        <p:outputLabel value="Nombre" style="font-family: cursive;color: #000000" />
                        <p:outputLabel value="#{loginBean.persona.nombres}" style="font-family: cursive;color: #000000" />
@@ -60,7 +60,7 @@
                     </p:tab>
                     
                     <p:tab id="fechatab" title="2.-Fecha">              
-                             <p:panel header="Datos del Fecha" style="width: 500px;height: 300px" >
+                             <p:panel header="Datos de Fecha"  >
                             <h:panelGrid   columns="2" style="margin-right:  auto;" id="detailsBookingInner" >
                                <p:outputLabel value="Fecha de Entrada" style="font-family: cursive;color: #000000" />
                                 <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" locale="es" >
@@ -87,8 +87,9 @@
                     </p:tab>
                     
                     <p:tab id="dormitoriotab" title="3.-Dormitorios">
+                    	<p:panel header="Datos de Fecha"  >
                        <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
-                                       itemLabel="#{cities.tipoHabNombre}" itemValue="#{cities}" converter="entityConverter" style="width: 300px;" 
+                                       itemLabel="#{cities.tipoHabNombre}" itemValue="#{cities}" converter="entityConverter" 
                                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
                             <f:facet name="sourceCaption">Disponibles</f:facet>
                             <f:facet name="targetCaption">Seleccionados</f:facet>
@@ -110,12 +111,13 @@
                             </p:outputLabel> 
                           
                         </h:panelGrid>
+                        </p:panel>
                         
                         
                     </p:tab>
               
               <p:tab id="detalletab" title="4.-Detalle" >
-                         <p:panel header="Información de Reserva" style="width: 500px;height: 300px" >
+                         <p:panel header="Información de Reserva" >
                              <h:panelGrid   columns="2" style="margin-right:  auto"   >
                             <p:outputLabel value="Cliente" style="color: black" />
                             <p:outputLabel style="color: black" value="#{loginBean.persona.nombres} #{loginBean.persona.apellidoP} #{loginBean.persona.apellidoM}"  />

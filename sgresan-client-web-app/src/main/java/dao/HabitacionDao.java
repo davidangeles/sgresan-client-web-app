@@ -8,6 +8,8 @@ package dao;
 import java.util.Date;
 import java.util.List;
 import model.THabitacion;
+import model.TTipohabitacion;
+
 import org.hibernate.Session;
 import util.HibernateUtil;
 
@@ -39,5 +41,11 @@ public class HabitacionDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         int pk = (Integer.parseInt(session.createQuery("select precio from THabitacion where NroHabitacion="+Hab).uniqueResult().toString()))+1;
         return  pk;
+    }
+    
+    public List<TTipohabitacion> listarTipoHabitacion()
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from TTipohabitacion").list();
     }
 }

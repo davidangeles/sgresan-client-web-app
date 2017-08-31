@@ -13,9 +13,7 @@ public class Habitacion {
 	private int idTTipoHabitacion;
 	private String tipoHabNombre;
 	private byte[] imagen;
-	private String imagenBase64;;
-	private Set TReservadetalles = new HashSet(0);
-	private Set THabitaciondetalles = new HashSet(0);	
+	private String imagenBase64;	
 
 	/**
 	 * Returns attribute idHabitacion
@@ -129,42 +127,6 @@ public class Habitacion {
 	 */
 	public void setPrecio(double precio) {
 		this.precio = precio;
-	}
-
-	/**
-	 * Returns attribute tReservadetalles
-	 * 
-	 * @return tReservadetalles <code>Set</code>
-	 */
-	public Set getTReservadetalles() {
-		return TReservadetalles;
-	}
-
-	/**
-	 * Sets attribute tReservadetalles
-	 * 
-	 * @param tReservadetalles
-	 *            <code>Set</code>
-	 */
-	public void setTReservadetalles(Set tReservadetalles) {
-		TReservadetalles = tReservadetalles;
-	}
-
-	/**
-	 * Returns attribute tHabitaciondetalles
-	 * 
-	 * @return tHabitaciondetalles <code>Set</code>
-	 */
-	public Set getTHabitaciondetalles() {
-		return THabitaciondetalles;
-	}
-
-	/**
-	 * Sets attribute tHabitaciondetalles 
-	 * @param tHabitaciondetalles <code>Set</code>
-	 */
-	public void setTHabitaciondetalles(Set tHabitaciondetalles) {
-		THabitaciondetalles = tHabitaciondetalles;
 	}
 
 	/**

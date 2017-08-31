@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pe.com.sgresan.controller;
 
 import java.util.ArrayList;
@@ -39,6 +34,7 @@ import model.TPersona;
 import model.TReserva;
 import model.TReservadetalle;
 import pe.com.sgresan.model.Reserva;
+import pe.com.sgresan.service.HabitacionService;
 import pe.com.sgresan.service.ReservaService;
 import pe.com.sgresan.service.UsuarioService;
 import pe.com.sgresan.common.EstadoReservaTipo;
@@ -50,16 +46,15 @@ import pe.com.sgresan.model.Habitacion;
 import pe.com.sgresan.model.Persona;
 import pe.com.sgresan.model.Usuario;
 
-/**
- *
- * @author Joel
- */
 @ManagedBean
 @SessionScoped
 public class ReservaDetalleBean {
 	
 	@ManagedProperty(value = ReservaService.EL_NAME)
 	private ReservaService reservaService;
+	
+	@ManagedProperty(value = HabitacionService.EL_NAME)
+	private HabitacionService habitacionService;
 	
 	@ManagedProperty(value = UsuarioService.EL_NAME)
 	private UsuarioService usuarioService;
@@ -142,7 +137,7 @@ public class ReservaDetalleBean {
             fecIn = "2016-01-01";
             fecSal = "2017-01-01";
             
-            habitacionesdisponibles = reservaService.obtenerHabitacionesDisponibles(fecIn, fecSal);
+            habitacionesdisponibles = habitacionService.obtenerHabitacionesDisponibles(fecIn, fecSal);
             
             List<Habitacion> citiesSource = new ArrayList<>(habitacionesdisponibles);
             List<Habitacion> citiesTarget = new ArrayList<>();
@@ -327,7 +322,7 @@ public class ReservaDetalleBean {
     }
 
     public void Actualizar() throws Exception {
-        habitacionesdisponibles = reservaService.obtenerHabitacionesDisponibles(fecIn, fecSal);
+        habitacionesdisponibles = habitacionService.obtenerHabitacionesDisponibles(fecIn, fecSal);
         
         List<Habitacion> citiesSource = new ArrayList<>(habitacionesdisponibles);
         List<Habitacion> citiesTarget = new ArrayList<>();
@@ -744,6 +739,22 @@ public class ReservaDetalleBean {
 	 */
 	public void setCities(DualListModel<Habitacion> cities) {
 		this.cities = cities;
+	}
+
+	/**
+	 * Returns attribute habitacionService
+	 * @return habitacionService <code>HabitacionService</code>
+	 */
+	public HabitacionService getHabitacionService() {
+		return habitacionService;
+	}
+
+	/**
+	 * Sets attribute habitacionService
+	 * @param habitacionService <code>HabitacionService</code>
+	 */
+	public void setHabitacionService(HabitacionService habitacionService) {
+		this.habitacionService = habitacionService;
 	}
 	
 }

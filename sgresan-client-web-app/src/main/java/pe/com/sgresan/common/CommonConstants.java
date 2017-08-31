@@ -29,6 +29,7 @@ public class CommonConstants {
     public static final String STR_KEY_MAP_CANTIDAD = "P_CANTIDAD";
     public static final String STR_KEY_MAP_PRECIO = "P_PRECIO";
     public static final String STR_KEY_MAP_ESTADO = "P_ESTADO";
+    public static final String STR_KEY_MAP_ACCION = "P_ACCION";
     
     //
     public static final Integer INT_CORREO_PRERESERVA = 1;

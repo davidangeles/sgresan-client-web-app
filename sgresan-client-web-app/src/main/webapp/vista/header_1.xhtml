@@ -3,52 +3,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:composition>
         <div id="header">
-            <div >
                 <h:form id="formulario"   >
-                    <div >
-                        <table>
-                            <tr>
-                                <td><img src="images/bannerLaQuerenciaBlanco.png" /></td>
-                                <td>
-                                    <h:panelGrid columns="2" class="formLogin">
-                                        <h:outputText id="usuario" value="Usuario : " rendered="#{loginBean.sesion}" />
-                                        <h:inputText value="#{loginBean.usuario.nombreUsuario}" style="width: 100%;" rendered="#{loginBean.sesion}"  />
-                                        <h:outputText value="Contraseña: " rendered="#{loginBean.sesion}" />
-                                        <h:inputSecret value="#{loginBean.usuario.contrasena}" style="width: 100%;" rendered="#{loginBean.sesion}" /><br />
-                                        <h:commandButton value="Entrar" action="#{loginBean.logueo()}" style="width: 100%;" rendered="#{loginBean.sesion}"  />
-                                        <div style="text-align: right;">
-                                            <h:outputText id="ds" value="USUARIO : #{loginBean.usuario.nombreUsuario}" rendered="#{loginBean.sesion eq false}" /><br />
+                    	<div class="row">
+                    		<div class="col-xs-7 col-sm-8 col-md-8">
+                    			<img src="images/banner/logo_1.png" class="img-responsive padding10 visible-md visible-lg" />
+                    			<img src="images/banner/logo_2.png" class="img-responsive padding10 visible-sm visible-xs" />
+                    		</div>
+                    		<div class="col-xs-5 col-sm-4 col-md-4 header-top_right">
+                    			<div jsf:id="login" class="col-sm-12 formLogin">
+                                    <h:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" class="table-center">
+                                    	<c:if test="#{loginBean.sesion eq true}">
+	                                        <h:outputText id="usuario" value="Usuario : " rendered="#{loginBean.sesion}" />
+	                                        <h:inputText value="#{loginBean.usuario.nombreUsuario}" rendered="#{loginBean.sesion}"  />
+	                                        <h:outputText value="Contraseña: " rendered="#{loginBean.sesion}" />
+	                                        <h:inputSecret value="#{loginBean.usuario.contrasena}" rendered="#{loginBean.sesion}" /><br />
+	                                        <h:commandButton value="Entrar" action="#{loginBean.logueo()}" style="margin-top: 5px; width: 100%" rendered="#{loginBean.sesion}" update="login" />
+	                                    </c:if>
+                                        <c:if test="#{loginBean.sesion eq false}">                                        	
+                                            <h:outputText value="Usuario : " />
+                                            <h:outputText value="#{loginBean.usuario.nombreUsuario}" />
+                                            <br /><br /><br />
                                             <p:commandLink id="cerrar" action="#{loginBean.logoud()}" 
-                                                           update=":formulario:ds,:formulario:usuario" title="Cerrar Sesión" rendered="#{loginBean.sesion eq false}"
-                                                           oncomplete="handleLoginRequest(xhr, status, args)" >
+                                                           update="login" title="Cerrar Sesión" oncomplete="handleLoginRequest(xhr, status, args)" >
                                                 <h:outputText value="Cerrar Sesión" />
                                             </p:commandLink>
-                                        </div>
+                                        </c:if>
                                     </h:panelGrid>
-
-                                </td>
-                            </tr>
-                        </table>
-
-
-                        <p:imageSwitch effect="fade" id="fadeEffect">
-                            <ui:repeat value="#{imagesView.images}" var="image" id="fadeEffectImages">
-                                <p:graphicImage url="images/banner/#{image}" id="image" class="banner1" />
-                            </ui:repeat>
-                        </p:imageSwitch>
-                            <!-- <h:commandButton value="Registrate Aqui!!!" rendered="#{loginBean.sesion}" action="RegistroCliente.xhtml" />
-                        --> 
-                    </div>
+                            	</div>
+                    		</div>
+                    	</div>
+				<div>
+					<p:imageSwitch effect="fade">
+						<ui:repeat value="#{imagesView.images}" var="image" id="fadeEffectImages" style="height: auto; width:100%">
+							<p:graphicImage url="images/banner/#{image}" style="height: auto; width:100%" />
+						</ui:repeat>
+					</p:imageSwitch>
+				</div>
                 </h:form>
-            </div>
             <div >
-                <!-- header-box begin -->
                 <ui:include src="/vista/menu.xhtml" />
-                <!-- header-box end -->
             </div>
         </div>  
         <script type="text/javascript">

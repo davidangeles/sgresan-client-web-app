@@ -1,17 +1,3 @@
-#menu{
-    background: #000;
-    width: 976px;
-    z-index: 3;
-}
-
-ul#menu {
-    background: #000;
-    width: 940px;
-    float:left;
-    padding: 5px;
-    position: absolute;
-}
-
 ul#menu li {
     color: #000;
     float: left;
