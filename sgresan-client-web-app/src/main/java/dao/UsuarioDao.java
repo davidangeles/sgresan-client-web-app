@@ -106,4 +106,26 @@ public class UsuarioDao {
         
         
     }
+   public boolean modificarUsuario (TUsuario usuario) {
+       try {
+           Utilidades obj = new Utilidades();
+             String encriptado = obj.encriptar(usuario.getContrasena());
+           usuario.setContrasena(encriptado);
+            sesion = HibernateUtil.getSessionFactory().openSession();
+            trans = sesion.beginTransaction();
+
+            sesion.update(usuario);
+            trans.commit();
+           // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se  agrego Usuario correctamente", "Verificar")); 
+        } catch (Exception ex) {
+            //despues agrego para que salgan mensajes de error  
+            System.out.println("error ::: "+ex.getMessage());
+            trans.rollback();
+            ex.printStackTrace();
+            return false;
+        } finally {
+            sesion.close();
+        }
+        return true;
+    }
 }

@@ -49,7 +49,7 @@ public class ProductoReservaBean {
     private StreamedContent imagen;
     private byte[] img;
     
-    
+    private double sumTotal;
     /**
      * Creates a new instance of ProductoReservaBean
      */
@@ -59,7 +59,7 @@ public class ProductoReservaBean {
         resxprod.setTProducto(new TProducto());
         resxprod.setTReserva(new TReserva());
         
-        accion=1;
+        accion=1;sumTotal=0.0;
         pDao= new ReservaProductoDao();
         proDao = new ProductoDao();
     }
@@ -102,17 +102,32 @@ campo3="";
     
         if(reserva.getIdReserva()!=null){
             listaresxprod= pDao.listarProductosByReserva(reserva.getIdReserva());
+            SUMA();
         }
     
     }
     
+    public void SUMA(){
+        int tam =listaresxprod.size();
+        sumTotal=0.0;
+        if(tam!=0){
+            for (int i = 0; i < tam; i++) {
+                sumTotal=sumTotal+listaresxprod.get(i).getTotal();
+                System.out.println("MONTO ACTUAL : "+listaresxprod.get(i).getTotal()  + " || MONTO ACUMULADO : "+sumTotal);
+            }
+        }
+    }
+    
+    public void OBTENER_CANTIDAD(){
+        System.out.println("CANT : "+ cantidad);
+    }
     public void BUSCAR_PRODUCTO(){
         listaproductos=proDao.listarProductosByCategoria(idCategoria);
    
     }
 
     public void AGREGAR_PRODUCTO_RESERVA(TProducto prod){
-        System.out.println("CANTIDAD :: "+cantidad);
+        cantidad=prod.getStock();
         total=prod.getPrecioUnitario()*cantidad;
         resxprod.setTReserva(reserva);
         resxprod.setTProducto(prod);
@@ -123,6 +138,7 @@ campo3="";
         pDao.InsetartProducto(resxprod);
         
         listaresxprod= pDao.listarProductosByReserva(reserva.getIdReserva());
+        SUMA();
         resxprod = new TResxprod();
         resxprod.setTProducto(new TProducto());
         resxprod.setTReserva(new TReserva());
@@ -223,6 +239,14 @@ campo3="";
 
     public void setImg(byte[] img) {
         this.img = img;
+    }
+
+    public double getSumTotal() {
+        return sumTotal;
+    }
+
+    public void setSumTotal(double sumTotal) {
+        this.sumTotal = sumTotal;
     }
 
     

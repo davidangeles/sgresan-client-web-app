@@ -107,6 +107,8 @@ public class ReservaDetalleBean {
     private String tipohab;
     private String estado;
     private String nombreC;
+    
+    private int diasRepro;
 
     public ReservaDetalleBean() {
         zoomMax = 600000001;
@@ -149,7 +151,7 @@ public class ReservaDetalleBean {
     }
 
     public void INICIALIZACION() {
-        costo = 0.0;
+        costo = 0.0;diasRepro=0;
         motivo = "";
         startm = "";
         endm = "";
@@ -240,13 +242,34 @@ public class ReservaDetalleBean {
         /* reserva =((TReservadetalle)event.getData());
         reserv = reserva.getTReserva();
          */
+        Date fecAnterior = reserva1.getFecha_salida();
         reserva1 = (TimelineReserva) event.getData();
         start = event.getStartDate();
         end = event.getEndDate();
+
+        diasRepro = (int) ((end.getTime() - fecAnterior.getTime()) / 86400000);
+        double res = reserva1.getSubtotal() % 42.4;
+        if (res == 0) {
+            costo = 42.4 * diasRepro * reserva1.getCantTotal();
+        } else {
+            costo = 63.6 * diasRepro * reserva1.getCantTotal();
+        }
+        igv = costo * 0.18;
+        costoTotal = costo + igv;
+
+        System.out.println("CANT PERSONAS : " + reserva1.getCantTotal());
+        System.out.println("MONTO SUB : " + costo);//costo + cities.getTarget().get(i).getPrecio() * dia * reserv.getCantTotal()
+        System.out.println("MONTO IGV : " + igv);
+        System.out.println("MONTO TOTAL  : " + costoTotal);
+        System.out.println("MONTO FINAL :: " + (reserva1.getTotal() + costoTotal));
+        reserva1.setSubtotal(costo);
+        reserva1.setIgv(igv);
+        reserva1.setTotal(costoTotal);
+        System.out.println("Hay " + diasRepro + " dias de diferencia");
+
 //        FacesMessage msg =  
 //            new FacesMessage(FacesMessage.SEVERITY_INFO, "The booking dates " + cuarto.getCuarto() + " have been updated", null);  
 //        FacesContext.getCurrentInstance().addMessage(null, msg);  
-
     }
 
     public void onDrop(TimelineDragDropEvent e) {
@@ -756,5 +779,14 @@ public class ReservaDetalleBean {
 	public void setHabitacionService(HabitacionService habitacionService) {
 		this.habitacionService = habitacionService;
 	}
+
+    public int getDiasRepro() {
+        return diasRepro;
+    }
+
+    public void setDiasRepro(int diasRepro) {
+        this.diasRepro = diasRepro;
+    }
 	
+        
 }

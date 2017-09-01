@@ -5,6 +5,8 @@
  */
 package pe.com.sgresan.controller;
 
+import bean.ReservaVoucherBean;
+import dao.ReservaDao;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
@@ -44,6 +46,8 @@ public class ArchivoBean {
 	private List<Reserva> reservas;
 	private List<Reserva> reservasALL;
 	private StreamedContent imagem;
+        
+        private int accion;
 
 	/**
 	 * Creates a new instance of ArchivoBean
@@ -51,6 +55,7 @@ public class ArchivoBean {
 	public ArchivoBean() {
 		reserva = new Reserva();
 		reserva.setObjCliente(new Cliente());
+                accion=1;
 	}
 
 	public void AGREGAR_BOLETA() {
@@ -127,6 +132,25 @@ public class ArchivoBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Proceso Exitoso", "Se hospedo "));
 	}
+        
+        public void VisualizarImagen(byte[] img){
+        imagem =new DefaultStreamedContent(new ByteArrayInputStream(img));
+    }
+    
+    public void CAMBIARTABLA() throws Exception{
+       	
+        if(accion==1){
+            ReservaDao dao = new ReservaDao();
+            reservasALL = reservaService.reservasPorEstado(EstadoReservaTipo.PRE_RESERVA.getNombre());
+            reservasALL.addAll(reservaService.reservasPorEstado(EstadoReservaTipo.PRE_RESERVA_CV.getNombre()));
+        //reservasALL = dao.listarestadoreserva();)
+         
+        } else{
+            ReservaVoucherBean managedBean = new ReservaVoucherBean();
+           managedBean.CargarTabla();
+        }
+        
+    }
 
 	public UploadedFile getFile() {
 		return file;
@@ -200,5 +224,13 @@ public class ArchivoBean {
 	public void setReservaService(ReservaService reservaService) {
 		this.reservaService = reservaService;
 	}
+
+    public int getAccion() {
+        return accion;
+    }
+
+    public void setAccion(int accion) {
+        this.accion = accion;
+    }
 	
 }

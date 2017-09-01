@@ -153,6 +153,10 @@
                 <h:panelGroup id="ReprogramacionInner" layout="block" style="margin:10px;">  
 
                     <h:panelGrid columns="2" columnClasses="bookingDetails1,bookingDetails2"> 
+                         <h:outputLabel value="Días Adicionales : " />
+                        <h:outputLabel value="#{reservaDetalleBean.diasRepro}" />
+                        <h:outputLabel value="Costo Adicional : " />
+                        <h:outputLabel value="#{reservaDetalleBean.costoTotal}" />
                         <h:outputText value="Fecha Entrada :" />
                         <h:outputText value="#{reservaDetalleBean.start}" >
                         <f:convertDateTime pattern="dd/MM/yyyy" />

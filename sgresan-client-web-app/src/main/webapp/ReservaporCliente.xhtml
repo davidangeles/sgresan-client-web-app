@@ -49,7 +49,7 @@
             </p:column>
 
             <p:column headerText="Archivo" >
-                 <p:commandButton rendered="#{inte.estado eq 'pre-reserva'}"  value="Subir"  oncomplete="PF('VoucherDialog').show();" actionListener="#{archivoBean.buscar(inte.idReserva)}"
+                 <p:commandButton    value="Subir"  oncomplete="PF('VoucherDialog').show();" actionListener="#{archivoBean.buscar(inte.idReserva)}"
                                   />
             </p:column>
 

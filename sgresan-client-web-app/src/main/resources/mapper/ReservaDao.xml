@@ -120,6 +120,10 @@
 			<if test="P_PERSONA != null">
 				CLI.T_PERSONA_IDPERSONA = #{P_PERSONA}
 			</if>
+                        <if test="P_ESTADO != null">
+				RES.estado = #{P_ESTADO}
+			</if>
+                       
 		</where>
 	</select>
 	

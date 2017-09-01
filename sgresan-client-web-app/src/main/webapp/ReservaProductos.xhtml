@@ -87,20 +87,11 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Cantidad" >
-                    <p:spinner value="#{productoReservaBean.cantidad}"  min="0" size="2"  >
-                          <p:ajax   process="@this" />
+                    <p:spinner value="#{inte.stock}"  min="0" size="2"  >
+                        <p:ajax   process="@this" listener="#{productoReservaBean.OBTENER_CANTIDAD()}" />
                     </p:spinner>
                 </p:column>
-                <p:column>
-                    <p:commandButton id="imageBtn"  value="Basic"  update="img_producto_caja"
-                                     actionListener="#{productoReservaBean.DEVOLVER_IMAGEN(inte)}" />
-                    <p:overlayPanel id="imagePanel" for="imageBtn"  
-                                    showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mousedown"
-                    dismissable="false" showCloseIcon="true" >
-                    <p:graphicImage id="img_producto_caja" value="#{productoReservaBean.imagen}" cache="false" width="450" height="250" />  
-                      </p:overlayPanel>
-    
-                </p:column>
+
                 <p:column >
                     <p:commandButton value="Agregar" update=":form_Prod_Res:tab_productosR_S" actionListener="#{productoReservaBean.AGREGAR_PRODUCTO_RESERVA(inte)}" />
                 </p:column>
@@ -131,6 +122,13 @@
                         <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
                     </h:outputText>
                 </p:column>
+                <f:facet name="footer" >
+                     Total : 
+                    <h:outputText value="#{productoReservaBean.sumTotal}"  >
+                        <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                    </h:outputText>
+          
+    </f:facet>
  
             </p:dataTable>
         </h:form>

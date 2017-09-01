@@ -16,12 +16,13 @@ public class TimelineReserva implements Serializable{
 	double igv;
 	double total;
 	String estado;
-
+        int cantTotal;
+        
 	public TimelineReserva() {
 	}
 
 	public TimelineReserva(String idReserva, String cliente, Date fecha_entrada, Date fecha_salida, String descripcion,
-			double subtotal, double igv, double total, String estado) {
+			double subtotal, double igv, double total, String estado, int canTotal) {
 		this.idReserva = idReserva;
 		this.cliente = cliente;
 		this.fecha_entrada = fecha_entrada;
@@ -31,6 +32,7 @@ public class TimelineReserva implements Serializable{
 		this.igv = igv;
 		this.total = total;
 		this.estado = estado;
+                this.cantTotal= canTotal;
 	}
 
 	/**
@@ -176,4 +178,14 @@ public class TimelineReserva implements Serializable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}	
+
+    public int getCantTotal() {
+        return cantTotal;
+    }
+
+    public void setCantTotal(int cantTotal) {
+        this.cantTotal = cantTotal;
+    }
+        
+        
 }
