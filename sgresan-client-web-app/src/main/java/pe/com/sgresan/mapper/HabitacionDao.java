@@ -8,9 +8,5 @@ import pe.com.sgresan.model.Habitacion;
 public interface HabitacionDao {
 	
 	List<Habitacion> habitacionDisponible(Map<String, Object> objMap);
-	
-	List<Habitacion> habitacionImagen();
-	
-	List<Habitacion> habitacionDetalleImagen(String idHabitacion);
 
 }

@@ -10,12 +10,6 @@
 		<result column="idT_TipoHabitacion" property="idTTipoHabitacion" />
 		<result column="tipoHabDesc" property="tipoHabNombre" />
 	</resultMap>
-	
-	<resultMap type="pe.com.sgresan.model.Habitacion" id="HabitacionImagenMap">
-		<id column="idHabitacion" property="idHabitacion" />
-		<result column="descripcion" property="descripcion" />
-		<result column="imagen" property="imagen" />
-	</resultMap>
 
 	<select id="habitacionDisponible" parameterType="map" resultMap="HabitacionMap">
 		SELECT HAB.*, THAB.nombre as tipoHabDesc FROM 
@@ -31,19 +25,5 @@
 			 )
 		</where>
 	</select>
-	
-	<select id="habitacionImagen" parameterType="map" resultMap="HabitacionImagenMap">
-		SELECT * FROM T_HABITACION
-		<where>
-			visible = 1
-		</where>
-	</select>
-	
-	<select id="habitacionDetalleImagen" parameterType="String" resultMap="HabitacionImagenMap">
-		SELECT idHabitacion, imagen FROM T_HABITACIONDETALLE
-		<where>
-			idHabitacion = #{VALUE}
-		</where>
-	</select>
-
+		
 </mapper>

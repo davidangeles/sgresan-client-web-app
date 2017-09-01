@@ -12,8 +12,7 @@ public class Habitacion {
 	private double precio;	
 	private int idTTipoHabitacion;
 	private String tipoHabNombre;
-	private byte[] imagen;
-	private String imagenBase64;	
+	private byte[] imagen;	
 
 	/**
 	 * Returns attribute idHabitacion
@@ -159,22 +158,6 @@ public class Habitacion {
 	 */
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
-	}
-
-	/**
-	 * Returns attribute imagenBase64
-	 * @return imagenBase64 <code>String</code>
-	 */
-	public String getImagenBase64() {
-		return imagenBase64;
-	}
-
-	/**
-	 * Sets attribute imagenBase64
-	 * @param imagenBase64 <code>String</code>
-	 */
-	public void setImagenBase64(String imagenBase64) {
-		this.imagenBase64 = imagenBase64;
 	}
 	
 }

@@ -18,7 +18,9 @@ import org.apache.commons.codec.binary.Base64;
 import org.primefaces.model.DualListModel;
 
 import pe.com.sgresan.common.Utils;
+import pe.com.sgresan.entidad.Imagen;
 import pe.com.sgresan.model.Habitacion;
+import pe.com.sgresan.service.ConsultaService;
 import pe.com.sgresan.service.HabitacionService;
 /**
  *
@@ -40,12 +42,15 @@ public class HabitacionBean {
     
     /*** Depurar ***/
     
+    @ManagedProperty(value = ConsultaService.EL_NAME)
+    private ConsultaService consultaService;
+    
     @ManagedProperty(value = HabitacionService.EL_NAME)
     private HabitacionService habitacionService;
     
-    private List<Habitacion> lstImagenesHabitaciones;
-    private List<Habitacion> lstImagenesDetalleHabitaciones;
-    private Habitacion objHabitacion;
+    private List<Imagen> lstImagenesHabitaciones;
+    private List<Imagen> lstImagenesDetalleHabitaciones;
+    private Imagen objImagen;
     private String divMostrar;
 
     /**
@@ -60,10 +65,9 @@ public class HabitacionBean {
 		divMostrar = "habitaciones";
     	try {    		
     		//Imagenes de Habitaciones
-    		lstImagenesHabitaciones = habitacionService.mostrarImagenesHabitaciones();
-    		for (Habitacion objHabitacion : lstImagenesHabitaciones) {
-    			objHabitacion.setImagenBase64(Base64.encodeBase64String(objHabitacion.getImagen()));    			
-			}
+    		if(Utils.isNull(lstImagenesHabitaciones) || lstImagenesHabitaciones.isEmpty()){
+    			lstImagenesHabitaciones = consultaService.mostrarImagenesHabitaciones();
+    		}
     		
     		//Datos de Habitaciones Disponibles
     		fecIn = "2016-01-01";
@@ -80,16 +84,17 @@ public class HabitacionBean {
 		}    	     
     }
 	
-	public void mostrarDetalle(String idHabitacion) throws Exception{
+	public void mostrarDetalle(String id) throws Exception{
 		divMostrar = "detalle"; 
-		for (Habitacion habitacion : lstImagenesHabitaciones) {
-			if(habitacion.getIdHabitacion().equals(idHabitacion)){
-				objHabitacion =  habitacion;
+		for (Imagen imagen : lstImagenesHabitaciones) {
+			if(imagen.getIdImagen().equals(id)){
+				this.objImagen =  imagen;
+				if(Utils.isNull(objImagen.getLstImagen()) || objImagen.getLstImagen().isEmpty()){
+					objImagen.setLstImagen(consultaService.mostrarImagenesHabitacionDetalle(id));
+				}
+				lstImagenesDetalleHabitaciones = objImagen.getLstImagen();
+				break;
 			}
-		}//objHabitacion.setDescripcion("<ul><li style='text-align: left;'>Tiene Televisi&oacute;n.</li></ul>");
-		lstImagenesDetalleHabitaciones = habitacionService.mostrarImagenesHabitacionDetalle(objHabitacion.getIdHabitacion());
-		for (Habitacion objHabitacion : lstImagenesDetalleHabitaciones) {
-			objHabitacion.setImagenBase64(Base64.encodeBase64String(objHabitacion.getImagen()));    			
 		}
 	}
 	
@@ -160,22 +165,6 @@ public class HabitacionBean {
     }
 
 	/**
-	 * Returns attribute lstImagenesHabitaciones
-	 * @return lstImagenesHabitaciones <code>List<Habitacion></code>
-	 */
-	public List<Habitacion> getLstImagenesHabitaciones() {
-		return lstImagenesHabitaciones;
-	}
-
-	/**
-	 * Sets attribute lstImagenesHabitaciones
-	 * @param lstImagenesHabitaciones <code>List<Habitacion></code>
-	 */
-	public void setLstImagenesHabitaciones(List<Habitacion> lstImagenesHabitaciones) {
-		this.lstImagenesHabitaciones = lstImagenesHabitaciones;
-	}
-
-	/**
 	 * Returns attribute cities
 	 * @return cities <code>DualListModel<Habitacion></code>
 	 */
@@ -191,28 +180,68 @@ public class HabitacionBean {
 		this.cities = cities;
 	}
 
-	public List<Habitacion> getLstImagenesDetalleHabitaciones() {
-		return lstImagenesDetalleHabitaciones;
-	}
-
-	public void setLstImagenesDetalleHabitaciones(List<Habitacion> lstImagenesDetalleHabitaciones) {
-		this.lstImagenesDetalleHabitaciones = lstImagenesDetalleHabitaciones;
-	}
-
+	/**
+	 * Returns attribute divMostrar
+	 * @return divMostrar <code>String</code>
+	 */
 	public String getDivMostrar() {
 		return divMostrar;
 	}
 
+	/**
+	 * Sets attribute divMostrar
+	 * @param divMostrar <code>String</code>
+	 */
 	public void setDivMostrar(String divMostrar) {
 		this.divMostrar = divMostrar;
 	}
 
-	public Habitacion getObjHabitacion() {
-		return objHabitacion;
+	/**
+	 * Returns attribute objImagen
+	 * @return objImagen <code>Imagen</code>
+	 */
+	public Imagen getObjImagen() {
+		return objImagen;
 	}
 
-	public void setObjHabitacion(Habitacion objHabitacion) {
-		this.objHabitacion = objHabitacion;
+	/**
+	 * Sets attribute objImagen
+	 * @param objImagen <code>Imagen</code>
+	 */
+	public void setObjImagen(Imagen objImagen) {
+		this.objImagen = objImagen;
+	}
+
+	/**
+	 * Returns attribute consultaService
+	 * @return consultaService <code>ConsultaService</code>
+	 */
+	public ConsultaService getConsultaService() {
+		return consultaService;
+	}
+
+	/**
+	 * Sets attribute consultaService
+	 * @param consultaService <code>ConsultaService</code>
+	 */
+	public void setConsultaService(ConsultaService consultaService) {
+		this.consultaService = consultaService;
+	}
+
+	/**
+	 * Returns attribute lstImagenesHabitaciones
+	 * @return lstImagenesHabitaciones <code>List<Imagen></code>
+	 */
+	public List<Imagen> getLstImagenesHabitaciones() {
+		return lstImagenesHabitaciones;
+	}
+
+	/**
+	 * Returns attribute lstImagenesDetalleHabitaciones
+	 * @return lstImagenesDetalleHabitaciones <code>List<Imagen></code>
+	 */
+	public List<Imagen> getLstImagenesDetalleHabitaciones() {
+		return lstImagenesDetalleHabitaciones;
 	}
 
 	/**

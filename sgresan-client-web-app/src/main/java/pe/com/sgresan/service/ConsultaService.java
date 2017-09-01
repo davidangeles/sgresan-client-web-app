@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pe.com.sgresan.common.CommonConstants;
 import pe.com.sgresan.entidad.Estadistica;
+import pe.com.sgresan.entidad.Imagen;
 import pe.com.sgresan.mapper.ConsultaDao;
 
 @Service(ConsultaService.BEAN_NAME)
@@ -62,6 +64,34 @@ public class ConsultaService {
 			throw new Exception();
 		}
 		return lstEstadistica;
+	}
+	
+	public List<Imagen> mostrarImagenesHabitaciones() throws Exception{
+		List<Imagen> lstImagen = null;
+		try {
+			lstImagen = consultaDao.imagenHabitaciones();
+			for (Imagen objImagen : lstImagen) {
+				objImagen.setImagenBase64(Base64.encodeBase64String(objImagen.getImagen()));
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstImagen;
+	}
+	
+	public List<Imagen> mostrarImagenesHabitacionDetalle(String idHabitacion) throws Exception{
+		List<Imagen> lstImagen = null;
+		try {
+			lstImagen = consultaDao.imagenDetalleHabitacion(idHabitacion);
+			for (Imagen objImagen : lstImagen) {
+				objImagen.setImagenBase64(Base64.encodeBase64String(objImagen.getImagen()));
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstImagen;
 	}
 
 }

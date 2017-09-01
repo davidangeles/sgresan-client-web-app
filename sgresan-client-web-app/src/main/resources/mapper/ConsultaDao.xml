@@ -25,5 +25,26 @@
 		{CALL SP_EstadisticaAnual(
 			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
 	</select>
+	
+	<resultMap type="pe.com.sgresan.entidad.Imagen" id="ImagenMap">
+		<id column="id" property="idImagen" />
+		<result column="imagen" property="imagen" />
+		<result column="descripcion" property="descripcion" />
+		<result column="descripcion2" property="descripcion2" />		
+	</resultMap>
+	
+	<select id="imagenHabitaciones" resultMap="ImagenMap">
+		SELECT IDHABITACION ID, DESCRIPCION, DESCRIPCION2, IMAGEN FROM T_HABITACION
+		<where>
+			VISIBLE = 1
+		</where>
+	</select>
+	
+	<select id="imagenDetalleHabitacion" parameterType="String" resultMap="ImagenMap">
+		SELECT IMAGEN FROM T_HABITACIONDETALLE
+		<where>
+			idHabitacion = #{VALUE}
+		</where>
+	</select>
 
 </mapper>

@@ -41,27 +41,5 @@ public class HabitacionService {
 		}
 		return lstHabitacion;
 	}
-	
-	public List<Habitacion> mostrarImagenesHabitaciones() throws Exception{
-		List<Habitacion> objHabitaciones = null;
-		try {
-			objHabitaciones = habitacionDao.habitacionImagen();
-		} catch (Exception e) {
-			logger.error(e);
-			throw new Exception();
-		}
-		return objHabitaciones;
-	}
-	
-	public List<Habitacion> mostrarImagenesHabitacionDetalle(String idHabitacion) throws Exception{
-		List<Habitacion> objHabitaciones = null;
-		try {
-			objHabitaciones = habitacionDao.habitacionDetalleImagen(idHabitacion);
-		} catch (Exception e) {
-			logger.error(e);
-			throw new Exception();
-		}
-		return objHabitaciones;
-	}
 
 }
