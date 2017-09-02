@@ -88,7 +88,7 @@
                     
                     <p:tab id="dormitoriotab" title="3.-Dormitorios">
                     	<p:panel header="Datos de Fecha"  >
-                       <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
+                       <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" responsive="true"
                                        itemLabel="#{cities.tipoHabNombre}" itemValue="#{cities}" converter="entityConverter" 
                                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
                             <f:facet name="sourceCaption">Disponibles</f:facet>
