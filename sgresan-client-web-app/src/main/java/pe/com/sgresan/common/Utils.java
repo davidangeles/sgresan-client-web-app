@@ -147,7 +147,7 @@ public class Utils {
 		return matcher.find();
 	}
 
-	public static boolean esSoloNumero(String texto) {
+	public static boolean esSoloNumero(String texto) {texto = texto + "G";
 		Pattern pattern = Pattern.compile(CommonConstants.PATTERN_NUMEROS);
 		Matcher matcher = pattern.matcher(texto);
 		return matcher.find() != true ? false : true;

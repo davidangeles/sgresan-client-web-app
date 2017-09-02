@@ -89,6 +89,16 @@
 	top: 50%;
 }
 
+.ui-selectonemenu-label, .ui-selectonemenu-trigger {
+	-webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+select {
+    color: black !important;
+}
+
 @media ( min-width : 1200px) {
 	.container {
 		width: 1050px !important;

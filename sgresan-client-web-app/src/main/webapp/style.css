@@ -2,9 +2,8 @@ body {
     margin: 0;
     padding: 0;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    font-size: 13px;
     line-height:1.125em; 
-    color:#bca695;
+    color:#836f5f;
     background:url(images/pattern.png) center top #37271c; 
 }
 
@@ -47,7 +46,7 @@ object { vertical-align:top; outline:none;}
 #reservation-form fieldset { border:none;}
 #reservation-form .field { display:block; height:55px;} 
 #reservation-form label { display:block;}
-#reservation-form select { border:1px solid #5d3825; background:#1d110b; color:#bca695;}
+#reservation-form select { border:1px solid #5d3825; background:#1d110b; color: #f1f1f1 !important;}
 #reservation-form select.select1 { width:40px; margin-right:10px;}
 #reservation-form select.select2 { width:127px;}
 #reservation-form input { width:23px; text-align:center; border:1px solid #5d3825; background:#1d110b; color:#bca695;}
@@ -76,9 +75,11 @@ h1 { font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:60px; l
 h1 a { color:#c30000; text-decoration:none;}
 h2 { font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; color:#c30000; font-size:30px; line-height:1em; font-weight:normal; margin-bottom:12px; letter-spacing:-1px;}
 h3 { font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; color:#c30000; font-size:25px; line-height:1em; font-weight:normal; margin-bottom:16px;}
-h4 { font-size:.91em;}
+h4 { color:#c30000;}
 h5 { font-size:1.33em; color:#c30000; padding-top:10px; margin-bottom:26px;}
 h6 { font-size:1em; color:#e7e7e7;}
+
+.ui-galleria-caption h4{color: inherit;}
 
 .txt1 { font-size:.91em;}
 .txt2 { color:#c30000; font-size:1.33em; text-transform:uppercase;}

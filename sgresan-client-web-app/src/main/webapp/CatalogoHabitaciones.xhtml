@@ -59,10 +59,11 @@
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<h4 style="text-align: left;">GALER&#205;A</h4>
 							<p:galleria value="#{habitacionBean.lstImagenesDetalleHabitaciones}" var="item" showCaption="true" style="max-width: 100%; max-height: 100%; width:auto; height:auto; text-align: left;">
-								<h:graphicImage value="data:image/jpg;base64,#{item.imagenBase64}" alt="Image Description for " title="Algo" style="max-width: 100%; max-height: 100%; width:auto; height:auto;"/>
+								<h:graphicImage value="data:image/jpg;base64,#{item.imagenBase64}" alt=" " title="#{habitacionBean.objImagen.descripcion}" style="max-width: 100%; max-height: 100%; width:auto; height:auto;"/>
 							</p:galleria>
 						</div>
 					</div>
+					<br/>
 					<p:commandButton value="Atras" icon="ui-icon-star" style="width: 100px;" action="#{habitacionBean.atras}" update="imagenes" />
 				</c:if>
 			</div>

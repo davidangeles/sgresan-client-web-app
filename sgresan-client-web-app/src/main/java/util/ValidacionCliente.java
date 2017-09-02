@@ -46,7 +46,7 @@ public class ValidacionCliente {
         }
         
        // resultado = ValidacionUtil.esSoloNumero(persona.getDni());
-        if(Utils.esSoloNumero(persona.getDni())== false)
+        if(!Utils.esSoloNumero(persona.getDni()))
         {
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "","El campo DNI debe ser numerico"));
             resultado = false;
