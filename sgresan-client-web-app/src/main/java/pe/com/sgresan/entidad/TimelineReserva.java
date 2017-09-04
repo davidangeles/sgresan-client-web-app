@@ -16,7 +16,7 @@ public class TimelineReserva implements Serializable{
 	double igv;
 	double total;
 	String estado;
-        int cantTotal;
+	int cantTotal;
         
 	public TimelineReserva() {
 	}

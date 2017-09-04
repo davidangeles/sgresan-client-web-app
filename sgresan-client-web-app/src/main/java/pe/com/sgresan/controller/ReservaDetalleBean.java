@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.event.timeline.TimelineAddEvent;
@@ -327,6 +328,7 @@ public class ReservaDetalleBean {
         reserv.setLstHabitacion(cities.getTarget());
         reserv.setObjCliente(objCliente);
         reservaService.registrarReserva(reserv);
+        RequestContext.getCurrentInstance().update(":form:dia");
         INICIALIZACION();
     }
 

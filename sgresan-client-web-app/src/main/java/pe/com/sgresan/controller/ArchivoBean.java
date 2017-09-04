@@ -41,6 +41,9 @@ public class ArchivoBean {
 	@ManagedProperty(value = ReservaService.EL_NAME)
 	private ReservaService reservaService;
 	
+	@ManagedProperty(value = "#{reservaDetalleBean}")
+	private ReservaDetalleBean reservaDetalleBean;
+	
 	private UploadedFile file;
 	private Reserva reserva;
 	private List<Reserva> reservas;
@@ -116,8 +119,7 @@ public class ArchivoBean {
 		objReserva.setEstado(EstadoReservaTipo.RESERVADO.getNombre());
 		reservaService.actualizarReserva(objReserva);
 
-		ReservaDetalleBean rBean = new ReservaDetalleBean();
-		rBean.llenar();
+		reservaDetalleBean.llenar();
 		RequestContext.getCurrentInstance().update(":formRecep:timeline");
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Proceso Exitoso", "Se Aprobo la reserva " + reserva.getIdReserva()));
@@ -143,11 +145,9 @@ public class ArchivoBean {
             ReservaDao dao = new ReservaDao();
             reservasALL = reservaService.reservasPorEstado(EstadoReservaTipo.PRE_RESERVA.getNombre());
             reservasALL.addAll(reservaService.reservasPorEstado(EstadoReservaTipo.PRE_RESERVA_CV.getNombre()));
-        //reservasALL = dao.listarestadoreserva();)
-         
         } else{
             ReservaVoucherBean managedBean = new ReservaVoucherBean();
-           managedBean.CargarTabla();
+            managedBean.CargarTabla();
         }
         
     }
@@ -174,9 +174,6 @@ public class ArchivoBean {
 	 * @throws Exception 
 	 */
 	public List<Reserva> getReservasALL() throws Exception {
-		if(Utils.isNotNull(reservaService)){
-			reservasALL = reservaService.reservasPorEstado(EstadoReservaTipo.PRE_RESERVA.getNombre());
-		}
 		return reservasALL;
 	}
 
@@ -232,5 +229,13 @@ public class ArchivoBean {
     public void setAccion(int accion) {
         this.accion = accion;
     }
+
+	public ReservaDetalleBean getReservaDetalleBean() {
+		return reservaDetalleBean;
+	}
+
+	public void setReservaDetalleBean(ReservaDetalleBean reservaDetalleBean) {
+		this.reservaDetalleBean = reservaDetalleBean;
+	}
 	
 }

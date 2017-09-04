@@ -40,21 +40,22 @@
                     <p:menuitem value="Cambiar Contraseña"  oncomplete="PF('dlgPassword').show();"  />
                 </p:submenu>
             </p:menubar>
-                        <p:dialog header="Basic Dialog" widgetVar="dlgPassword" minHeight="40" modal="true"  >
-                <p:panelGrid columns="2"  >
-                    <p:outputLabel value="Contraseña Actual : " />
-                    <p:password value="#{usuarioBean.pwdActual}" />
-                    <p:outputLabel value="Nueva Contraseña : " />
-                    <p:password value="#{usuarioBean.pwdNueva}" />
-                    <p:outputLabel value="Repetir Nueva Contraseña : " />
-                    <p:password value="#{usuarioBean.pwdNuevaBi}" />
-                    <p:commandButton value="Cambiar" oncomplete="PF('dlgPassword').hide();" update="growl_pwd" actionListener="#{usuarioBean.VALIDAR()}" />
-                    <p:commandButton value="Cancelar "  oncomplete="PF('dlgPassword').hide();" />
-                </p:panelGrid>
-                
+		<p:dialog header="Modificar Contraseña" widgetVar="dlgPassword" minHeight="40"
+			modal="true">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Contraseña Actual : " />
+				<p:password value="#{usuarioBean.pwdActual}" />
+				<p:outputLabel value="Nueva Contraseña : " />
+				<p:password value="#{usuarioBean.pwdNueva}" />
+				<p:outputLabel value="Repetir Nueva Contraseña : " />
+				<p:password value="#{usuarioBean.pwdNuevaBi}" />
+				<p:commandButton value="Cambiar" oncomplete="PF('dlgPassword').hide();" update="growl_pwd" actionListener="#{usuarioBean.VALIDAR()}" />
+				<p:commandButton value="Cancelar" oncomplete="PF('dlgPassword').hide();" />
+			</p:panelGrid>
 
-            </p:dialog>
-            <p:growl id="growl_pwd" showDetail="true"   life="2000" />  
+
+		</p:dialog>
+		<p:growl id="growl_pwd" showDetail="true"   life="2000" />  
         </h:form>
 
     </ui:composition>

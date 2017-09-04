@@ -179,7 +179,7 @@
                         </form>
                         <!--<p:commandButton  value="Registrar y Pagar" oncomplete="handleEnviarPago(xhr, status, args)" actionListener="#{reservaDetalleBean.registrarreserva()}" />-->  
                         <p:commandButton value="Cancelar"   /> 
-                        <p:commandButton update="dia" value="Registrar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}" onclick="PF('dlg2').show();"  oncomplete="PF('wiz').loadStep('clientetab',false)" /> 
+                        <p:commandButton update="dia" value="Registrar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}"    oncomplete="PF('wiz').loadStep('clientetab',false);PF('dlg2').show();" /> 
                         </p:panel>
                     </p:tab>
                 

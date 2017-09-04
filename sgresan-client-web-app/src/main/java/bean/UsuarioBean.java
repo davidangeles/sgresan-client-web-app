@@ -19,6 +19,8 @@ import model.TPersona;
 import model.TUbigeo;
 import model.TUsuario;
 import pe.com.sgresan.common.Utilidades;
+import pe.com.sgresan.common.Utils;
+import pe.com.sgresan.model.Usuario;
 
 /**
  *
@@ -51,13 +53,19 @@ public class UsuarioBean {
 
     public void VALIDAR() throws Exception{
         FacesContext context = FacesContext.getCurrentInstance();
-        TUsuario u =(TUsuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        Usuario usuario =(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        
+        //Modificar ...
+        TUsuario u = new TUsuario();
+        u.setNombreUsuario(usuario.getNombreUsuario());
+        u.setContrasena(pwdActual);
+        u = dao.buscarporusuario(u);
          
         String encriptado = Utilidades.desencriptar(u.getContrasena());
         u.setContrasena(encriptado);
         
         System.out.println("SESSION : "+u.getContrasena() +"||"+pwdActual);
-        if(u.getContrasena().equals(pwdActual)){
+        if(Utils.isNotNull(u) && u.getContrasena().equals(pwdActual)){
           u.setContrasena(pwdNueva);
           if(dao.modificarUsuario(u)){
                 context.addMessage(null, new FacesMessage("Exito", "Se modificó su contraseña"));

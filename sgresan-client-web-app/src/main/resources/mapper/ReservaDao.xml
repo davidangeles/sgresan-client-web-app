@@ -137,6 +137,7 @@
 		<result column="IGV" property="igv" />
 		<result column="total" property="total" />
     	<result column="estado" property="estado" />
+    	<result column="cantTotal" property="cantTotal" />
 	</resultMap>
 	
 	<resultMap type="pe.com.sgresan.entidad.TimelineDetalleReserva" id="TDetalleReservaMap">
