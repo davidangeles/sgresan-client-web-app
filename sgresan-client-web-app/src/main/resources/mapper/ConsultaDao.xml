@@ -47,12 +47,36 @@
 		</where>
 	</select>
 	
+	<resultMap type="pe.com.sgresan.model.ParametroDetalle" id="ParametroDetalle">
+		<id column="id" property="id" />
+		<result column="t_Parametro_idParametro" property="parametroFk" />
+		<result column="nombre" property="nombre" />
+		<result column="valor" property="valor" />
+		<result column="nemonico" property="nemonico" />
+		<result column="valor2" property="valor2" />
+	</resultMap>
+
+	<select id="getParametroDetailPk" resultMap="ParametroDetalle" parameterType="Integer">
+		SELECT nombre, valor, nemonico, valor2 FROM t_parametrodetalle 
+		<where>
+			id = #{idCode}
+		</where>		
+	</select>
+	
+	<select id="obtenerTipoHabitaciones" resultMap="ParametroDetalle">
+		SELECT idT_TipoHabitacion id, nombre FROM T_TIPOHABITACION;
+	</select>
+	
+	<select id="obtenerEstadoReserva" resultMap="ParametroDetalle">
+		SELECT valor id, nombre FROM t_parametrodetalle where T_PARAMETRO_IDPARAMETRO = 2
+		order by valor
+	</select>
+	
 	<select id="obtenerDataFinancieroMesActual" statementType="CALLABLE"
 		parameterType="map" resultMap="EstadisticaMap">
 		{CALL SP_getFinancieroMesActual_S(
 			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
 	</select>
-
 
 	<select id="obtenerDataFinancieroMeses" statementType="CALLABLE"
 		parameterType="map" resultMap="EstadisticaMap">
@@ -65,4 +89,5 @@
 		{CALL SP_getFinancieroAnual_S(
 			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
 	</select>
+
 </mapper>

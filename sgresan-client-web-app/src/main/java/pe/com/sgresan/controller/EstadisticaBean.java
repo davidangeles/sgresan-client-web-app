@@ -67,6 +67,10 @@ public class EstadisticaBean {
 			e.getMessage();
 		}
     }
+    
+    public void onPageLoad(){
+        System.out.println("Carga una vez");
+     }
  
     
     public void ELECCION() throws Exception{

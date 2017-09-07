@@ -29,7 +29,7 @@
 			</h:head>
 			<div class="row" jsf:id="imagenes">
 				<c:if test="#{habitacionBean.divMostrar == 'habitaciones'}">
-					<div class="col-sm-12">
+					<div class="col-sm-12 text-center">
 						<h3 class="sub_title">NUESTRAS HABITACIONES</h3>
 					</div>
 					<div class="col-sm-12">
@@ -40,18 +40,18 @@
 									<div class="thumbnail">
 										<h:graphicImage value="data:image/jpg;base64,#{item.imagenBase64}"
 											style="height: 268.94px; width: 100%;" />
-									</div> <p:commandButton value="M&#225;s Informaci&#243;n"
-										icon="ui-icon-star" action="#{habitacionBean.mostrarDetalle(item.idImagen)}"
-										update="imagenes" />
+									</div>
+									<p:commandButton value="M&#225;s Informaci&#243;n" icon="ui-icon-star" action="#{habitacionBean.mostrarDetalle(item.idImagen)}"
+										update="imagenes" class="btn-block"/>
 								</div>
 							</c:forEach>
 					</div>
 				</c:if>
 				<c:if test="#{habitacionBean.divMostrar == 'detalle'}">
 					<div class="col-sm-12">
-						<h3 class="sub_title">#{habitacionBean.objImagen.descripcion}</h3><br/>
+						<h3 class="sub_title text-center">#{habitacionBean.objImagen.descripcion}</h3><br/>
 					</div>
-					<div>
+					<div class="col-sm-12" style="margin-bottom: 20px;">
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<h4 style="text-align: left;">DESCRIPCI&#211;N</h4>
 							<h:outputText style="text-align: left;" id="warningDose" escape="false" styleClass="redText" value="#{habitacionBean.objImagen.descripcion2}"></h:outputText>					
@@ -63,8 +63,11 @@
 							</p:galleria>
 						</div>
 					</div>
-					<br/>
-					<p:commandButton value="Atras" icon="ui-icon-star" style="width: 100px;" action="#{habitacionBean.atras}" update="imagenes" />
+					<div class="col-md-4 col-sm-4"/>
+					<div class="col-md-4 col-sm-4">
+						<p:commandButton value="Atras" icon="ui-icon-star" action="#{habitacionBean.atras}" update="imagenes" class="btn-block"/>
+					</div>					
+					<div class="col-md-4 col-sm-4"/>										
 				</c:if>
 			</div>
 
