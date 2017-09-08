@@ -68,7 +68,11 @@ public class ArchivoBean {
 				objReserva.setIdReserva(reserva.getIdReserva());
 				byte[] bytes = IOUtils.toByteArray(file.getInputstream());
 				objReserva.setVoucher(bytes);
-				objReserva.setEstado(EstadoReservaTipo.PRE_RESERVA_CV.getNombre());
+				 
+						if(reserva.getEstado().equals("pre-reserva") || reserva.getEstado().equals("pre-reserva-cv")){
+							objReserva.setEstado(EstadoReservaTipo.PRE_RESERVA_CV.getNombre());
+		               }
+				
 				reservaService.actualizarReserva(objReserva);
 			} else {
 				FacesContext context = FacesContext.getCurrentInstance();
