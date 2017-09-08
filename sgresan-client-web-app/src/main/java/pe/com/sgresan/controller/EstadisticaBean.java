@@ -15,8 +15,11 @@ import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LegendPlacement;
 
 import dao.HabitacionDao;
+import dao.ProductoDao;
+import model.TProducto;
 import model.TTipohabitacion;
 import pe.com.sgresan.entidad.Estadistica;
+import pe.com.sgresan.entidad.TipoPago;
 import pe.com.sgresan.service.ConsultaService;
 
 @ManagedBean
@@ -35,22 +38,31 @@ public class EstadisticaBean {
 	private BarChartModel barraMeses;
 	private BarChartModel barraAnual;
 
-    HabitacionDao hDao;
+    HabitacionDao hDao;ProductoDao pDao;
     private int valor;
     private int accion;
+    
+    private List<Estadistica> listaFinanciero;
+    private List<TProducto> listaProducto;
+    
+    private int valorFinanciero;
+    private int accionFinanciero;
+    private BarChartModel barraFinanciero;
 
     public EstadisticaBean() {
         valor=1;accion=1;
+        valorFinanciero=2;accionFinanciero=1;
     }
     
     @PostConstruct
     public void init() {
     	try {
             hDao = new HabitacionDao();
-            
+            pDao = new ProductoDao();
             createAnimatedModels(); 
             createAnimatedModelsMeses();
             createAnimatedModelsAnual();
+            createAnimatedModelsFinMesActual();
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -65,6 +77,17 @@ public class EstadisticaBean {
                 createAnimatedModelsMeses(); break;
             case 3:
                 createAnimatedModelsAnual(); break;
+        }   
+    }
+    
+    public void ELECCION_FIN() throws Exception{
+        switch(valorFinanciero) {
+            case 1:
+                createAnimatedModelsFinMesActual(); break;
+            case 2: 
+                createAnimatedModelsFinMeses(); break;
+            case 3:
+                createAnimatedModelsFinAnual(); break;
         }   
     }
     
@@ -95,6 +118,35 @@ public class EstadisticaBean {
 		getBarraAnual().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
 		getBarraAnual().setBarWidth(20);
 	}
+	
+	private void createAnimatedModelsFinMesActual() throws Exception {
+		setBarraFinanciero(initBarModelFinancieroMesActual());
+		getBarraFinanciero().setTitle("Monto en S/. del Mes");
+		getBarraFinanciero().setAnimate(true);
+		getBarraFinanciero().setLegendPosition("s");
+		getBarraFinanciero().setLegendRows(1);
+		getBarraFinanciero().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+	}
+	
+	private void createAnimatedModelsFinMeses() throws Exception {
+		setBarraFinanciero(initBarModelFinancieroMeses());
+		getBarraFinanciero().setTitle("Monto en S/. de los Meses");
+		getBarraFinanciero().setAnimate(true);
+		getBarraFinanciero().setLegendPosition("s");
+		getBarraFinanciero().setLegendRows(1);
+		getBarraFinanciero().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+	}
+	
+	private void createAnimatedModelsFinAnual() throws Exception {
+		setBarraFinanciero(initBarModelFinancieroAnual());
+		getBarraFinanciero().setTitle("Monto en S/. por Años");
+		getBarraFinanciero().setAnimate(true);
+		getBarraFinanciero().setLegendPosition("s");
+		getBarraFinanciero().setLegendRows(1);
+		getBarraFinanciero().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+		getBarraFinanciero().setBarWidth(20);
+	}
+
 
     
 	private BarChartModel initBarModel() throws Exception {
@@ -202,6 +254,208 @@ public class EstadisticaBean {
 		return model;
 	}
 
+	
+	/*************************Estadistica Financiero********************************************/
+	private BarChartModel initBarModelFinancieroMesActual() throws Exception {
+		BarChartModel model = new BarChartModel();
+
+		Axis xAxis = model.getAxis(AxisType.X);
+		xAxis.setTickAngle(-60);
+		listaFinanciero = new ArrayList<Estadistica>();
+		listaFinanciero.addAll(consultaService.visitaFinancieroMesActual(accionFinanciero));
+
+		List<ChartSeries> listaBarra = new ArrayList<ChartSeries>();
+		switch(accionFinanciero){
+		case 1:
+			
+			ChartSeries est = new ChartSeries();
+			est.setLabel("Monto en S/");
+
+			for (int i = 0; i < listaFinanciero.size(); i++) {
+				est.set(listaFinanciero.get(i).getFecha(), listaFinanciero.get(i).getCantidad());
+				// est.set(x, y);
+			}
+			model.addSeries(est);
+			
+			break;
+			
+		case 2 :
+			
+			
+			
+			List<TipoPago> listaPagos = new ArrayList<>();
+			listaPagos.add(new TipoPago(1,"Efectivo"));
+			listaPagos.add(new TipoPago(1,"Deposito"));
+			listaPagos.add(new TipoPago(1,"Venta P/S"));
+			for (int i = 0; i < listaPagos.size(); i++) {
+				 
+				listaBarra.add(new ChartSeries());
+				listaBarra.get(i).setLabel(listaPagos.get(i).getNombre());
+				for (int j = 0; j < listaFinanciero.size(); j++) {
+					 
+					if (listaFinanciero.get(j).getTexto().equals(listaPagos.get(i).getNombre())) {
+						listaBarra.get(i).set(listaFinanciero.get(j).getFecha(), listaFinanciero.get(j).getCantidad());
+					}
+				}
+				model.addSeries(listaBarra.get(i));
+		
+		}
+			break;
+		case 3 :
+			 
+			listaProducto = pDao.listarProductos();
+		 
+			for (int i = 0; i < listaProducto.size(); i++) {
+				 
+				listaBarra.add(new ChartSeries());
+				listaBarra.get(i).setLabel(listaProducto.get(i).getNombreProducto());
+				for (int j = 0; j < listaFinanciero.size(); j++) {
+					 
+					if (listaFinanciero.get(j).getTexto().equals(listaProducto.get(i).getNombreProducto())) {
+						listaBarra.get(i).set(listaFinanciero.get(j).getFecha(), listaFinanciero.get(j).getCantidad());
+					}
+				}
+				model.addSeries(listaBarra.get(i));
+		
+		}break;
+			}
+   	return model;
+	}
+
+	
+	private BarChartModel initBarModelFinancieroMeses() throws Exception {
+		BarChartModel model = new BarChartModel();
+
+		Axis xAxis = model.getAxis(AxisType.X);
+		xAxis.setTickAngle(-60);
+		listaFinanciero = new ArrayList<Estadistica>();
+		listaFinanciero.addAll(consultaService.visitaFinancieroMeses(accionFinanciero));
+
+		List<ChartSeries> listaBarra = new ArrayList<ChartSeries>();
+		switch(accionFinanciero){
+		case 1:
+			
+			ChartSeries est = new ChartSeries();
+			est.setLabel("Monto en S/");
+
+			for (int i = 0; i < listaFinanciero.size(); i++) {
+				est.set(listaFinanciero.get(i).getFecha(), listaFinanciero.get(i).getCantidad());
+				// est.set(x, y);
+			}
+			model.addSeries(est);
+			
+			break;
+			
+		case 2 :
+			
+			
+			
+			List<TipoPago> listaPagos = new ArrayList<>();
+			listaPagos.add(new TipoPago(1,"Efectivo"));
+			listaPagos.add(new TipoPago(1,"Deposito"));
+			listaPagos.add(new TipoPago(1,"Venta P/S"));
+			for (int i = 0; i < listaPagos.size(); i++) {
+				 
+				listaBarra.add(new ChartSeries());
+				listaBarra.get(i).setLabel(listaPagos.get(i).getNombre());
+				for (int j = 0; j < listaFinanciero.size(); j++) {
+					 
+					if (listaFinanciero.get(j).getTexto().equals(listaPagos.get(i).getNombre())) {
+						listaBarra.get(i).set(listaFinanciero.get(j).getFecha(), listaFinanciero.get(j).getCantidad());
+					}
+				}
+				model.addSeries(listaBarra.get(i));
+		
+		}
+			break;
+			
+	
+		default:
+			 
+			listaProducto = pDao.listarProductos();
+		 
+			for (int i = 0; i < listaProducto.size(); i++) {
+				 
+				listaBarra.add(new ChartSeries());
+				listaBarra.get(i).setLabel(listaProducto.get(i).getNombreProducto());
+				for (int j = 0; j < listaFinanciero.size(); j++) {
+					 
+					if (listaFinanciero.get(j).getTexto().equals(listaProducto.get(i).getNombreProducto())) {
+						listaBarra.get(i).set(listaFinanciero.get(j).getFecha(), listaFinanciero.get(j).getCantidad());
+					}
+				}
+				model.addSeries(listaBarra.get(i));
+		
+		}break;
+			}
+   	return model;
+	}
+	
+	private BarChartModel initBarModelFinancieroAnual() throws Exception {
+		BarChartModel model = new BarChartModel();
+
+		Axis xAxis = model.getAxis(AxisType.X);
+		listaFinanciero = new ArrayList<Estadistica>();
+		listaFinanciero.addAll(consultaService.visitaFinancieroAnual(accionFinanciero));
+
+		List<ChartSeries> listaBarra = new ArrayList<ChartSeries>();
+		switch(accionFinanciero){
+		case 1:
+			
+			ChartSeries est = new ChartSeries();
+			est.setLabel("Monto en S/");
+
+			for (int i = 0; i < listaFinanciero.size(); i++) {
+				est.set(listaFinanciero.get(i).getFecha(), listaFinanciero.get(i).getCantidad());
+				// est.set(x, y);
+			}
+			model.addSeries(est);
+			
+			break;
+			
+		case 2 :
+			
+			
+			
+			List<TipoPago> listaPagos = new ArrayList<>();
+			listaPagos.add(new TipoPago(1,"Efectivo"));
+			listaPagos.add(new TipoPago(1,"Deposito"));
+			listaPagos.add(new TipoPago(1,"Venta P/S"));
+			for (int i = 0; i < listaPagos.size(); i++) {
+				 
+				listaBarra.add(new ChartSeries());
+				listaBarra.get(i).setLabel(listaPagos.get(i).getNombre());
+				for (int j = 0; j < listaFinanciero.size(); j++) {
+					 
+					if (listaFinanciero.get(j).getTexto().equals(listaPagos.get(i).getNombre())) {
+						listaBarra.get(i).set(listaFinanciero.get(j).getFecha(), listaFinanciero.get(j).getCantidad());
+					}
+				}
+				model.addSeries(listaBarra.get(i));
+		
+		}
+			break;
+		case 3 :
+			 
+			listaProducto = pDao.listarProductos();
+		 
+			for (int i = 0; i < listaProducto.size(); i++) {
+				 
+				listaBarra.add(new ChartSeries());
+				listaBarra.get(i).setLabel(listaProducto.get(i).getNombreProducto());
+				for (int j = 0; j < listaFinanciero.size(); j++) {
+					 
+					if (listaFinanciero.get(j).getTexto().equals(listaProducto.get(i).getNombreProducto())) {
+						listaBarra.get(i).set(listaFinanciero.get(j).getFecha(), listaFinanciero.get(j).getCantidad());
+					}
+				}
+				model.addSeries(listaBarra.get(i));
+		
+		}break;
+			}
+   	return model;
+	}
+	
     public int getValor() {
         return valor;
     }
@@ -241,11 +495,20 @@ public class EstadisticaBean {
     public void setAccion(int accion) {
         this.accion = accion;
     }
+    
 
     public List<TTipohabitacion> getListaTipoHab() {
-        listaTipoHab = hDao.listarTipoHabitacion();
         return listaTipoHab;
     }
+    
+
+	public List<TProducto> getListaProducto() {
+		return listaProducto;
+	}
+
+	public void setListaProducto(List<TProducto> listaProducto) {
+		this.listaProducto = listaProducto;
+	}
 
 	/**
 	 * Returns attribute consultaService
@@ -262,6 +525,31 @@ public class EstadisticaBean {
 	public void setConsultaService(ConsultaService consultaService) {
 		this.consultaService = consultaService;
 	}
-    
-    
+
+	public int getValorFinanciero() {
+		return valorFinanciero;
+	}
+
+	public void setValorFinanciero(int valorFinanciero) {
+		this.valorFinanciero = valorFinanciero;
+	}
+
+	public int getAccionFinanciero() {
+		return accionFinanciero;
+	}
+
+	public void setAccionFinanciero(int accionFinanciero) {
+		this.accionFinanciero = accionFinanciero;
+	}
+
+	public BarChartModel getBarraFinanciero() {
+		return barraFinanciero;
+	}
+
+	public void setBarraFinanciero(BarChartModel barraFinanciero) {
+		this.barraFinanciero = barraFinanciero;
+	}
+
+	 
+                               
 }

@@ -93,5 +93,45 @@ public class ConsultaService {
 		}
 		return lstImagen;
 	}
+	
+	public List<Estadistica> visitaFinancieroMesActual(int accion) throws Exception {
+		List<Estadistica> lstEstadistica = new ArrayList<>();
+		try {
+			Map<String, Object> objParams = new HashMap<>();
+			objParams.put(CommonConstants.STR_KEY_MAP_ACCION, accion);
+			lstEstadistica = consultaDao.obtenerDataFinancieroMesActual(objParams);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstEstadistica;
+	}
+	
+	public List<Estadistica> visitaFinancieroMeses(int accion) throws Exception {
+		List<Estadistica> lstEstadistica = new ArrayList<>();
+		try {
+			Map<String, Object> objParams = new HashMap<>();
+			objParams.put(CommonConstants.STR_KEY_MAP_ACCION, accion);
+			lstEstadistica = consultaDao.obtenerDataFinancieroMeses(objParams);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstEstadistica;
+	}
+	
+	public List<Estadistica> visitaFinancieroAnual(int accion) throws Exception {
+		List<Estadistica> lstEstadistica = new ArrayList<>();
+		try {
+			Map<String, Object> objParams = new HashMap<>();
+			objParams.put(CommonConstants.STR_KEY_MAP_ACCION, accion);
+			lstEstadistica = consultaDao.obtenerDataFinancieroAnual(objParams);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstEstadistica;
+	}
+
 
 }

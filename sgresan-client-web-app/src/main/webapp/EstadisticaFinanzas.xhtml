@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./vista/Plantilla_main_1.xhtml">
+
+            <ui:define name="titulo">
+                Estadisticas Financieras
+            </ui:define>
+
+            <ui:define name="top">
+                 
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form_GraficosReservas"  >
+                     <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" id="pnl_RP" >
+                        <p:outputLabel  for="consoleF" value="Ver por : " />
+                        <p:selectOneRadio id="consoleF" value="#{estadisticaBean.valorFinanciero}" >
+                            <f:selectItem itemLabel="Día" itemValue="1" />
+                            <f:selectItem itemLabel="Mes" itemValue="2" />
+                            <f:selectItem itemLabel="Año" itemValue="3" />
+                            <p:ajax update="form_GraficosReservas" event="valueChange" listener="#{estadisticaBean.ELECCION_FIN()}"  />
+
+                          </p:selectOneRadio>
+                        
+                        
+                         <p:outputLabel  for="accF" value="Ver por : " />
+                         <p:selectOneRadio id="accF" value="#{estadisticaBean.accionFinanciero}" >
+                            <f:selectItem itemLabel="Monto Total" itemValue="1" />
+                            <f:selectItem itemLabel="Monto Total por Tipo de Pago" itemValue="2" />
+                            <f:selectItem itemLabel="Monto Total por Ventas de Productos/Servicios" itemValue="3" />
+                            <f:selectItem itemLabel="Cantidad Total por Ventas de Productos/Servicios" itemValue="4" />
+                            <p:ajax update="form_GraficosReservas" event="valueChange" listener="#{estadisticaBean.ELECCION_FIN()}"  />
+
+                          </p:selectOneRadio>
+                </h:panelGrid>
+                     <p:chart type="bar" model="#{estadisticaBean.barraFinanciero}" id="barraFinDia"    style="height: 400px;" />
+              
+            </h:form>
+                
+                
+            </ui:define>
+
+            <ui:define name="bottom">
+                 
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

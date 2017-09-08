@@ -46,5 +46,23 @@
 			idHabitacion = #{VALUE}
 		</where>
 	</select>
+	
+	<select id="obtenerDataFinancieroMesActual" statementType="CALLABLE"
+		parameterType="map" resultMap="EstadisticaMap">
+		{CALL SP_getFinancieroMesActual_S(
+			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
+	</select>
 
+
+	<select id="obtenerDataFinancieroMeses" statementType="CALLABLE"
+		parameterType="map" resultMap="EstadisticaMap">
+		{CALL SP_getFinancieroMeses_S(
+			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
+	</select>
+	
+	 <select id="obtenerDataFinancieroAnual" statementType="CALLABLE"
+		parameterType="map" resultMap="EstadisticaMap">
+		{CALL SP_getFinancieroAnual_S(
+			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
+	</select>
 </mapper>
