@@ -110,9 +110,10 @@ public class ReservaDetalleBean {
     private String nombreC;
     
     private int diasRepro;
+    private String lblReserva;
 
     public ReservaDetalleBean() {
-        zoomMax = 600000001;
+        zoomMax = 600000001;lblReserva="";
         event = new TimelineEvent();
         tipohab = "";estado="";
         costo = 0;
@@ -318,7 +319,7 @@ public class ReservaDetalleBean {
 				.get("persona"));    	
     	Cliente objCliente = usuarioService.buscarClienteIdPersona(objPersona.getIdPersona());
     	objCliente.setObjPersona(objPersona);
-    	        
+       
         reserv.setEstado("pre-reserva");
         reserv.setFechaRegistro(new Date());
         reserv.setModalidadPago("Deposito");
@@ -328,7 +329,8 @@ public class ReservaDetalleBean {
         reserv.setLstHabitacion(cities.getTarget());
         reserv.setObjCliente(objCliente);
         reservaService.registrarReserva(reserv);
-        RequestContext.getCurrentInstance().update(":form:dia");
+        lblReserva=reserv.getIdReserva();
+        //RequestContext.getCurrentInstance().update(":form:dia");
         INICIALIZACION();
     }
 
@@ -789,6 +791,14 @@ public class ReservaDetalleBean {
     public void setDiasRepro(int diasRepro) {
         this.diasRepro = diasRepro;
     }
+
+	public String getLblReserva() {
+		return lblReserva;
+	}
+
+	public void setLblReserva(String lblReserva) {
+		this.lblReserva = lblReserva;
+	}
 	
         
 }

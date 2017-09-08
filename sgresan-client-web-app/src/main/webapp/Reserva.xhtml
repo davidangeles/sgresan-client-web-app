@@ -5,7 +5,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
 
     <ui:define name="top">
        
@@ -39,6 +40,7 @@
         
         
         <h:form id="form" >
+
           <p:wizard widgetVar="wiz"   
                     flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente"  >
                     <p:tab id="clientetab" title="1.-Cliente" >
@@ -179,7 +181,7 @@
                         </form>
                         <!--<p:commandButton  value="Registrar y Pagar" oncomplete="handleEnviarPago(xhr, status, args)" actionListener="#{reservaDetalleBean.registrarreserva()}" />-->  
                         <p:commandButton value="Cancelar"   /> 
-                        <p:commandButton update="dia" value="Registrar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}"    oncomplete="PF('wiz').loadStep('clientetab',false);PF('dlg2').show();" /> 
+                        <p:commandButton update="dia" value="Registrar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}"  onstart="PF('blockUIWidget').block()"   oncomplete="PF('wiz').loadStep('clientetab',false);PF('dlg2').show();PF('blockUIWidget').unblock();"  /> 
                         </p:panel>
                     </p:tab>
                 
@@ -187,11 +189,17 @@
             <p:graphicImage value="#{reservaDetalleBean.rutaImagen}" width="500" height="300" id="img_hab" />       
             <p:dialog  header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
                 <h:panelGrid   id="dia" columns="1" style="margin-right:  auto;background: none;" cellpadding="4"  >
-                    <h:outputText value="Su Código de Reserva es el siguiente: #{reservaDetalleBean.reserv.idReserva}" />
+                    <h:outputText value="Su Código de Reserva es el siguiente: #{reservaDetalleBean.lblReserva} " />
                 <p:commandButton value="Aceptar" action="index.xhtml" />
                 </h:panelGrid>
                 
             </p:dialog> 
+             <pe:blockUI widgetVar="blockUIWidget">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage url="resources/img/loading2.gif"    /> 
+                    <h:outputText value="Registrando..." style="white-space: nowrap;"/>  
+                </h:panelGrid>  
+            </pe:blockUI> 
         </h:form>
       
         <script type='text/javascript'>
