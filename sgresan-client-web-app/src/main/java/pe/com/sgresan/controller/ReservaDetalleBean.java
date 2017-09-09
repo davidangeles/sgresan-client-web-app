@@ -61,6 +61,7 @@ public class ReservaDetalleBean {
 	private UsuarioService usuarioService;
 	
 	private Reserva reserv;
+	private boolean blHospedar;
 
     /**
      * *** ACTUALIZACION ****
@@ -220,13 +221,17 @@ public class ReservaDetalleBean {
         if(reserva1.getEstado().equals("pre-reserva-cv")){
             reserva1.setEstado("pre-reserva");
         }
-        /*reserva =((TReservadetalle)event.getData());
-           startm=reserva.getTReserva().getFechaEntrada().getDate()+"/"+(reserva.getTReserva().getFechaEntrada().getMonth()+1)+"/"+(reserva.getTReserva().getFechaEntrada().getYear()+1900);
-           endm=reserva.getTReserva().getFechaSalida().getDate()+"/"+(reserva.getTReserva().getFechaSalida().getMonth()+1)+"/"+(reserva.getTReserva().getFechaSalida().getYear()+1900);
-         */
+
         ReservaDao rdao = new ReservaDao();
         //list= rdao.listarNumeroCuartos(reserva.getTReserva().getIdReserva());
         list = rdao.listarNumeroCuartos(reserva1.getIdReserva());
+        
+        //PREGUNTAR A JOEL
+        blHospedar = false;
+        if(EstadoReservaTipo.RESERVADO.getNombre().equals(reserva1.getEstado()) &&
+        		Utils.getString(new Date()).equals(Utils.getString(reserva1.getFecha_entrada()))){
+        	blHospedar = true;
+        }
     }
 
     public void onDelete(TimelineModificationEvent e) {
@@ -798,6 +803,14 @@ public class ReservaDetalleBean {
 
 	public void setLblReserva(String lblReserva) {
 		this.lblReserva = lblReserva;
+	}
+
+	/**
+	 * Returns attribute blHospedar
+	 * @return blHospedar <code>boolean</code>
+	 */
+	public boolean isBlHospedar() {
+		return blHospedar;
 	}
 	
         

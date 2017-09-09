@@ -62,7 +62,7 @@
                 <p:outputLabel value="ESTADO :" style="color: black;"  />
                 <p:outputLabel value="#{reservaDetalleBean.reserva1.estado}" style="color: black;"  />
                 <br/><br/>
-                <p:commandButton   rendered="#{reservaDetalleBean.reserva1.estado eq 'reservado' or reservaDetalleBean.reserva.TReserva.estado eq 'pre-reserva'}" 
+                <p:commandButton   rendered="#{reservaDetalleBean.blHospedar}" 
                                    value="Marcar Llegada" 
                                    actionListener="#{reservaDetalleBean.HOSPEDAR()}"
                                    update=":info:panelinfo,:formRecep:timeline,growlM" style="margin-left: 30%" />

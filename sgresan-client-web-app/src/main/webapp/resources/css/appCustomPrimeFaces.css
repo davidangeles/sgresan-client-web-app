@@ -8,7 +8,7 @@
     border-style: none;
 }
 
-.ui-selectonemenu, .ui-selectonemenu-label, .ui-selectcheckboxmenu {
+.ui-selectonemenu, .ui-selectonemenu-label, .ui-selectcheckboxmenu, .ui-spinner, .ui-spinner-input, .ui-inputtext {
     width: 100%;
 	min-width: auto !important;
 }

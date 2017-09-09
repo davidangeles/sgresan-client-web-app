@@ -96,6 +96,7 @@ public class ProductoBean {
                 String strBase64 = Base64.encodeBase64String(bytes);
                 producto.setImagen(strBase64);
                 System.out.println(file.getFileName());
+                producto.setStock(1);
                 pDao.InsetartProducto(producto);
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Se agrego el producto " + producto.getNombreProducto()));
@@ -113,6 +114,7 @@ public class ProductoBean {
     }
 
     public void ACTUALIZARPRODUCTO() {
+    	producto.setStock(1);
         pDao.ActualizarProducto(producto);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Se actualizo los datos del producto " + producto.getNombreProducto()));

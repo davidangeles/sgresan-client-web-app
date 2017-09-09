@@ -10,6 +10,7 @@ import dao.ReservaDao;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -60,6 +61,15 @@ public class ArchivoBean {
 		reserva.setObjCliente(new Cliente());
                 accion=1;
 	}
+	
+    @PostConstruct
+    public void init() {
+    	try {
+    		CAMBIARTABLA();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
 
 	public void AGREGAR_BOLETA() {
 		try {
@@ -127,6 +137,8 @@ public class ArchivoBean {
 		RequestContext.getCurrentInstance().update(":formRecep:timeline");
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Proceso Exitoso", "Se Aprobo la reserva " + reserva.getIdReserva()));
+		
+		CAMBIARTABLA();
 	}
 
 	private void HOSPEDAR(String idReserva) throws Exception {
