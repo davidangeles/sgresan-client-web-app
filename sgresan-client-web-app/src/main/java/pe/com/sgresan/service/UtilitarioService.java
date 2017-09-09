@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import pe.com.sgresan.common.CommonConstants;
 import pe.com.sgresan.common.Email;
-import pe.com.sgresan.mapper.ParametrodetalleDao;
+import pe.com.sgresan.mapper.ConsultaDao;
 import pe.com.sgresan.model.ParametroDetalle;
 
 @Service(UtilitarioService.BEAN_NAME)
@@ -19,11 +19,11 @@ public class UtilitarioService {
 	public static final String EL_NAME = "#{utilitarioService}";
 
 	@Autowired
-	private ParametrodetalleDao parametrodetalleDao;
+	private ConsultaDao consultaDao;
 
 	@SuppressWarnings("deprecation")
 	public void enviarCorreoHTML(Integer idCorreo, Map<String, String> map) throws Exception {
-		ParametroDetalle obj = parametrodetalleDao.getParametroDetailPk(idCorreo);
+		ParametroDetalle obj = consultaDao.getParametroDetailPk(idCorreo);
 
 		StrSubstitutor objStrTemplate = new StrSubstitutor(map);
 

@@ -14,6 +14,7 @@ import pe.com.sgresan.common.CommonConstants;
 import pe.com.sgresan.entidad.Estadistica;
 import pe.com.sgresan.entidad.Imagen;
 import pe.com.sgresan.mapper.ConsultaDao;
+import pe.com.sgresan.model.ParametroDetalle;
 
 @Service(ConsultaService.BEAN_NAME)
 public class ConsultaService {
@@ -92,6 +93,28 @@ public class ConsultaService {
 			throw new Exception();
 		}
 		return lstImagen;
+	}
+	
+	public List<ParametroDetalle> obtenerTipoHabitaciones() throws Exception{
+		List<ParametroDetalle> lstParametro = null;
+		try {
+			lstParametro = consultaDao.obtenerTipoHabitaciones();
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstParametro;
+	}
+	
+	public List<ParametroDetalle> obtenerEstadoReserva() throws Exception{
+		List<ParametroDetalle> lstEstReserva = null;
+		try {
+			lstEstReserva = consultaDao.obtenerEstadoReserva();
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstEstReserva;
 	}
 	
 	public List<Estadistica> visitaFinancieroMesActual(int accion) throws Exception {

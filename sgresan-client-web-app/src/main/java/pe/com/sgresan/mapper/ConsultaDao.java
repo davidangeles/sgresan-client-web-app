@@ -5,6 +5,8 @@ import java.util.Map;
 
 import pe.com.sgresan.entidad.Estadistica;
 import pe.com.sgresan.entidad.Imagen;
+import pe.com.sgresan.model.ParametroDetalle;
+import pe.com.sgresan.model.Habitacion;
 
 public interface ConsultaDao {
 	
@@ -17,6 +19,12 @@ public interface ConsultaDao {
 	List<Imagen> imagenHabitaciones();
 	
 	List<Imagen> imagenDetalleHabitacion(String idHabitacion);
+
+	ParametroDetalle getParametroDetailPk(Integer id);
+	
+	List<ParametroDetalle> obtenerTipoHabitaciones();
+	
+	List<ParametroDetalle> obtenerEstadoReserva();
 	
 	List<Estadistica> obtenerDataFinancieroMesActual(Map<String, Object> objParams);
 	

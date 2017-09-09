@@ -150,6 +150,11 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>2.2.1-b04</version>
+		</dependency>
 		<!-- Jasper -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>

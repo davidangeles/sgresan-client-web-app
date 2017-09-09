@@ -10,6 +10,8 @@ public class CommonConstants {
 	public static final String STR_DECIMAL_FORMAT = "#,#,#,#,#,#,#,#,#,#";
 	public static final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 	
+	public static final String STR_DEFAULT_COMBO_DESCRIPTION = "TODOS";
+	
 	// Patterns
 	public static final String PATTERN_LETRAS = "[^A-Za-zÃ±Ã‘Ã¡Ã©Ã­Ã³ÃºÃ¼Ã�Ã‰Ã�Ã“Ãš \\- ]";
     public static final String PATTERN_ALFA_NUMERICO = "[^A-Za-z0-9]";
