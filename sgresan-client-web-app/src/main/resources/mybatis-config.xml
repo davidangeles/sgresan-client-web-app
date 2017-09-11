@@ -9,9 +9,7 @@
 		<mapper resource="mapper/PersonaDao.xml" />
 		<mapper resource="mapper/ClienteDao.xml" />
 		<mapper resource="mapper/ReservaDao.xml" />
-		<mapper resource="mapper/HabitacionDao.xml" />			
-		<mapper resource="mapper/ParametrodetalleDao.xml" />
-		
+		<mapper resource="mapper/HabitacionDao.xml" />		
 		<mapper resource="mapper/ConsultaDao.xml" />
 	</mappers>
 </configuration>
