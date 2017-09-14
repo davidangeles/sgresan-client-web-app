@@ -90,5 +90,30 @@
 			#{P_ACCION, mode=IN, jdbcType=INTEGER})}
 	</select>
 	
+	<resultMap type="pe.com.sgresan.entidad.GraficoReserva" id="GraficoReservaMap">
+		<id column="COUNT" property="cantidad" />
+		<result column="DATE" property="fecha" />
+		<result column="STATE" property="estadoReserva" />
+<!-- 		<result column="PAYMENT_TYPE" property="tipoHabitacion" /> -->
+	</resultMap>	
+	
+	<select id="obtenerReporteReserva1" resultMap="GraficoReservaMap" >
+		SELECT COUNT(1) as COUNT, DATE_FORMAT(R.FECHAREGISTRO, "%Y-%m-%d") AS DATE, R.ESTADO AS STATE, R.MODALIDADPAGO AS PAYMENT_TYPE
+		FROM SGRESAN.T_RESERVA R 
+		<where>
+			(SELECT COUNT(1) FROM SGRESAN.T_RESERVADETALLE RD2 WHERE RD2.T_RESERVA_IDRESERVA = R.IDRESERVA) > 0
+			<if test="FECHA_INICIO != null and FECHA_FIN != null" >
+				AND DATE(R.FECHAREGISTRO) BETWEEN #{FECHA_INICIO, jdbcType=TIMESTAMP} AND #{FECHA_FIN, jdbcType=TIMESTAMP}
+			</if>
+			<if test="P_SELECT_1 != null">
+                AND R.ESTADO IN
+                 <foreach item="item" index="index" collection="P_SELECT_1" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+			</if>
+		</where>		
+		GROUP BY DATE(R.FECHAREGISTRO), R.ESTADO, R.MODALIDADPAGO
+		ORDER BY DATE(R.FECHAREGISTRO)
+	</select>
 
 </mapper>

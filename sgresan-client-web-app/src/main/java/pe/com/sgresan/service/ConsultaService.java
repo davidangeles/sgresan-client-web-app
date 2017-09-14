@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import pe.com.sgresan.common.CommonConstants;
 import pe.com.sgresan.entidad.Estadistica;
+import pe.com.sgresan.entidad.FiltroBusqueda;
+import pe.com.sgresan.entidad.GraficoReserva;
 import pe.com.sgresan.entidad.Imagen;
 import pe.com.sgresan.mapper.ConsultaDao;
 import pe.com.sgresan.model.ParametroDetalle;
@@ -154,6 +156,27 @@ public class ConsultaService {
 			throw new Exception();
 		}
 		return lstEstadistica;
+	}
+	
+	public GraficoReserva obtenerEstadisticaReserva(FiltroBusqueda filtroBusqueda) throws Exception{
+		GraficoReserva objGraficoReserva = new GraficoReserva();
+		try {
+			Map<String, Object> objParams = new HashMap<>();
+			objParams.put(CommonConstants.STR_KEY_MAP_FECHAINICIO, filtroBusqueda.getFechaInicio());
+			objParams.put(CommonConstants.STR_KEY_MAP_FECHAFIN, filtroBusqueda.getFechaFin());
+			objParams.put(CommonConstants.STR_KEY_MAP_SELECT_1, filtroBusqueda.getSelectedString1());
+			objParams.put(CommonConstants.STR_KEY_MAP_SELECT_2, filtroBusqueda.getSelectedInteger1());
+			
+			
+			List<GraficoReserva> lstDataReserva = consultaDao.obtenerReporteReserva1(objParams);
+			
+			
+			objGraficoReserva.setLstDataReserva(lstDataReserva);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return objGraficoReserva;
 	}
 
 

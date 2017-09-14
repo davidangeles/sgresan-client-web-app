@@ -7,6 +7,7 @@ public class CommonConstants {
 	public static final String STR_SEPARATOR = ",";
 	
 	public static final String STR_DATE_FORMAT = "dd/MM/yyyy";
+	public static final String STR_DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
 	public static final String STR_DECIMAL_FORMAT = "#,#,#,#,#,#,#,#,#,#";
 	public static final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 	
@@ -32,6 +33,8 @@ public class CommonConstants {
     public static final String STR_KEY_MAP_PRECIO = "P_PRECIO";
     public static final String STR_KEY_MAP_ESTADO = "P_ESTADO";
     public static final String STR_KEY_MAP_ACCION = "P_ACCION";
+    public static final String STR_KEY_MAP_SELECT_1 = "P_SELECT_1";
+    public static final String STR_KEY_MAP_SELECT_2 = "P_SELECT_2";
     
     //
     public static final Integer INT_CORREO_PRERESERVA = 1;

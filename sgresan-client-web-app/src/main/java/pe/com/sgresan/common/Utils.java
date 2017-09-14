@@ -99,8 +99,7 @@ public class Utils {
 				} else if (objGeneric instanceof String) {
 					strValue = objGeneric.toString();
 				} else if (objGeneric instanceof Date) {
-					SimpleDateFormat sdf = new SimpleDateFormat(CommonConstants.STR_DATE_FORMAT);
-					strValue = sdf.format(objGeneric);
+					strValue = convertDatetoString((Date)objGeneric, CommonConstants.STR_DATE_FORMAT);
 				} else if (objGeneric instanceof Double) {
 					Double dblData = (Double) objGeneric;
 					DecimalFormat objPattern = new DecimalFormat(CommonConstants.STR_DECIMAL_FORMAT);
@@ -116,6 +115,25 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return strValue;
+	}
+	
+	/**
+	 * Gets string from date
+	 * @param dtDate <code>Date</code>
+	 * @param strFormat <code>String</code>
+	 * @return strNewDate <code>String</code>
+	 */
+	public static String convertDatetoString(Date dtDate, String strFormat) {
+		String strNewDate = CommonConstants.STR_EMPTY;
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat(strFormat);
+			if (dtDate != null){
+				strNewDate = sdf.format(dtDate);
+			}	
+		} catch (Exception e) {
+			return null;
+		}
+		return strNewDate;
 	}
 
 	public static boolean validaCantidad(String p, int cant) {
