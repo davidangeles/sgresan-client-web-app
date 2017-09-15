@@ -8,7 +8,7 @@ public class GraficoReserva {
 	
 	//Datos Resultado
 	private BigInteger cantidad;
-	private Date fecha;
+	private String fecha;
 	private String estadoReserva;
 	private String tipoHabitacion;
 	
@@ -33,20 +33,20 @@ public class GraficoReserva {
 	
 	/**
 	 * Returns attribute fecha
-	 * @return fecha <code>Date</code>
+	 * @return fecha <code>String</code>
 	 */
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
-	
+
 	/**
 	 * Sets attribute fecha
-	 * @param fecha <code>Date</code>
+	 * @param fecha <code>String</code>
 	 */
-	public void setFecha(Date fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	
+
 	/**
 	 * Returns attribute estadoReserva
 	 * @return estadoReserva <code>String</code>

@@ -166,6 +166,7 @@ public class ConsultaService {
 			objParams.put(CommonConstants.STR_KEY_MAP_FECHAFIN, filtroBusqueda.getFechaFin());
 			objParams.put(CommonConstants.STR_KEY_MAP_SELECT_1, filtroBusqueda.getSelectedString1());
 			objParams.put(CommonConstants.STR_KEY_MAP_SELECT_2, filtroBusqueda.getSelectedInteger1());
+			objParams.put(CommonConstants.STR_KEY_MAP_TIPOFECHA, filtroBusqueda.getParameterInteger1());
 			
 			
 			List<GraficoReserva> lstDataReserva = consultaDao.obtenerReporteReserva1(objParams);

@@ -35,6 +35,7 @@ public class CommonConstants {
     public static final String STR_KEY_MAP_ACCION = "P_ACCION";
     public static final String STR_KEY_MAP_SELECT_1 = "P_SELECT_1";
     public static final String STR_KEY_MAP_SELECT_2 = "P_SELECT_2";
+    public static final String STR_KEY_MAP_TIPOFECHA = "P_TIPOFECHA";
     
     //
     public static final Integer INT_CORREO_PRERESERVA = 1;

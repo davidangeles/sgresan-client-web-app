@@ -26,7 +26,7 @@
 						<p:outputLabel value="Ver por" />
 					</div>
 					<div class="form-group col-md-2 col-sm-2 col-xs-3">
-						<p:selectOneMenu value="1" >
+						<p:selectOneMenu value="#{graficosEstBean.filtroBusqueda.parameterInteger1}" >
 							<f:selectItem itemLabel="Día" itemValue="1" />
 							<f:selectItem itemLabel="Mes" itemValue="2" />
 							<f:selectItem itemLabel="Año" itemValue="3" />
@@ -59,14 +59,15 @@
 						<p:selectCheckboxMenu id="multiple2" value="#{graficosEstBean.filtroBusqueda.selectedInteger1}" filter="true" filterMatchMode="startsWith" label="&nbsp;">							
 							<f:selectItems value="#{graficosEstBean.lstTipoHabitacion}" var="hab" itemLabel="#{hab.nombre}" itemValue="#{hab.id}"/> 
 						</p:selectCheckboxMenu>
-					</div>					
+					</div>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
+						<p:commandButton value="BUSCAR" action="#{graficosEstBean.buscar}" update=":form_GraficosReservas" />
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<p:chart type="line" model="#{graficosEstBean.dateModel}" style="height:400px;" responsive="true"/>
+					</div>				
 				</div>
-				<div class="row">
-					<p:commandButton value="BUSCAR" action="#{graficosEstBean.buscar}" update=":form_GraficosReservas" />
-				</div>
-				<div class="row">
-					<p:chart type="line" model="#{graficosEstBean.dateModel}" style="height:400px;" responsive="true"/>
-				</div>
+				
 
 				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" id="pnl_RP" >
 					

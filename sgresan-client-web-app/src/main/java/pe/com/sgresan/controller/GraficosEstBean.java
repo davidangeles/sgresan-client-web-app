@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -13,6 +14,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.CategoryAxis;
+import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
@@ -56,7 +59,7 @@ public class GraficosEstBean {
 			
 			/** Inicializar los Filtros de busqueda **/
 			filtroBusqueda = new FiltroBusqueda();
-			
+			filtroBusqueda.setParameterInteger1(CommonConstants.I_UNO);
 			filtroBusqueda.setSelectedString1(selectedEstReserva);
 			filtroBusqueda.setSelectedInteger1(selectedHabitacion);
 			
@@ -99,31 +102,40 @@ public class GraficosEstBean {
 		//Llenar LineChart
 		dateModel = new LineChartModel();
 		for(Object objValue : objParams.keySet()){
-			LineChartSeries series = new LineChartSeries();
+			ChartSeries series = new ChartSeries();
+			 if(CommonConstants.I_UNO == filtroBusqueda.getParameterInteger1().intValue()){
+				 series = new LineChartSeries();
+			 }
 			series.setLabel(Utils.getString(objValue).toUpperCase());
 			
-			Map<String, BigInteger> objData = (Map<String, BigInteger>) objParams.get(objValue);
+			Map<String, BigInteger> objData = (Map<String, BigInteger>) objParams.get(objValue);new TreeMap<String, BigInteger>(objData);
 			for (String objString : objData.keySet()) {
 				series.set(objString, objData.get(objString));
 			}
 			dateModel.addSeries(series);
 		}
 		
-		dateModel.setTitle("Zoom for Details");
-        dateModel.getAxis(AxisType.Y).setLabel("Values");
-        DateAxis axis = new DateAxis("Dates");
-        axis.setTickAngle(-50);
-//        axis.setMax("2017-09-13");
-        axis.setTickFormat("%d/%m/%y");
+		dateModel.setTitle("Cantidad de Reservas");
+        dateModel.getAxis(AxisType.Y).setLabel("Cantidad");
+        
+        if(CommonConstants.I_UNO == filtroBusqueda.getParameterInteger1().intValue()){
+        	 DateAxis axis = new DateAxis("Fechas");
+             axis.setTickAngle(-50);
+//             axis.setMax("2017-09-13");
+             axis.setTickFormat("%d/%m/%y");
+             dateModel.getAxes().put(AxisType.X, axis);
+        }else{
+        	dateModel.setShowPointLabels(true);
+        	dateModel.getAxes().put(AxisType.X, new CategoryAxis("Fechas"));
+        }       
         dateModel.setAnimate(true);
         dateModel.setLegendPosition("s");
         dateModel.setLegendRows(1);
-        dateModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
-        dateModel.getAxes().put(AxisType.X, axis);
+        dateModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);        
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void armarDataLineChart(Map<Object, Object> objParams, BigInteger cantidad, Date fecha, Object valor){
+	private void armarDataLineChart(Map<Object, Object> objParams, BigInteger cantidad, String fecha, Object valor){
 		if(Utils.isNull(objParams.get(valor))){
 			Map<String, BigInteger> objData = new HashMap<>();
 			objParams.put(valor, objData);
@@ -131,10 +143,10 @@ public class GraficosEstBean {
 		
 		Map<String, BigInteger> objData = (Map<String, BigInteger>) objParams.get(valor);
 		if(Utils.isNull(objData.get(fecha))){
-			objData.put(Utils.convertDatetoString(fecha, CommonConstants.STR_DATE_FORMAT_YYYY_MM_DD), cantidad);
+			objData.put(fecha, cantidad);
 		}else{
 			BigInteger total = objData.get(fecha);
-			objData.put(Utils.convertDatetoString(fecha, CommonConstants.STR_DATE_FORMAT_YYYY_MM_DD), total.add(cantidad));
+			objData.put(fecha, total.add(cantidad));
 		}		
 	}
 
