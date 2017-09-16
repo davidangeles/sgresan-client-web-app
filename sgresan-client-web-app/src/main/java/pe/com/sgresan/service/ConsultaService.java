@@ -170,9 +170,11 @@ public class ConsultaService {
 			
 			
 			List<GraficoReserva> lstDataReserva = consultaDao.obtenerReporteReserva1(objParams);
+			List<GraficoReserva> lstDataReserva2 = consultaDao.obtenerReporteReserva2(objParams);
 			
 			
 			objGraficoReserva.setLstDataReserva(lstDataReserva);
+			objGraficoReserva.setLstDataHabitación(lstDataReserva2);
 		} catch (Exception e) {
 			logger.error(e);
 			throw new Exception();

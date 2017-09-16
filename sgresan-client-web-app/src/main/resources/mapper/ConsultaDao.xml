@@ -94,7 +94,7 @@
 		<id column="COUNT" property="cantidad" />
 		<result column="DATE" property="fecha" />
 		<result column="STATE" property="estadoReserva" />
-<!-- 		<result column="PAYMENT_TYPE" property="tipoHabitacion" /> -->
+		<result column="TIHAB" property="tipoHabitacion" />
 	</resultMap>	
 	
 	<select id="obtenerReporteReserva1" resultMap="GraficoReservaMap" >
@@ -124,6 +124,34 @@
 			</where>
 		) RS
 		GROUP BY RS.DATE, RS.STATE
+		ORDER BY RS.DATE
+	</select>
+	
+	<select id="obtenerReporteReserva2" resultMap="GraficoReservaMap" >
+		SELECT COUNT(1) AS COUNT, RS.DATE, RS.TIHAB FROM (
+			SELECT DATE_FORMAT(R.FECHAREGISTRO, ELT(#{P_TIPOFECHA}, "%Y-%m-%d", "%Y-%m", "%Y")) AS DATE, H.IDT_TIPOHABITACION as TIHAB
+			FROM SGRESAN.T_RESERVA R 
+			INNER JOIN SGRESAN.T_RESERVADETALLE RD ON (R.IDRESERVA = RD.T_RESERVA_IDRESERVA)
+			INNER JOIN SGRESAN.T_HABITACION H ON (RD.T_HABITACION_IDHABITACION = H.IDHABITACION)
+			<where>
+				<if test="FECHA_INICIO != null and FECHA_FIN != null" >
+					AND DATE(R.FECHAREGISTRO) BETWEEN #{FECHA_INICIO, jdbcType=TIMESTAMP} AND #{FECHA_FIN, jdbcType=TIMESTAMP}
+				</if>
+				<if test="P_SELECT_1 != null and P_SELECT_1.length > 0">
+	                AND R.ESTADO IN
+	                 <foreach item="item" index="index" collection="P_SELECT_1" open="(" separator="," close=")">
+	                    #{item}
+	                </foreach>
+				</if>
+				<if test="P_SELECT_2 != null and P_SELECT_2.length > 0">
+					AND H.IDT_TIPOHABITACION IN
+					<foreach item="item" index="index" collection="P_SELECT_2" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</if>
+			</where>			
+		) RS
+		GROUP BY RS.DATE, RS.TIHAB
 		ORDER BY RS.DATE
 	</select>
 

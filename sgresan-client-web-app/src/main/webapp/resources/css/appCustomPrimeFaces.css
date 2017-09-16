@@ -16,3 +16,8 @@
 .ui-calendar, .ui-calendar input {
 	width: 100%
 }
+
+table.jqplot-table-legend{
+    font-size: unset !important;
+    border: none !important;
+}

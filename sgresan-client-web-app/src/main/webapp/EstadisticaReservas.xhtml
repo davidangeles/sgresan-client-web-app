@@ -64,8 +64,14 @@
 						<p:commandButton value="BUSCAR" action="#{graficosEstBean.buscar}" update=":form_GraficosReservas" />
 					</div>
 					<div class="col-md-12 col-sm-12 col-xs-12">
-						<p:chart type="line" model="#{graficosEstBean.dateModel}" style="height:400px;" responsive="true"/>
-					</div>				
+						<p:chart type="line" model="#{graficosEstBean.dateModel}" style="height:500px;" responsive="true"/>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<p:chart type="bar" model="#{graficosEstBean.barModel}" style="height:400px" responsive="true"/>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<p:chart type="pie" model="#{graficosEstBean.pieModel}" style="height:400px" responsive="true"/>
+					</div>
 				</div>
 				
 

@@ -135,6 +135,25 @@ public class Utils {
 		}
 		return strNewDate;
 	}
+	
+	/**
+	 * Takes the specific format and converts the date in that format
+	 * @param strDate <code>Date</code>
+	 * @param strFormat <code>String</code>
+	 * @return dtDate <code>Date</code>
+	 */
+	public static Date convertStringtoDate(String strDate, String strFormat) {
+		SimpleDateFormat sdf = new SimpleDateFormat(strFormat);
+		Date dtDate = null;
+		try {
+			if (strDate != null && strDate.trim().length() > CommonConstants.I_CERO)
+				dtDate = sdf.parse(strDate);
+		} catch (Exception e) {
+			return  null;
+		}
+
+		return dtDate;
+	}
 
 	public static boolean validaCantidad(String p, int cant) {
 		if (p == null || p.trim().length() != cant) {
