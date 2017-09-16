@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./vista/Plantilla_main_1.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="titulo">
+        Administrar Cliente
+    </ui:define>
+
+    <ui:define name="top">
+     
+    </ui:define>
+
+    <ui:define name="content">
+                 <h:form>
+                 
+                 <h2>Responda una breve encuesta</h2>
+                 
+                  <h4>Producto/Servicios que utilizó</h4>
+	         <p:selectOneMenu id="basic" value="#{encuestaBean.valor}" style="width: 300px;" >
+					<f:selectItems value="#{encuestaBean.listaC}" var="cat" itemLabel="#{cat.nombreCategoria}" itemValue="#{cat.idCategoria}" />	
+				  <p:ajax listener="#{encuestaBean.ELECCION()}" update="grid2" />
+	        </p:selectOneMenu>
+	                 
+	    <p:selectManyCheckbox id="grid2"   layout="responsive" columns="3">
+	        <f:selectItems value="#{encuestaBean.listaP}" var="prod" itemLabel="#{prod.nombreProducto}" itemValue="#{prod.idProducto}" />
+	    </p:selectManyCheckbox>
+	    
+	     <h4>Comentario acerca del hospedaje</h4>
+	     <p:inputTextarea></p:inputTextarea>
+	     
+	     <h4>¿Qué aspecto le agrado más del hospedaje?</h4>
+	     <p:inputTextarea></p:inputTextarea>
+	     
+	     <h4>¿Qué aspecto le desagrado más del hospedaje?</h4>
+	     <p:inputTextarea></p:inputTextarea>
+	     <br/>
+	     <p:commandButton value="Enviar" ></p:commandButton>
+	     
+    </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -74,31 +74,6 @@
 					</div>
 				</div>
 				
-
-				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" id="pnl_RP" >
-					
-                        <p:outputLabel  for="console" value="Ver por : " />
-                        <p:selectOneRadio id="console" value="#{estadisticaBean.valor}" >
-                            <f:selectItem itemLabel="Día" itemValue="1" />
-                            <f:selectItem itemLabel="Mes" itemValue="2" />
-                            <f:selectItem itemLabel="Año" itemValue="3" />
-                            <p:ajax update="form_GraficosReservas" event="valueChange" listener="#{estadisticaBean.ELECCION()}"  />
-
-                          </p:selectOneRadio>
-                        
-                        
-                         <p:outputLabel  for="acc" value="Ver por : " />
-                         <p:selectOneRadio id="acc" value="#{estadisticaBean.accion}" >
-                            <f:selectItem itemLabel="Cant. Reservas" itemValue="1" />
-                            <f:selectItem itemLabel="Cant. Personas" itemValue="2" />
-                            <f:selectItem itemLabel="Tipo de Habitaciones" itemValue="3" />
-                            <p:ajax update="form_GraficosReservas" event="valueChange" listener="#{estadisticaBean.ELECCION()}"  />
-
-                          </p:selectOneRadio>
-                </h:panelGrid>
-                     <p:chart type="bar" model="#{estadisticaBean.barra}" id="barraDia"  rendered="#{estadisticaBean.valor eq 1}" style="height: 400px;" />
-                     <p:chart type="bar" model="#{estadisticaBean.barraMeses}" id="barraMes" rendered="#{estadisticaBean.valor eq 2}" style="height: 400px;"  />
-                     <p:chart type="bar" model="#{estadisticaBean.barraAnual}" id="barraAnual" rendered="#{estadisticaBean.valor eq 3}" style="height: 400px;"  />
               
             </h:form>
                 
