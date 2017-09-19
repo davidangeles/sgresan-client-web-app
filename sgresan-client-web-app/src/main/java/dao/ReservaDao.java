@@ -222,6 +222,7 @@ public class ReservaDao {
     { 
         boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
+         System.out.println("FE : "+reserva.getFecha_entrada()+"FS :"+reserva.getFecha_salida());
          try {
              Query q = session.createSQLQuery("{ CALL SP_ModificarReserva(:accion,:reserva,:flag,:motivo,:inicio,:fin,:cst,:igv_n,:cst_t) }");
              q.setParameter("accion", accion);

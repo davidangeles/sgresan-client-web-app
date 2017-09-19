@@ -1,5 +1,7 @@
 package pe.com.sgresan.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -253,6 +255,10 @@ public class ReservaDetalleBean {
         reserva1 = (TimelineReserva) event.getData();
         start = event.getStartDate();
         end = event.getEndDate();
+        if(event.getEndDate().getHours()==0){
+        	end = devolverFechaAct(event.getEndDate());
+        }
+      
 
         diasRepro = (int) ((end.getTime() - fecAnterior.getTime()) / 86400000);
         double res = reserva1.getSubtotal() % 42.4;
@@ -264,6 +270,7 @@ public class ReservaDetalleBean {
         igv = costo * 0.18;
         costoTotal = costo + igv;
 
+        
         System.out.println("CANT PERSONAS : " + reserva1.getCantTotal());
         System.out.println("MONTO SUB : " + costo);//costo + cities.getTarget().get(i).getPrecio() * dia * reserv.getCantTotal()
         System.out.println("MONTO IGV : " + igv);
@@ -355,6 +362,7 @@ public class ReservaDetalleBean {
 
     public void Actualizar() throws Exception {
         habitacionesdisponibles = habitacionService.obtenerHabitacionesDisponibles(fecIn, fecSal);
+ 
         
         List<Habitacion> citiesSource = new ArrayList<>(habitacionesdisponibles);
         List<Habitacion> citiesTarget = new ArrayList<>();
@@ -363,12 +371,15 @@ public class ReservaDetalleBean {
     }
 
     public void BUSQUEDA2(Date fecE, Date fecS) throws Exception {
-        fecIn = (fecE.getYear() + 1900) + "/" + (fecE.getMonth() + 1) + "/" + fecE.getDate();
-        fecSal = (fecS.getYear() + 1900) + "/" + (fecS.getMonth() + 1) + "/" + fecS.getDate();
+        fecIn = devolverFechaToString(fecE);
+        fecSal = devolverFechaToString(fecS);
+       
+        reserv.setFechaEntrada(devolverFechaAct(fecE));
+        reserv.setFechaSalida(devolverFechaAct(fecS));
         Actualizar();
-        System.out.println("Fecha Entrada : " + fecE.getDate() + "/" + (fecE.getMonth() + 1) + "/" + (fecE.getYear() + 1900));
-        System.out.println("Fecha Salida : " + fecS.getDate() + "/" + (fecS.getMonth() + 1) + "/" + (fecS.getYear() + 1900));
-        System.out.println(habitacionesdisponibles.size());
+        System.out.println("Fecha Entrada : " + fecIn);
+        System.out.println("Fecha Salida : " + fecSal);
+        System.out.println("Hab disp : "+habitacionesdisponibles.size());
         nombre();
     }
 
@@ -384,7 +395,10 @@ public class ReservaDetalleBean {
         for (int i = 0; i < cities.getTarget().size(); i++) {
             costo = costo + cities.getTarget().get(i).getPrecio() * dia * reserv.getCantTotal();
 
-        }
+        } 
+        reserv.setFechaEntrada(devolverFechaAct(reserv.getFechaEntrada()));
+        reserv.setFechaSalida(devolverFechaAct(reserv.getFechaSalida()));
+
         costo = costo / cities.getTarget().size();
         igv = costo * 0.18;
 
@@ -420,10 +434,10 @@ public class ReservaDetalleBean {
         reserv.setUsuario(((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
         reserv.setIdCliente(cli.getIdCliente());
         reserv.setObjCliente(cli);
-        reserv.setFechaRegistro(new Date());
         
-        String fec_reg = (reserv.getFechaRegistro().getYear() + 1900) + "/" + (reserv.getFechaRegistro().getMonth() + 1) + "/" + reserv.getFechaRegistro().getDate();
-        String fec_ent = (reserv.getFechaEntrada().getYear() + 1900) + "/" + (reserv.getFechaEntrada().getMonth() + 1) + "/" + reserv.getFechaEntrada().getDate();
+       
+        String fec_reg = devolverFechaToString(new Date());
+        String fec_ent = (reserv.getFechaEntrada().getYear()+1900)+"/"+(reserv.getFechaEntrada().getMonth()+1)+"/"+reserv.getFechaEntrada().getDate();
         if (fec_reg.equals(fec_ent)) {
             reserv.setEstado(EstadoReservaTipo.HOSPEDADO.getNombre());
         } else if (reserv.getModalidadPago().equals("Efectivo")) {
@@ -431,7 +445,7 @@ public class ReservaDetalleBean {
         } else {
             reserv.setEstado(EstadoReservaTipo.PRE_RESERVA.getNombre());
         }
-        
+        reserv.setFechaRegistro(new Date());
         reserv.setLstHabitacion(cities.getTarget());
         reservaService.registrarReserva(reserv);
         
@@ -813,5 +827,18 @@ public class ReservaDetalleBean {
 		return blHospedar;
 	}
 	
-        
+     
+	public Date devolverFechaAct(Date fec){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fec);
+		cal.add(Calendar.HOUR, 12);
+		return cal.getTime();
+	}
+	
+	public String devolverFechaToString(Date fec){
+		fec.setHours(0);
+		SimpleDateFormat formatoDeFecha = new SimpleDateFormat("yyyy/MM/dd");
+		return formatoDeFecha.format(fec);
+	}
+	
 }

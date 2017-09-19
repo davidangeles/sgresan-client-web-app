@@ -206,7 +206,7 @@
                         <p:panel header="Datos del Fecha" style="width: 500px;height: 300px" >
                             <h:panelGrid   columns="2" style="margin-right:  auto;" id="detailsBookingInner" >
                                 <p:outputLabel value="Fecha de Entrada" style="font-family: cursive;color: #000000"  />
-                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" locale="es">
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" locale="es"   >
                                     <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa,pickList" />
                                 </p:calendar>
                                 <p:outputLabel value="Fecha de Salida" style="font-family: cursive;color: #000000"  />

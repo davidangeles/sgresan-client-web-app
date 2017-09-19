@@ -42,7 +42,13 @@
             <p:column headerText="nombre">
                 <h:outputText value="#{inte.objCliente.objPersona.nombres}" />
             </p:column>
-
+			
+			<p:column headerText="Monto">
+                <h:outputText value="#{inte.precio}" >
+                 <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
+                 </h:outputText>
+            </p:column>
+            
             <p:column headerText="Estado">
                 <h:outputText value="#{archivoBean.devolverEstado(inte.estado)}" />
             </p:column>
