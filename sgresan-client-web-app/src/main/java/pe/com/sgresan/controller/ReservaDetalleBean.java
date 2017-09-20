@@ -211,7 +211,7 @@ public class ReservaDetalleBean {
 //            
         reserv.setFechaEntrada(e.getStartDate());
         //model.add(event); 
-        System.out.println("Es mayor");
+        System.out.println("Es mayor : "+e.getStartDate());
         // }
 
     }
@@ -371,8 +371,8 @@ public class ReservaDetalleBean {
     }
 
     public void BUSQUEDA2(Date fecE, Date fecS) throws Exception {
-        fecIn = devolverFechaToString(fecE);
-        fecSal = devolverFechaToString(fecS);
+        fecIn = devolverFechaToString(fecE)+ "12:00:00";
+        fecSal = devolverFechaToString(fecS)+ "12:00:00";
        
         reserv.setFechaEntrada(devolverFechaAct(fecE));
         reserv.setFechaSalida(devolverFechaAct(fecS));
