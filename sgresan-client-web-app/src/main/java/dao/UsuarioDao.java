@@ -7,6 +7,8 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import model.TUsuario;
@@ -31,6 +33,7 @@ public class UsuarioDao {
            Utilidades obj = new Utilidades();
              String encriptado = obj.encriptar(usuario.getContrasena());
            usuario.setContrasena(encriptado);
+           usuario.setFechaCreacion(new Date());
             sesion = HibernateUtil.getSessionFactory().openSession();
             trans = sesion.beginTransaction();
 //            String idcl = obtenerIDUsuario();

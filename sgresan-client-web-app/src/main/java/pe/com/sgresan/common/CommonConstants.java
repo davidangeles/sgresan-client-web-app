@@ -33,6 +33,7 @@ public class CommonConstants {
     public static final String STR_KEY_MAP_PRECIO = "P_PRECIO";
     public static final String STR_KEY_MAP_ESTADO = "P_ESTADO";
     public static final String STR_KEY_MAP_ACCION = "P_ACCION";
+    public static final String STR_KEY_MAP_VALOR = "P_VALOR";
     public static final String STR_KEY_MAP_SELECT_1 = "P_SELECT_1";
     public static final String STR_KEY_MAP_SELECT_2 = "P_SELECT_2";
     public static final String STR_KEY_MAP_TIPOFECHA = "P_TIPOFECHA";

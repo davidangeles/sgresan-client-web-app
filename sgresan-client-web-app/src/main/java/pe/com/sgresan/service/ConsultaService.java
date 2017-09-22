@@ -1,6 +1,7 @@
 package pe.com.sgresan.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,6 +181,22 @@ public class ConsultaService {
 			throw new Exception();
 		}
 		return objGraficoReserva;
+	}
+	
+	public List<Estadistica> getTopClientes(int accion,int valor,Date fechaI,Date fechaF) throws Exception {
+		List<Estadistica> lstEstadistica = new ArrayList<>();
+		try {
+			Map<String, Object> objParams = new HashMap<>();
+			objParams.put(CommonConstants.STR_KEY_MAP_ACCION, accion);
+			objParams.put(CommonConstants.STR_KEY_MAP_VALOR, valor);
+			objParams.put(CommonConstants.STR_KEY_MAP_FECHAINICIO, fechaI);
+			objParams.put(CommonConstants.STR_KEY_MAP_FECHAFIN, fechaF);
+			lstEstadistica = consultaDao.obtenerDataTopClientes(objParams);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstEstadistica;
 	}
 
 

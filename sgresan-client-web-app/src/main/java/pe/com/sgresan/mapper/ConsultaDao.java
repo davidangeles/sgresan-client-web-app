@@ -36,6 +36,8 @@ public interface ConsultaDao {
 	List<GraficoReserva> obtenerReporteReserva1(Map<String, Object> objParams);
 	
 	List<GraficoReserva> obtenerReporteReserva2(Map<String, Object> objParams);
+	
+	List<Estadistica> obtenerDataTopClientes(Map<String, Object> objParams);
 
 }
 

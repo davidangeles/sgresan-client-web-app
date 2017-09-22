@@ -1,6 +1,8 @@
 package pe.com.sgresan.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -48,9 +50,16 @@ public class EstadisticaBean {
     private int valorFinanciero;
     private int accionFinanciero;
     private BarChartModel barraFinanciero;
+    
+    
+    private List<Estadistica> listaClientes;
+    private BarChartModel barraClientes;
+    private int accionC;
+    private int valorC;
+    private Date fechaI,fechaF;
 
     public EstadisticaBean() {
-        valor=1;accion=1;
+        valor=1;accion=1; accionC=1;valorC=1;
         valorFinanciero=2;accionFinanciero=1;
     }
     
@@ -59,10 +68,17 @@ public class EstadisticaBean {
     	try {
             hDao = new HabitacionDao();
             pDao = new ProductoDao();
+            fechaI= new Date();
+            Calendar cal = Calendar.getInstance();
+    		cal.setTime(fechaI);  
+    		cal.add(Calendar.YEAR, cal.YEAR-3);
+            fechaI= cal.getTime();
+            fechaF= new Date();
             createAnimatedModels(); 
             createAnimatedModelsMeses();
             createAnimatedModelsAnual();
             createAnimatedModelsFinMesActual();
+            createAnimatedModelsClientesTop();
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -92,6 +108,18 @@ public class EstadisticaBean {
                 createAnimatedModelsFinMeses(); break;
             case 3:
                 createAnimatedModelsFinAnual(); break;
+        }   
+    }
+    
+    public void ELECCION_CLI() throws Exception{
+    	System.out.println(fechaI+" "+fechaF);
+        switch(accionC) {
+            case 1:
+                createAnimatedModelsClientesTop(); break;
+            case 2: 
+            	createAnimatedModelsClientesTop(); break;
+            case 3:
+            	createAnimatedModelsClientesTop(); break;
         }   
     }
     
@@ -150,8 +178,59 @@ public class EstadisticaBean {
 		getBarraFinanciero().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
 		getBarraFinanciero().setBarWidth(20);
 	}
+	
+	private void createAnimatedModelsClientesTop() throws Exception {
+		setBarraClientes(initBarModelClientes());
+		getBarraClientes().setTitle("Top Clientes");
+		getBarraClientes().setAnimate(true);
+		getBarraClientes().setLegendPosition("s");
+		getBarraClientes().setLegendRows(1);
+		getBarraClientes().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+		getBarraClientes().setBarWidth(20);
+	}
 
+	private BarChartModel initBarModelClientes() throws Exception {
+		BarChartModel model = new BarChartModel();
 
+		Axis xAxis = model.getAxis(AxisType.X);
+		xAxis.setTickAngle(-60);
+		listaClientes = new ArrayList<Estadistica>();
+		listaClientes.addAll(consultaService.getTopClientes(accionC, valorC,fechaI,fechaF));
+
+		ChartSeries est = new ChartSeries();
+		est.setLabel("Clientes");
+
+		for (int i = 0; i < listaClientes.size(); i++) {
+			System.out.println(listaClientes.get(i).getFecha()+" "+ listaClientes.get(i).getCantidad());
+			est.set(listaClientes.get(i).getFecha(), listaClientes.get(i).getCantidad());
+		}
+		model.addSeries(est);
+	/*	if (accion != 3) {
+			ChartSeries est = new ChartSeries();
+			est.setLabel("Clientes");
+
+			for (int i = 0; i < lista.size(); i++) {
+				est.set(lista.get(i).getFecha(), lista.get(i).getCantidad());
+			}
+			model.addSeries(est);
+		} else {
+			List<ChartSeries> listaBarra = new ArrayList<ChartSeries>();
+			listaTipoHab = hDao.listarTipoHabitacion();
+			for (int i = 0; i < listaTipoHab.size(); i++) {
+				listaBarra.add(new ChartSeries());
+				listaBarra.get(i).setLabel(listaTipoHab.get(i).getNombre());
+				for (int j = 0; j < lista.size(); j++) {
+					if (lista.get(j).getTexto().equals(listaTipoHab.get(i).getNombre())) {
+						listaBarra.get(i).set(lista.get(j).getFecha(), lista.get(j).getCantidad());
+					}
+				}
+				model.addSeries(listaBarra.get(i));
+			}
+
+		}*/
+
+		return model;
+	}
     
 	private BarChartModel initBarModel() throws Exception {
 		BarChartModel model = new BarChartModel();
@@ -553,6 +632,51 @@ public class EstadisticaBean {
 	public void setBarraFinanciero(BarChartModel barraFinanciero) {
 		this.barraFinanciero = barraFinanciero;
 	}
+
+	public List<Estadistica> getListaClientes() {
+		return listaClientes;
+	}
+
+	public BarChartModel getBarraClientes() {
+		return barraClientes;
+	}
+
+	public void setBarraClientes(BarChartModel barraClientes) {
+		this.barraClientes = barraClientes;
+	}
+
+	public int getAccionC() {
+		return accionC;
+	}
+
+	public void setAccionC(int accionC) {
+		this.accionC = accionC;
+	}
+
+	public int getValorC() {
+		return valorC;
+	}
+
+	public void setValorC(int valorC) {
+		this.valorC = valorC;
+	}
+
+	public Date getFechaI() {
+		return fechaI;
+	}
+
+	public void setFechaI(Date fechaI) {
+		this.fechaI = fechaI;
+	}
+
+	public Date getFechaF() {
+		return fechaF;
+	}
+
+	public void setFechaF(Date fechaF) {
+		this.fechaF = fechaF;
+	}
+
 
 	 
                                

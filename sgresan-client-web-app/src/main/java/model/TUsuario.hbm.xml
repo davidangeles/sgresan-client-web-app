@@ -20,6 +20,9 @@
         <property name="tipoUsuario" type="string">
             <column name="tipoUsuario" length="45" not-null="true" />
         </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fechaCreacion" length="19" />
+        </property>
         <one-to-one name="TPersona" class="model.TPersona"></one-to-one>
     </class>
 </hibernate-mapping>

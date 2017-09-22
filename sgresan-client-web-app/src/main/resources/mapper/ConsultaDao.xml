@@ -154,5 +154,14 @@
 		GROUP BY RS.DATE, RS.TIHAB
 		ORDER BY RS.DATE
 	</select>
+	
+	<select id="obtenerDataTopClientes" statementType="CALLABLE"
+		parameterType="map" resultMap="EstadisticaMap">
+		{CALL SP_getTopClientes_S(
+			#{P_ACCION, mode=IN, jdbcType=INTEGER},
+			#{P_VALOR, mode=IN, jdbcType=INTEGER},
+			#{FECHA_INICIO, mode=IN, jdbcType=DATE},
+			#{FECHA_FIN, mode=IN, jdbcType=DATE})}
+	</select>
 
 </mapper>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./vista/Plantilla_main_1.xhtml">
+
+            <ui:define name="titulo">
+                Estadisticas Financieras
+            </ui:define>
+
+            <ui:define name="top">
+                 
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form_GraficosReservas"  >
+                     <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" id="pnl_RP" >
+                     
+                        <p:outputLabel  for="accF" value="Ver por Tipo : " />
+                         <p:selectOneRadio id="accF" value="#{estadisticaBean.accionC}" >
+                            <f:selectItem itemLabel="Top Clientes" itemValue="1" />
+                            <f:selectItem itemLabel="Rango de Clientes" itemValue="2" />
+                            <f:selectItem itemLabel="Cantidad de Clientes Registrados" itemValue="3" />
+                            <p:ajax update="form_GraficosReservas,consoleF" event="valueChange" listener="#{estadisticaBean.ELECCION_CLI()}"  />
+
+                          </p:selectOneRadio>
+                          
+                        <p:outputLabel  for="consoleF" value="Ver por : " />
+                        <p:selectOneRadio id="consoleF" value="#{estadisticaBean.valorC}"   disabled="#{estadisticaBean.accionC ne 3}" >
+                            <f:selectItem itemLabel="Mes" itemValue="1" />
+                            <f:selectItem itemLabel="Año" itemValue="2" />
+                            <p:ajax update="form_GraficosReservas" event="valueChange" listener="#{estadisticaBean.ELECCION_CLI()}"  />
+                          </p:selectOneRadio>
+                        
+                </h:panelGrid>
+                <p:panelGrid columns="5" cellpadding="5" cellspacing="10" rendered="#{estadisticaBean.accionC ne 3}" >
+                <p:outputLabel  for="consoleFI" value="Fecha Inicio : " />
+                         <p:calendar id="consoleFI" pattern="dd-MM-yyyy" value="#{estadisticaBean.fechaI}" navigator="true" locale="es"  />
+                         <p:outputLabel  for="consoleFF" value="Fecha Fin : " />
+                         <p:calendar id="consoleFF" pattern="dd-MM-yyyy" value="#{estadisticaBean.fechaF}" navigator="true" locale="es" />
+               			 <p:commandButton value="Buscar" action="#{estadisticaBean.ELECCION_CLI()}" update="form_GraficosReservas" ></p:commandButton>
+                </p:panelGrid>
+                     <p:chart type="bar" model="#{estadisticaBean.barraClientes}"  id="barraFinDia"    style="height: 400px;" />
+              
+            </h:form>
+                
+                
+            </ui:define>
+
+            <ui:define name="bottom">
+                 
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

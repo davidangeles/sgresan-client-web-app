@@ -1,4 +1,7 @@
 package model;
+
+import java.util.Date;
+
 // Generated 07/06/2015 10:37:49 PM by Hibernate Tools 4.3.1
 
 
@@ -15,6 +18,7 @@ public class TUsuario  implements java.io.Serializable {
      private String estado;
      private String tipoUsuario;
      private TPersona TPersona;
+     private Date fechaCreacion;
 
     public TUsuario() {
     }
@@ -26,13 +30,14 @@ public class TUsuario  implements java.io.Serializable {
         this.estado = estado;
         this.tipoUsuario = tipoUsuario;
     }
-    public TUsuario(String idUsuario, String nombreUsuario, String contrasena, String estado, String tipoUsuario, TPersona TPersona) {
+    public TUsuario(String idUsuario, String nombreUsuario, String contrasena, String estado, String tipoUsuario, TPersona TPersona, Date fechaCreacion) {
        this.idUsuario = idUsuario;
        this.nombreUsuario = nombreUsuario;
        this.contrasena = contrasena;
        this.estado = estado;
        this.tipoUsuario = tipoUsuario;
        this.TPersona = TPersona;
+       this.fechaCreacion=fechaCreacion;
     }
    
     public String getIdUsuario() {
@@ -79,6 +84,16 @@ public class TUsuario  implements java.io.Serializable {
     }
 
 
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+    
 
 
 }
