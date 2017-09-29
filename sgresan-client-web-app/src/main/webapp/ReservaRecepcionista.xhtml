@@ -75,7 +75,7 @@
 
     <ui:define name="content" >
         <h:form id="formRecep"  >
-            <p:graphicImage name="/img/estado_1.png"   />
+            <p:graphicImage name="/img/estado_2.png"   />
             <br/><br/>
             <p:panelGrid columns="4" styleClass="ui-noborder" >
                 <p:outputLabel value="Tipo de Habitaciones : " />
@@ -92,8 +92,8 @@
                 <p:outputLabel value="Estado : " />
                 <p:selectOneMenu value="#{reservaDetalleBean.estado}" >  
                                     <f:selectItem  itemLabel="Todos" itemValue=""/> 
-                                    <f:selectItem  itemLabel="Pre-Reserva (Sin Voucher)" itemValue="pre-reserva"/> 
-                                    <f:selectItem  itemLabel="Pre-Reserva (Con Voucher)" itemValue="pre-reserva-cv"/> 
+                                    <f:selectItem  itemLabel="Pre-Reserva (Sin Pagar)" itemValue="pre-reserva"/> 
+                                    <f:selectItem  itemLabel="Pre-Reserva (Pagado)" itemValue="pre-reserva-cv"/> 
                                     <f:selectItem  itemLabel="Reservado" itemValue="reservado"/> 
                                     <f:selectItem  itemLabel="Hospedado" itemValue="hospedado"/>
                                     <p:ajax listener="#{reservaDetalleBean.llenar()}" update="timeline" />

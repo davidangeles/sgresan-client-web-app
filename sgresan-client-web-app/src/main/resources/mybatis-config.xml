@@ -11,5 +11,6 @@
 		<mapper resource="mapper/ReservaDao.xml" />
 		<mapper resource="mapper/HabitacionDao.xml" />		
 		<mapper resource="mapper/ConsultaDao.xml" />
+		<mapper resource="mapper/EncuestaDao.xml" />
 	</mappers>
 </configuration>

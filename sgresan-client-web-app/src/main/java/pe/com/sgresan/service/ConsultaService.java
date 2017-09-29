@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pe.com.sgresan.common.CommonConstants;
+import pe.com.sgresan.entidad.Caja;
 import pe.com.sgresan.entidad.Estadistica;
 import pe.com.sgresan.entidad.FiltroBusqueda;
 import pe.com.sgresan.entidad.GraficoReserva;
@@ -198,6 +199,20 @@ public class ConsultaService {
 		}
 		return lstEstadistica;
 	}
+	
+	public List<Caja> obtenerDataCaja(Date fechaI) throws Exception {
+		List<Caja> lstEstadistica = new ArrayList<>();
+		try {
+			Map<String, Object> objParams = new HashMap<>();
+			objParams.put(CommonConstants.STR_KEY_MAP_FECHAINICIO, fechaI);
+			lstEstadistica = consultaDao.obtenerDataCaja(objParams);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception();
+		}
+		return lstEstadistica;
+	}
+
 
 
 }

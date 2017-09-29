@@ -7,6 +7,17 @@
 		<result column="FECHA" property="fecha" />
 		<result column="DES" property="texto" />
 	</resultMap>
+	
+    <resultMap type="pe.com.sgresan.entidad.Caja" id="CajaMap">
+		<result column="IDCAJA" property="idCaja" />
+		<result column="HORA" property="hora" />
+		<result column="DESCRIPCION" property="descripcion" />
+		<result column="ENTRADA" property="entrada" />
+		<result column="SALIDA" property="salida" />
+		<result column="ARQUEO" property="arqueo" />
+		<result column="MONEDA" property="moneda" />
+		<result column="RECEP" property="recep" />
+	</resultMap>
 
 	<select id="obtenerDataMesActual" statementType="CALLABLE"
 		parameterType="map" resultMap="EstadisticaMap">
@@ -162,6 +173,12 @@
 			#{P_VALOR, mode=IN, jdbcType=INTEGER},
 			#{FECHA_INICIO, mode=IN, jdbcType=DATE},
 			#{FECHA_FIN, mode=IN, jdbcType=DATE})}
+	</select>
+	
+		<select id="obtenerDataCaja" statementType="CALLABLE"
+		parameterType="map" resultMap="CajaMap">
+		{CALL SP_ReporteCaja(
+			#{FECHA_INICIO, mode=IN, jdbcType=DATE})}
 	</select>
 
 </mapper>

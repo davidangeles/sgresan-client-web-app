@@ -8,7 +8,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="titulo">
-        Administrar Cliente
+        Encuesta de Satisfacción
     </ui:define>
 
     <ui:define name="top">
@@ -21,25 +21,22 @@
                  <h2>Responda una breve encuesta</h2>
                  
                   <h4>Producto/Servicios que utilizó</h4>
-	         <p:selectOneMenu id="basic" value="#{encuestaBean.valor}" style="width: 300px;" >
-					<f:selectItems value="#{encuestaBean.listaC}" var="cat" itemLabel="#{cat.nombreCategoria}" itemValue="#{cat.idCategoria}" />	
-				  <p:ajax listener="#{encuestaBean.ELECCION()}" update="grid2" />
-	        </p:selectOneMenu>
-	                 
-	    <p:selectManyCheckbox id="grid2"   layout="responsive" columns="3">
-	        <f:selectItems value="#{encuestaBean.listaP}" var="prod" itemLabel="#{prod.nombreProducto}" itemValue="#{prod.idProducto}" />
-	    </p:selectManyCheckbox>
+     
+	    <p:selectManyCheckbox id="grid3" value="#{encuestaBean.listaServ}"  layout="pageDirection" columns="2">
+        <f:selectItems value="#{encuestaBean.cars}" var="car" itemLabel="#{car}" itemValue="#{car}" />
+    </p:selectManyCheckbox>
+ 
 	    
 	     <h4>Comentario acerca del hospedaje</h4>
-	     <p:inputTextarea></p:inputTextarea>
+	     <p:inputTextarea  value="#{encuestaBean.com1}" ></p:inputTextarea>
 	     
 	     <h4>¿Qué aspecto le agrado más del hospedaje?</h4>
-	     <p:inputTextarea></p:inputTextarea>
+	     <p:inputTextarea value="#{encuestaBean.com2}" ></p:inputTextarea>
 	     
 	     <h4>¿Qué aspecto le desagrado más del hospedaje?</h4>
-	     <p:inputTextarea></p:inputTextarea>
+	     <p:inputTextarea value="#{encuestaBean.com3}" ></p:inputTextarea>
 	     <br/>
-	     <p:commandButton value="Enviar" ></p:commandButton>
+	     <p:commandButton value="Enviar" actionListener="#{encuestaBean.GUARDAR_ENCUESTA()}" ></p:commandButton>
 	     
     </h:form>
     </ui:define>

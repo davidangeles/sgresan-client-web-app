@@ -3,11 +3,12 @@ package pe.com.sgresan.mapper;
 import java.util.List;
 import java.util.Map;
 
+import pe.com.sgresan.entidad.Caja;
 import pe.com.sgresan.entidad.Estadistica;
 import pe.com.sgresan.entidad.GraficoReserva;
 import pe.com.sgresan.entidad.Imagen;
 import pe.com.sgresan.model.ParametroDetalle;
-import pe.com.sgresan.model.Habitacion;
+
 
 public interface ConsultaDao {
 	
@@ -38,6 +39,8 @@ public interface ConsultaDao {
 	List<GraficoReserva> obtenerReporteReserva2(Map<String, Object> objParams);
 	
 	List<Estadistica> obtenerDataTopClientes(Map<String, Object> objParams);
+	
+	List<Caja> obtenerDataCaja(Map<String, Object> objParams);
 
 }
 

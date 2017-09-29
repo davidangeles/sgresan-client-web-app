@@ -58,6 +58,7 @@ public class CajaDao {
         catch(Exception e)
         {
             System.out.println(e.getMessage());
+            sa=0;
         }
         return sa;
     }

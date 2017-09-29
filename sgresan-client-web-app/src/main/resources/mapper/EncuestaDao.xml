@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.sgresan.mapper.EncuestaDao" >
+
+	<select id="SP_CabeceraEncuesta" statementType="CALLABLE"
+		parameterType="map"  resultType="int" >
+		{CALL SP_CabeceraEncuesta(
+			#{CLIENTE, mode=IN, jdbcType=VARCHAR},
+			#{COM, mode=IN, jdbcType=VARCHAR},
+			#{COM_P, mode=IN, jdbcType=VARCHAR},
+			#{COM_N, mode=IN, jdbcType=VARCHAR})}
+	</select>
+	
+		<select id="SP_DetalleEncuesta" statementType="CALLABLE"
+		parameterType="map"    >
+		{CALL SP_DetalleEncuesta(
+			#{ENC, mode=IN, jdbcType=INTEGER},
+			#{PRO, mode=IN, jdbcType=INTEGER})}
+	</select>
+</mapper>
