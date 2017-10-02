@@ -6,7 +6,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:pe="http://primefaces.org/ui/extensions">
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="top">
        
@@ -181,18 +182,26 @@
                         </form>
                         <!--<p:commandButton  value="Registrar y Pagar" oncomplete="handleEnviarPago(xhr, status, args)" actionListener="#{reservaDetalleBean.registrarreserva()}" />-->  
                         <p:commandButton value="Cancelar"   /> 
-                        <p:commandButton update="dia" value="Registrar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}"  onstart="PF('blockUIWidget').block()"   oncomplete="PF('wiz').loadStep('clientetab',false);PF('dlg2').show();PF('blockUIWidget').unblock();"  /> 
+                        <p:commandButton update="dialogConfirn" value="Registrar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}"  onstart="PF('blockUIWidget').block()"   oncomplete="PF('wiz').loadStep('clientetab',false);PF('dlg2').show();PF('blockUIWidget').unblock();"  /> 
                         </p:panel>
                     </p:tab>
                 
                 </p:wizard>
             <p:graphicImage value="#{reservaDetalleBean.rutaImagen}" width="500" height="300" id="img_hab" />       
-            <p:dialog  header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
-                <h:panelGrid   id="dia" columns="1" style="margin-right:  auto;background: none;" cellpadding="4"  >
-                    <h:outputText value="Su Código de Reserva es el siguiente: #{reservaDetalleBean.lblReserva} " />
-                <p:commandButton value="Aceptar" action="index.xhtml" />
-                </h:panelGrid>
-                
+            <p:dialog  header="Mensaje de Confirmación" widgetVar="dlg2" modal="true">                
+                <div class="row" jsf:id="dialogConfirn">
+                	<div class="col-sm-12 col-xs-6">
+                		<p1>Su Código de Reserva es el siguiente:</p1> 
+                	</div>
+                	<div class="col-sm-12 col-xs-6 text-center">
+						<h3 class="sub_title" style="font-family: 'Open Sans'; font-style: normal; font-weight: 800;">#{reservaDetalleBean.lblReserva}</h3>
+					</div>
+                </div>
+                <div class="col-md-4 col-sm-4"/>
+				<div class="col-md-4 col-sm-4">
+					<p:commandButton value="Aceptar" action="index.xhtml" />
+				</div>					
+				<div class="col-md-4 col-sm-4"/> 
             </p:dialog> 
              <pe:blockUI widgetVar="blockUIWidget">  
                 <h:panelGrid columns="2">  

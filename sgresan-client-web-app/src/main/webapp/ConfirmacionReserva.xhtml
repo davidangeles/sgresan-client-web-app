@@ -1,151 +1,169 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./vista/Plantilla_main.xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+	template="./vista/Plantilla_main.xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="titulo">
+	<ui:define name="titulo">
         Lista de Reservas 
     </ui:define>
 
-    <ui:define name="top">
-   
-    </ui:define>
+	<ui:define name="top">
 
-    <ui:define name="left">
-       
-    </ui:define>
+	</ui:define>
 
-    <ui:define name="content">
-             <h:form id="from" >
-                 
-                 <p:selectOneRadio id="console" value="#{archivoBean.accion}" >
-                            <f:selectItem itemLabel="Pre-Reservas" itemValue="1" />
-                            <f:selectItem itemLabel="Reservas/Hospedados" itemValue="2" />
-                            <p:ajax update="from" event="valueChange" listener="#{archivoBean.CAMBIARTABLA()}"   />
-                        </p:selectOneRadio>
-                 
-                 <p:growl id="growl" showDetail="true" sticky="true" life="1000" />  
-                 <p:dataTable var="inte" value="#{archivoBean.reservasALL}" rowIndexVar="valor" id="tablag" rendered="#{archivoBean.accion eq 1}" >
-            <f:facet name="header">
+	<ui:define name="left">
+
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="from">
+
+			<p:selectOneRadio id="console" value="#{archivoBean.accion}">
+				<f:selectItem itemLabel="Pre-Reservas" itemValue="1" />
+				<f:selectItem itemLabel="Reservas/Hospedados" itemValue="2" />
+				<p:ajax update="from" event="valueChange"
+					listener="#{archivoBean.CAMBIARTABLA()}" />
+			</p:selectOneRadio>
+
+			<p:growl id="growl" showDetail="true" sticky="true" life="1000" />
+			<p:dataTable var="inte" value="#{archivoBean.reservasALL}"
+				rowIndexVar="valor" id="tablag"
+				rendered="#{archivoBean.accion eq 1}">
+				<f:facet name="header">
                 RESERVAS
             </f:facet>
-            <p:column headerText="#">
-                <h:outputText value="#{valor+1}" />
-            </p:column>
-            <p:column headerText="Cod. Reserva">
-                <h:outputText value="#{inte.idReserva}" />
-            </p:column>
+				<p:column headerText="#">
+					<h:outputText value="#{valor+1}" />
+				</p:column>
+				<p:column headerText="Cod. Reserva">
+					<h:outputText value="#{inte.idReserva}" />
+				</p:column>
 
-            <p:column headerText="nombre">
-                <h:outputText value="#{inte.objCliente.objPersona.nombres}" />
-            </p:column>
-			
-			<p:column headerText="Monto">
-                <h:outputText value="#{inte.precio}" >
-                 <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
-                 </h:outputText>
-            </p:column>
-            
-            <p:column headerText="Estado">
-                <h:outputText value="#{archivoBean.devolverEstado(inte.estado)}" />
-            </p:column>
+				<p:column headerText="nombre">
+					<h:outputText value="#{inte.objCliente.objPersona.nombres}" />
+				</p:column>
 
-            <p:column headerText="Archivo" >
-                  <p:commandButton rendered="#{inte.voucher ne null}"   oncomplete="PF('infoDialog').show();" 
-                                   actionListener="#{archivoBean.ver(inte.idReserva)}" icon="ui-icon-image" title="Ver"
-                                 update=":from:valor" />
-            </p:column>
+				<p:column headerText="Monto">
+					<h:outputText value="#{inte.precio}">
+						<f:convertNumber type="currency" currencySymbol="S/ "
+							locale="en_US" />
+					</h:outputText>
+				</p:column>
 
-            <p:column headerText="Aprobar">
-                <p:commandButton rendered="#{inte.voucher ne null}"  icon="icon-aceptar" title="Aprobar" actionListener="#{archivoBean.ACTUALIZAR(inte.idReserva)}"
-                                 update=":from:tablag,:from:growl" />
-            </p:column>
-                
-        </p:dataTable>
-                 
-                 <p:dataTable var="inte2" rowExpandMode="single" value="#{reservaVoucherBean.reservasALL}" rowIndexVar="valor" id="tablag_M" rendered="#{archivoBean.accion eq 2}" >
-                    <p:ajax event="rowToggle" listener="#{reservaVoucherBean.BUSCAR(inte2.idReserva)}"  update="tablag2 "/>
-                    <f:facet name="header">
+				<p:column headerText="Estado">
+					<h:outputText value="#{archivoBean.devolverEstado(inte.estado)}" />
+				</p:column>
+
+				<p:column headerText="Archivo">
+					<p:commandButton rendered="#{inte.voucher ne null}"
+						oncomplete="PF('infoDialog').show();"
+						actionListener="#{archivoBean.ver(inte.idReserva)}"
+						icon="ui-icon-image" title="Ver" update=":from:valor" />
+				</p:column>
+
+				<p:column headerText="Aprobar">
+					<p:commandButton rendered="#{inte.voucher ne null}"
+						icon="icon-aceptar" title="Aprobar"
+						actionListener="#{archivoBean.ACTUALIZAR(inte.idReserva)}"
+						update=":from:tablag,:from:growl" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:dataTable var="inte2" rowExpandMode="single"
+				value="#{reservaVoucherBean.reservasALL}" rowIndexVar="valor"
+				id="tablag_M" rendered="#{archivoBean.accion eq 2}">
+				<p:ajax event="rowToggle"
+					listener="#{reservaVoucherBean.BUSCAR(inte2.idReserva)}"
+					update="tablag2 " />
+				<f:facet name="header">
                         RESERVAS
                     </f:facet>
-                    <p:column style="width:30px">
-                        <p:rowToggler  />
-                    </p:column>
-                    <p:column headerText="#"  width="8%" >
-                        <h:outputText value="#{valor+1}" />
-                    </p:column>
-                    <p:column headerText="Cod. Reserva">
-                        <h:outputText value="#{inte2.idReserva}" />
-                    </p:column>
+				<p:column style="width:30px">
+					<p:rowToggler />
+				</p:column>
+				<p:column headerText="#" width="8%">
+					<h:outputText value="#{valor+1}" />
+				</p:column>
+				<p:column headerText="Cod. Reserva">
+					<h:outputText value="#{inte2.idReserva}" />
+				</p:column>
 
-                    <p:column headerText="nombre">
-                        <h:outputText value="#{inte2.TCliente.TPersona.nombres}" />
-                    </p:column>
+				<p:column headerText="nombre">
+					<h:outputText value="#{inte2.TCliente.TPersona.nombres}" />
+				</p:column>
 
-                    <p:column headerText="Estado">
-                        <h:outputText value="#{archivoBean.devolverEstado(inte2.estado)}" />
-                    </p:column>
+				<p:column headerText="Estado">
+					<h:outputText value="#{archivoBean.devolverEstado(inte2.estado)}" />
+				</p:column>
 
-                    <p:column headerText="Monto">
-                        <h:outputText value="#{inte2.precio}" >
-                            <f:convertNumber type="currency" currencySymbol="S/ " locale="en_US" />
-                        </h:outputText>
-                    </p:column>
+				<p:column headerText="Monto">
+					<h:outputText value="#{inte2.precio}">
+						<f:convertNumber type="currency" currencySymbol="S/ "
+							locale="en_US" />
+					</h:outputText>
+				</p:column>
 
-                    <p:rowExpansion   >
-                        <p:dataTable var="val" value="#{reservaVoucherBean.reservasByID}" rowIndexVar="valor2" id="tablag2" style="width: 100%;" >
-                            <f:facet name="header">
+				<p:rowExpansion>
+					<p:dataTable var="val" value="#{reservaVoucherBean.reservasByID}"
+						rowIndexVar="valor2" id="tablag2" style="width: 100%;">
+						<f:facet name="header">
                                 Fechas de Pago de Reserva
                             </f:facet>
-                            <p:column headerText="#" width="8%" >
-                                <h:outputText value="#{valor2+1}" />
-                            </p:column>
+						<p:column headerText="#" width="8%">
+							<h:outputText value="#{valor2+1}" />
+						</p:column>
 
-                            <p:column headerText="Fecha">
-                                <h:outputText value="#{val.fechaRegistro}" >
-                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm a" timeZone="America/Lima" />
-                                </h:outputText>
-                            </p:column>
+						<p:column headerText="Fecha">
+							<h:outputText value="#{val.fechaRegistro}">
+								<f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm a"
+									timeZone="America/Lima" />
+							</h:outputText>
+						</p:column>
 
-                            <p:column headerText="Total">
-                                <h:outputText value="#{val.precio}" ><f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
-                                </h:outputText>
-                            </p:column>
+						<p:column headerText="Total">
+							<h:outputText value="#{val.precio}">
+								<f:convertNumber type="currency" currencySymbol="S/. "
+									locale="en_US" />
+							</h:outputText>
+						</p:column>
 
-                            <p:column headerText="Opciones" >
-                                <p:commandButton rendered="#{val.voucher ne null}"   oncomplete="PF('infoDialog').show();" 
-                                                 actionListener="#{archivoBean.VisualizarImagen(val.voucher)}" icon="ui-icon-image" title="Ver"
-                                                 update=":from:valor" />
-                                <p:spacer width="20" />
-                                <p:commandButton rendered="#{inte2.voucher ne null}"  icon="icon-aceptar" title="Aprobar"  
-                                                 />
-                            </p:column>
+						<p:column headerText="Opciones">
+							<p:commandButton rendered="#{val.voucher ne null}"
+								oncomplete="PF('infoDialog').show();"
+								actionListener="#{archivoBean.VisualizarImagen(val.voucher)}"
+								icon="ui-icon-image" title="Ver" update=":from:valor" />
+							<p:spacer width="20" />
+							<p:commandButton rendered="#{inte2.voucher ne null}"
+								icon="icon-aceptar" title="Aprobar" />
+						</p:column>
 
-                        </p:dataTable>
-                    </p:rowExpansion>
+					</p:dataTable>
+				</p:rowExpansion>
 
-                </p:dataTable>  
-               <p:dialog header="Voucher" widgetVar="infoDialog" resizable="false" id="carDlg"  
-                                  showEffect="fade" hideEffect="explode" modal="true" > 
-                            
-                   <p:panel id="valor" style="width: 500px;height: 500px;" >
-                       <p:graphicImage  value="#{archivoBean.imagem}" cache="false"  />  
-                   </p:panel>
-                   
-                   <p:commandButton value="Cerrar" oncomplete="PF('infoDialog').hide();" />
-       
-                        
-                 </p:dialog>
- 
-    
-        </h:form>
- 
-    </ui:define>
+			</p:dataTable>
+			<p:dialog header="Voucher" widgetVar="infoDialog" resizable="false"
+				id="carDlg" showEffect="fade" hideEffect="explode" modal="true">
 
-    <ui:define name="bottom">
-    </ui:define>
+				<p:panel id="valor" style="width: 500px;height: 500px;">
+					<p:graphicImage value="#{archivoBean.imagem}" cache="false" />
+				</p:panel>
+
+				<p:commandButton value="Cerrar"
+					oncomplete="PF('infoDialog').hide();" />
+
+
+			</p:dialog>
+
+
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="bottom">
+	</ui:define>
 
 </ui:composition>

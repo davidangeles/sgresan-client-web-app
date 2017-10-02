@@ -136,7 +136,7 @@ public class ArchivoBean {
 		reservaDetalleBean.llenar();
 		RequestContext.getCurrentInstance().update(":formRecep:timeline");
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Proceso Exitoso", "Se Aprobo la reserva " + reserva.getIdReserva()));
+		context.addMessage(null, new FacesMessage("Proceso Exitoso", "Se Aprobo la reserva " + idReserva));
 		
 		CAMBIARTABLA();
 	}

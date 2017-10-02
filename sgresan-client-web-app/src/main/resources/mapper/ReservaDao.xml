@@ -122,9 +122,9 @@
 			</if>
                         <if test="P_ESTADO != null">
 				RES.estado = #{P_ESTADO}
-			</if>
-                       
+			</if>                       
 		</where>
+		ORDER BY fechaRegistro DESC;
 	</select>
 	
 	<resultMap type="pe.com.sgresan.entidad.TimelineReserva" id="TReservaMap">
