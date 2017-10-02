@@ -120,8 +120,11 @@
 			<if test="P_PERSONA != null">
 				CLI.T_PERSONA_IDPERSONA = #{P_PERSONA}
 			</if>
-                        <if test="P_ESTADO != null">
-				RES.estado = #{P_ESTADO}
+            <if test="P_ESTADO != null and P_ESTADO.length > 0">
+				RES.estado IN
+				<foreach item="item" index="index" collection="P_ESTADO" open="(" separator="," close=")">
+					#{item}
+				</foreach>
 			</if>                       
 		</where>
 		ORDER BY fechaRegistro DESC;

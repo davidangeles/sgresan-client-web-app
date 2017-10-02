@@ -158,9 +158,8 @@ public class ArchivoBean {
     public void CAMBIARTABLA() throws Exception{
        	
         if(accion==1){
-            ReservaDao dao = new ReservaDao();
-            reservasALL = reservaService.reservasPorEstado(EstadoReservaTipo.PRE_RESERVA.getNombre());
-            reservasALL.addAll(reservaService.reservasPorEstado(EstadoReservaTipo.PRE_RESERVA_CV.getNombre()));
+            reservasALL = reservaService.reservasPorEstado(EstadoReservaTipo.PRE_RESERVA.getNombre(), 
+            												EstadoReservaTipo.PRE_RESERVA_CV.getNombre());
         } else{
             ReservaVoucherBean managedBean = new ReservaVoucherBean();
             managedBean.CargarTabla();

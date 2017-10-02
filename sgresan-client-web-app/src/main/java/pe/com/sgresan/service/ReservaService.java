@@ -116,7 +116,7 @@ public class ReservaService {
 		return lstReservas;
 	}
 
-	public List<Reserva> reservasPorEstado(String idEstado) throws Exception{
+	public List<Reserva> reservasPorEstado(String ...idEstado) throws Exception{
 		List<Reserva> lstReservas = new ArrayList<>();
 		try {
 			Map<String, Object> objParams = new HashMap<>();
