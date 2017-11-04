@@ -535,6 +535,23 @@ public class EstadisticaBean {
 				model.addSeries(listaBarra.get(i));
 		
 		}break;
+		case 4 :
+			 
+			listaProducto = pDao.listarProductos();
+		 
+			for (int i = 0; i < listaProducto.size(); i++) {
+				 
+				listaBarra.add(new ChartSeries());
+				listaBarra.get(i).setLabel(listaProducto.get(i).getNombreProducto());
+				for (int j = 0; j < listaFinanciero.size(); j++) {
+					 
+					if (listaFinanciero.get(j).getTexto().equals(listaProducto.get(i).getNombreProducto())) {
+						listaBarra.get(i).set(listaFinanciero.get(j).getFecha(), listaFinanciero.get(j).getCantidad());
+					}
+				}
+				model.addSeries(listaBarra.get(i));
+		
+		}break;
 			}
    	return model;
 	}
