@@ -35,7 +35,6 @@
                     <p:menuitem value="Reporte de Reservas" url="ReporteReservas.xhtml"   />
                     <p:menuitem value="Reporte de Clientes" url="ReporteCliente.xhtml"   />
                     <p:menuitem value="Estado de Ingresos" url="EstadodeIngresos.xhtml"   />
-                    <p:menuitem value="Control de Ofertas y Descuentos" url="#"   />
                 </p:submenu>
                 <p:menuitem value="Productos"  rendered="#{loginBean.usuario.tipoUsuario eq 'gerente'}" url="AdminProductos.xhtml"  />
                 <p:submenu label="Datos de Usuario" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista' or loginBean.usuario.tipoUsuario eq 'cliente' or loginBean.usuario.tipoUsuario eq 'gerente'}"  >

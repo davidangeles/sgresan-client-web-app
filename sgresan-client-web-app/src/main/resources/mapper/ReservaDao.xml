@@ -25,7 +25,7 @@
 		useGeneratedKeys="true">
 		<selectKey keyProperty="idReserva" resultType="String"
 			order="BEFORE">
-			select CAST(CONCAT('ABC',count(1) + 1) AS CHAR(50)) FROM
+			select CAST(CONCAT('LQH000',count(1) + 1) AS CHAR(50)) FROM
 			T_RESERVA
 		</selectKey>
 		INSERT INTO T_RESERVA (

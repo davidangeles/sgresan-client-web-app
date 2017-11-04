@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pe.com.sgresan.common.CommonConstants;
+import pe.com.sgresan.common.EstadoReservaTipo;
 import pe.com.sgresan.entidad.Caja;
 import pe.com.sgresan.entidad.Estadistica;
 import pe.com.sgresan.entidad.FiltroBusqueda;
@@ -174,6 +175,13 @@ public class ConsultaService {
 			List<GraficoReserva> lstDataReserva = consultaDao.obtenerReporteReserva1(objParams);
 			List<GraficoReserva> lstDataReserva2 = consultaDao.obtenerReporteReserva2(objParams);
 			
+			
+			//Se cambian los estados pre-reserva-cv por pre-reserva
+			for (GraficoReserva graficoReserva : lstDataReserva) {
+				if(EstadoReservaTipo.PRE_RESERVA_CV.getNombre().equals(graficoReserva.getEstadoReserva())){
+					graficoReserva.setEstadoReserva(EstadoReservaTipo.PRE_RESERVA.getNombre());
+				}
+			}
 			
 			objGraficoReserva.setLstDataReserva(lstDataReserva);
 			objGraficoReserva.setLstDataHabitación(lstDataReserva2);

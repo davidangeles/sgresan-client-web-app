@@ -14,7 +14,7 @@ public class ImagesView {
     public void init() {
         images = new ArrayList<String>();
         for (int i = 1; i <= 2; i++) {
-            images.add("banner_querencia_" + i + ".png");
+            images.add("bannerlqh" + i + ".png");
         }
     }
  
