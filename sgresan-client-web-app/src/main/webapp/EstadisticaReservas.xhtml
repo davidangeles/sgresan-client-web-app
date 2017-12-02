@@ -27,7 +27,7 @@
 					</div>
 					<div class="form-group col-md-2 col-sm-2 col-xs-3">
 						<p:selectOneMenu value="#{graficosEstBean.filtroBusqueda.parameterInteger1}" >
-							<f:selectItem itemLabel="Día" itemValue="1" />
+<!-- 							<f:selectItem itemLabel="Día" itemValue="1" /> -->
 							<f:selectItem itemLabel="Mes" itemValue="2" />
 							<f:selectItem itemLabel="Año" itemValue="3" />
 						</p:selectOneMenu>
@@ -64,7 +64,7 @@
 						<p:commandButton value="BUSCAR" action="#{graficosEstBean.buscar}" update=":form_GraficosReservas" />
 					</div>
 					<div class="col-md-12 col-sm-12 col-xs-12">
-						<p:chart type="line" model="#{graficosEstBean.dateModel}" style="height:500px;" responsive="true"/>
+						<p:chart type="bar" model="#{graficosEstBean.dateModel}" style="height:500px;" responsive="true"/>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<p:chart type="bar" model="#{graficosEstBean.barModel}" style="height:400px" responsive="true"/>

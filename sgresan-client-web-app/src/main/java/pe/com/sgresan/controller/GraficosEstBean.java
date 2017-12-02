@@ -43,7 +43,7 @@ public class GraficosEstBean {
 	private List<ParametroDetalle> lstTipoHabitacion;
 	private List<ParametroDetalle> lstEstadoReserva;
 		
-	private LineChartModel dateModel;
+	private BarChartModel dateModel;
 	private BarChartModel barModel;
 	private PieChartModel pieModel;
 	
@@ -51,6 +51,8 @@ public class GraficosEstBean {
 		
 	@ManagedProperty(value = ConsultaService.EL_NAME)
 	private ConsultaService consultaService;
+	
+	private Map<String, BigInteger> fechasVacias;
 
 	@PostConstruct
 	public void init() {
@@ -69,7 +71,7 @@ public class GraficosEstBean {
 			
 			/** Inicializar los Filtros de busqueda **/
 			filtroBusqueda = new FiltroBusqueda();
-			filtroBusqueda.setParameterInteger1(CommonConstants.I_UNO);
+			filtroBusqueda.setParameterInteger1(CommonConstants.I_DOS);
 			filtroBusqueda.setSelectedString1(selectedEstReserva);
 			filtroBusqueda.setSelectedInteger1(selectedHabitacion);
 			
@@ -106,6 +108,7 @@ public class GraficosEstBean {
 		//DataLineChart
 		Map<Object, Object> objLineChart = new TreeMap<>();
 		Map<String, BigInteger> objChartEstado = new TreeMap<>();
+		fechasVacias = obtenerMesesVacios(objGrafReserva.getLstDataReserva());
 		for (GraficoReserva graficoReserva : objGrafReserva.getLstDataReserva()) {
 			formatoDataLineChart(objLineChart, graficoReserva.getCantidad(), graficoReserva.getFecha(), graficoReserva.getEstadoReserva());
 			formatoDataChart(objChartEstado, graficoReserva.getEstadoReserva(), graficoReserva.getCantidad());
@@ -162,14 +165,11 @@ public class GraficosEstBean {
 	@SuppressWarnings("unchecked")
 	private void llenarDataLineChart(Map<Object, Object> objParams) {
 		// Llenar LineChart
-		dateModel = new LineChartModel();
+		dateModel = new BarChartModel();
 		//Lista para calcular la fecha maxima y minima
 		Set<String> setFecha = new TreeSet<String>();
 		for (Object objValue : objParams.keySet()) {
 			ChartSeries series = new ChartSeries();
-			if (CommonConstants.I_UNO == filtroBusqueda.getParameterInteger1().intValue()) {
-				series = new LineChartSeries();
-			}
 			series.setLabel(Utils.getString(objValue).toUpperCase());
 
 			Map<String, BigInteger> objData = (TreeMap<String, BigInteger>) objParams.get(objValue);
@@ -209,7 +209,7 @@ public class GraficosEstBean {
 	@SuppressWarnings("unchecked")
 	private void formatoDataLineChart(Map<Object, Object> objParams, BigInteger cantidad, String fecha, Object valor){
 		if(!objParams.containsKey(valor)){
-			Map<String, BigInteger> objData = new TreeMap<>();
+			Map<String, BigInteger> objData = new TreeMap<>(fechasVacias);
 			objParams.put(valor, objData);
 		}
 		
@@ -230,6 +230,36 @@ public class GraficosEstBean {
 			BigInteger total = (BigInteger) objParams.get(valor);
 			objParams.put(valor, total.add(cantidad));
 		}		
+	}
+	
+	public Map<String, BigInteger> obtenerMesesVacios(List<GraficoReserva> lstDataReserva){
+		Map<String, BigInteger> objMap = new TreeMap<>();
+		if(!lstDataReserva.isEmpty()){
+			String strFIncio = lstDataReserva.get(0).getFecha();
+			String strFFin = lstDataReserva.get(lstDataReserva.size()-1).getFecha();
+			while(!strFIncio.equals(strFFin)){
+				String strFormat = CommonConstants.STR_DATE_FORMAT_YYYY_MM_DD;
+				if(filtroBusqueda.getParameterInteger1() == 2){
+					strFormat = CommonConstants.STR_DATE_FORMAT_YYYY_MM;
+				} else if(filtroBusqueda.getParameterInteger1() == 3){
+					strFormat = CommonConstants.STR_DATE_FORMAT_YYYY;
+				}
+				
+				Date date = Utils.convertStringtoDate(strFIncio, strFormat);
+				if(filtroBusqueda.getParameterInteger1() == 1){
+					date = DateUtils.addDays(date, 1);
+				} else if(filtroBusqueda.getParameterInteger1() == 2){
+					date = DateUtils.addMonths(date, 1);
+				} else if(filtroBusqueda.getParameterInteger1() == 3){
+					date = DateUtils.addYears(date, 1);
+				}
+				
+				String strFecha = Utils.convertDatetoString(date, strFormat);
+				objMap.put(strFecha, null);
+				strFIncio = strFecha;
+			}
+		}
+		return objMap;
 	}
 
 	/**
@@ -262,21 +292,21 @@ public class GraficosEstBean {
 	 */
 	public List<ParametroDetalle> getLstEstadoReserva() {
 		return lstEstadoReserva;
-	}
+	}	
 
 	/**
 	 * Returns attribute dateModel
-	 * @return dateModel <code>LineChartModel</code>
+	 * @return dateModel <code>BarChartModel</code>
 	 */
-	public LineChartModel getDateModel() {
+	public BarChartModel getDateModel() {
 		return dateModel;
 	}
 
 	/**
 	 * Sets attribute dateModel
-	 * @param dateModel <code>LineChartModel</code>
+	 * @param dateModel <code>BarChartModel</code>
 	 */
-	public void setDateModel(LineChartModel dateModel) {
+	public void setDateModel(BarChartModel dateModel) {
 		this.dateModel = dateModel;
 	}
 

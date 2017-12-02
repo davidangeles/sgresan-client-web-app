@@ -8,6 +8,8 @@ public class CommonConstants {
 	
 	public static final String STR_DATE_FORMAT = "dd/MM/yyyy";
 	public static final String STR_DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
+	public static final String STR_DATE_FORMAT_YYYY_MM = "yyyy-MM";
+	public static final String STR_DATE_FORMAT_YYYY = "yyyy";
 	public static final String STR_DECIMAL_FORMAT = "#,#,#,#,#,#,#,#,#,#";
 	public static final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 	
